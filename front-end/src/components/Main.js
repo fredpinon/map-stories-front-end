@@ -4,6 +4,7 @@ import '../css/Main.css';
 
 import HomePage from './HomePage';
 import Viewer from './Viewer';
+import NoMatch from './NoMatch';
 
 class Main extends Component {
   render() {
@@ -17,6 +18,9 @@ class Main extends Component {
           <Route
             path='/me'
             component={Viewer}
+            />
+          <Route
+            component={NoMatch}
             />
         </Switch>
       </div>
