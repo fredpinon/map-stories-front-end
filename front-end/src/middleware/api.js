@@ -1,61 +1,43 @@
 import { normalize, schema } from 'normalizr';
 
-const API_ROOT = 'https://localhost/4000';
-
 const callApi = (endpoint, schema) => {
-  const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint
+  const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
 
   return fetch(fullUrl)
-  .then(response =>
-    response.json().then(json => {
-      // if (!response.ok) {
-      //   return Promise.reject(json)
-      // }
-
-      // const camelizedJson = camelizeKeys(json)
-      //
-      // return Object.assign({},
-      //   normalize(camelizedJson, schema),
-      //   { nextPageUrl }
-      // )
+    .then(response => response.json())
+    .then(data => {
+      return Object.assign({},
+          normalize(data, schema)
+        )
     })
-  )
 }
 
-const userSchema = new schema.Entity('users', {}, { idAttribute: 'user_id' });
-const mapSchema = new schema.Entity('maps', { user: userSchema }, { idAttribute: 'map_id' });
-const eventSchema = new schema.Entity('events', { map: mapSchema }, { idAttribute: 'event_id' });
+
+const editorSchema = new schema.Entity('editors', {}, { editorId: 'editorId' });
+const storySchema = new schema.Entity('stories', { editor: editorSchema }, { id: 'id' });
 
 export const Schemas = {
-  USER: userSchema,
-  USER_ARRAY: [userSchema],
-  MAP: mapSchema,
-  MAP_ARRAY: [mapSchema],
-  EVENT: eventSchema,
-  EVENT_ARRAY: [eventSchema],
+  EDITOR: editorSchema,
+  EDITOR_ARRAY: [editorSchema],
+  STORY: storySchema,
+  STORY_ARRAY: [storySchema],
 };
 
 export const CALL_API = 'Call API';
 
 export default store => next => action => {
-  const callAPI = action[CALL_API]
-  if (typeof callAPI === 'undefined') return next(action)
+  const callAPI = action[CALL_API];
+  if (typeof callAPI === 'undefined') return next(action);
 
-  let { endpoint } = callAPI
-  const { schema, types } = callAPI
+  const { endpoint, schema, types } = callAPI;
 
-  if (typeof endpoint === 'function') {
-    endpoint = endpoint(store.getState())
-  }
-  if (typeof endpoint !== 'string') {
-    throw new Error('Specify a string endpoint URL.')
-  }
-  if (!schema) {
-    throw new Error('Specify one of the exported Schemas.')
-  }
+  if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
+
+  if (!schema) throw new Error('Specify one of the exported Schemas.');
+
   if (!types.every(type => typeof type === 'string')) {
     throw new Error('Expected action types to be strings.')
-  }
+  };
 
   const actionWith = data => {
     const finalAction = Object.assign({}, action, data)
@@ -63,17 +45,24 @@ export default store => next => action => {
     return finalAction
   }
 
-  const [ requestType, successType, failureType ] = types
-  next(actionWith({ type: requestType }))
+  // just for showcase before implementing the login component
+  // store.dispatch({
+  //   type:'USER_CREDENTIALS',
+  //   payload: {
+  //     token: '13geber13r',
+  //     editorId: '_1208uonb08r',
+  //   }
+  // })
 
-  return callApi(endpoint, schema).then(
-    response => next(actionWith({
-      response,
-      type: successType
-    })),
-    error => next(actionWith({
-      type: failureType,
-      error: error.message || 'Something bad happened'
-    }))
-  )
+  const [ successType, failureType ] = types;
+
+  return callApi(endpoint, schema)
+    .then(response => next(actionWith({
+        type: successType,
+        response
+      })))
+    .catch(error => next(actionWith({
+        type: failureType,
+        error
+      })))
 }

@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 
-import user from './user';
-// import future reducers heres
+import authentication from './authentication';
+import entities from './entities';
 
 const reducers = combineReducers({
-  user
+  authentication,
+  entities
 })
 
 export default reducers;

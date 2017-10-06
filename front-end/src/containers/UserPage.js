@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import '../css/UserPage.css';
 
-import { connect } from 'react-redux'
-import { fetchUser } from '../actions'
+import { connect } from 'react-redux';
+import { fetchStoriesUserPage } from '../actions';
 
 class UserPage extends Component {
 
   componentWillMount() {
-    this.props.loadUser();
+    this.props.loadStories();
   }
 
   render() {
@@ -22,7 +22,7 @@ class UserPage extends Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  loadUser: () => dispatch(fetchUser())
+  loadStories: () => dispatch(fetchStoriesUserPage())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

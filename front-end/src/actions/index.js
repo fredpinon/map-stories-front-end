@@ -1,13 +1,46 @@
-import { CALL_API, Schemas } from '../middleware/api'
+import { CALL_API, Schemas } from '../middleware/api';
 
-export const USER_REQUEST = 'USER_REQUEST'
-export const USER_SUCCESS = 'USER_SUCCESS'
-export const USER_FAILURE = 'USER_FAILURE'
 
-export const fetchUser = () => ({
+export const STORIES_HP_SUCCESS = 'STORIES_HP_SUCCESS';
+export const STORIES_HP_FAILURE = 'STORIES_HP_FAILURE';
+
+export const fetchStoriesHomePage = () => ({
   [CALL_API]: {
-    types: [ USER_REQUEST, USER_SUCCESS, USER_FAILURE ],
-    endpoint: `/me`,
-    schema: Schemas.USER
+    types: [ STORIES_HP_SUCCESS, STORIES_HP_FAILURE ],
+    endpoint: '/stories/',
+    schema: Schemas.STORY_ARRAY
+  }
+})
+
+
+export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
+export const STORIES_USER_FAILURE = 'STORIES_USER_FAILURE';
+
+export const fetchStoriesUserPage = () => ({
+  [CALL_API]: {
+    types: [ STORIES_USER_SUCCESS, STORIES_USER_FAILURE ],
+    endpoint: '/me/stories',
+    schema: Schemas.STORY_ARRAY
+  }
+})
+
+
+export const STORY_SUCCESS = 'STORY_SUCCESS';
+export const STORY_FAILURE = 'STORY_FAILURE';
+
+export const fetchSingleStory = (storyId) => ({
+  [CALL_API]: {
+    types: [ STORY_SUCCESS, STORY_FAILURE ],
+    endpoint: `/stories/${storyId}`,
+    schema: Schemas.STORY
+  }
+})
+
+
+export const storeToken = (token, editorId) => ({
+  type: 'USER_CREDENTIALS',
+  payload: {
+    token,
+    editorId
   }
 })
