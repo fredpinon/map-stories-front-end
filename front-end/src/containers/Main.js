@@ -3,8 +3,10 @@ import { Switch, Route } from 'react-router';
 import '../css/Main.css';
 
 import HomePage from './HomePage';
-import Viewer from './Viewer';
-import NoMatch from './NoMatch';
+import Viewer from '../components/Viewer';
+import NoMatch from '../components/NoMatch';
+import UserPage from './UserPage';
+import PrivateRoute from '../components/PrivateRoute';
 
 class Main extends Component {
   render() {
@@ -14,14 +16,19 @@ class Main extends Component {
           <Route
             exact path='/'
             component={HomePage}
-            />
+          />
           <Route
-            path='/me'
+            path='/story'
             component={Viewer}
-            />
+          />
+          <PrivateRoute
+            token={undefined}
+            path="/me"
+            component={UserPage}
+          />
           <Route
             component={NoMatch}
-            />
+          />
         </Switch>
       </div>
     );
