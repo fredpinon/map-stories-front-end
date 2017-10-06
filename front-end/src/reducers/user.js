@@ -2,7 +2,7 @@ const defaultState = {
   entities: {}
 }
 
-const fakeReducer = (state = defaultState, action) => {
+const user = (state = defaultState, action) => {
   switch (action.type) {
     case 'FAKE_ACTION':
       return {};
@@ -11,4 +11,4 @@ const fakeReducer = (state = defaultState, action) => {
   }
 };
 
-export default fakeReducer;
+export default user;
