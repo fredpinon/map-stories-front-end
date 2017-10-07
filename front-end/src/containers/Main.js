@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Switch, Route } from 'react-router';
 import '../css/Main.css';
 
+import { connect } from 'react-redux';
+
 import HomePage from './HomePage';
 import Viewer from './Viewer';
 import NoMatch from '../components/NoMatch';
@@ -22,7 +24,7 @@ class Main extends Component {
             component={Viewer}
           />
           <PrivateRoute
-            token={'undefined'}
+            token={this.props.token}
             path="/me/stories"
             component={UserPage}
           />
@@ -35,4 +37,10 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapStateToProps = (state) => ({
+  token: state.authentication.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

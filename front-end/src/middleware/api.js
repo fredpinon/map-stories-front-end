@@ -45,15 +45,6 @@ export default store => next => action => {
     return finalAction
   }
 
-  // just for showcase before implementing the login component
-  // store.dispatch({
-  //   type:'USER_CREDENTIALS',
-  //   payload: {
-  //     token: '13geber13r',
-  //     editorId: '_1208uonb08r',
-  //   }
-  // })
-
   const [ successType, failureType ] = types;
 
   return callApi(endpoint, schema)
