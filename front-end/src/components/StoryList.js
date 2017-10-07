@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'underscore';
 
 import '../css/StoryList.css';
@@ -13,7 +14,13 @@ class StoryList extends Component {
       accum.push(story);
       return accum;
     }, [])
-    .map((story, key) => <StoryListItem key={key} story={story}/>);
+    .map((story, key) => {
+      return (
+        <Link key={key} to="story">
+          <StoryListItem key={key} story={story}/>
+        </Link>
+      )
+    })
   }
 
   render() {

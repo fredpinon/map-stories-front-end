@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { storeToken } from '../actions';
@@ -18,9 +19,8 @@ class NavBar extends Component {
     return (
       <div className="NavBar">
         <div className="logo">
-          Map Stories logo
+          <Link to='/'>Map Stories</Link>
         </div>
-
         <LoginButton handleLogin={this.handleLogin}/>
       </div>
     );

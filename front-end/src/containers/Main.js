@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Switch, Route } from 'react-router';
+import { withRouter, Switch, Route } from 'react-router';
 import '../css/Main.css';
 
 import { connect } from 'react-redux';
@@ -16,11 +16,11 @@ class Main extends Component {
       <div className="Main">
         <Switch>
           <Route
-            exact path='/'
+            exact path="/"
             component={HomePage}
           />
           <Route
-            path='/story'
+            path="/story"
             component={Viewer}
           />
           <PrivateRoute
@@ -43,4 +43,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

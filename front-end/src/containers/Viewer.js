@@ -11,6 +11,7 @@ class Viewer extends Component {
   }
 
   render() {
+    console.log(this.props.id);
     return (
       <div className="Viewer">
         I am the viewer
@@ -19,7 +20,9 @@ class Viewer extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = () => ({
+
+});
 
 const mapDispatchToProps = (dispatch) => ({
   loadStory: (storyId) => dispatch(fetchSingleStory(storyId))

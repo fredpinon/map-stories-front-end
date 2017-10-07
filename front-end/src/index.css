@@ -5,3 +5,7 @@ body {
   background-color: #343d46;
   font-size: 15px;
 }
+
+a {
+  text-decoration: none;
+}

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 class StoryListItem extends Component {
 
   renderStoryAssets = () => {
-    console.log(this.props);
     const { title, tagLine, editor } = this.props.story;
     return (
       <div>
