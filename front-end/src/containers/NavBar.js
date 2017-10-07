@@ -17,7 +17,10 @@ class NavBar extends Component {
   render() {
     return (
       <div className="NavBar">
-        I am the navbar
+        <div className="logo">
+          Map Stories logo
+        </div>
+
         <LoginButton handleLogin={this.handleLogin}/>
       </div>
     );

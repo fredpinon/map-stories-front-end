@@ -3,6 +3,7 @@ import '../css/HomePage.css';
 
 import { connect } from 'react-redux';
 import { fetchStoriesHomePage } from '../actions';
+import StoryList from '../components/StoryList';
 
 class HomePage extends Component {
 
@@ -13,13 +14,15 @@ class HomePage extends Component {
   render() {
     return (
       <div className="HomePage">
-        I am the homepage
+        <StoryList stories={this.props.stories}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  stories: state.entities.stories,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   loadStories: () => dispatch(fetchStoriesHomePage())
