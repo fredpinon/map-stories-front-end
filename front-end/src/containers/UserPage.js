@@ -4,6 +4,8 @@ import '../css/UserPage.css';
 import { connect } from 'react-redux';
 import { fetchStoriesUserPage } from '../actions';
 
+import StoryList from '../components/StoryList';
+
 class UserPage extends Component {
 
   componentWillMount() {
@@ -13,13 +15,15 @@ class UserPage extends Component {
   render() {
     return (
       <div className="UserPage">
-        I am the Userpage
+        <StoryList stories={this.props.stories}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  stories: state.entities.stories,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   loadStories: () => dispatch(fetchStoriesUserPage())
