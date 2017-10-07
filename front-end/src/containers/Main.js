@@ -20,7 +20,7 @@ class Main extends Component {
             component={HomePage}
           />
           <Route
-            path="/story"
+            path="/story/:storyId"
             component={Viewer}
           />
           <PrivateRoute

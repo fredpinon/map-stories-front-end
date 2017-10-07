@@ -7,11 +7,11 @@ import { fetchSingleStory } from '../actions';
 class Viewer extends Component {
 
   componentWillMount() {
-    this.props.loadStory('storyId');
+    if (!this.props.match.params.storyId) return null;
+    this.props.loadStory(this.props.match.params.storyId);
   }
 
   render() {
-    console.log(this.props.id);
     return (
       <div className="Viewer">
         I am the viewer

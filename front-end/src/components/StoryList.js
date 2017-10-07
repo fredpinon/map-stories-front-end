@@ -16,7 +16,7 @@ class StoryList extends Component {
     }, [])
     .map((story, key) => {
       return (
-        <Link key={key} to="story">
+        <Link key={key} to={`story/${story.id}`}>
           <StoryListItem key={key} story={story}/>
         </Link>
       )
