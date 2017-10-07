@@ -11,17 +11,27 @@ class Viewer extends Component {
     this.props.loadStory(this.props.match.params.storyId);
   }
 
+  renderStoryDetails = () => {
+    if (!this.props.story) return null;
+    return (
+      <div className="storyDetails">
+        {/*story details go here*/}
+      </div>
+    )
+  }
+
   render() {
+
     return (
       <div className="Viewer">
-        I am the viewer
+        {this.renderStoryDetails()}
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({
-
+const mapStateToProps = (state) => ({
+  story: state.entities.story,
 });
 
 const mapDispatchToProps = (dispatch) => ({
