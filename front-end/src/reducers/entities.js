@@ -13,10 +13,9 @@ const entities = (state = {}, action) => {
         stories: action.response.entities.stories,
       };
     case 'STORY_SUCCESS':
-    // console.log(action);
       return {
-        // ...state,
-        // story: action.
+        ...state,
+        story: action.response.entities.stories
       }
     default:
       return state;
