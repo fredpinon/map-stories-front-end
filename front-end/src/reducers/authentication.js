@@ -3,8 +3,10 @@ const authentication = (state = {}, action) => {
     case 'USER_CREDENTIALS':
       return {
         ...state,
-        token: action.payload.token,
-        editorId: action.payload.editorId
+        token: action.payload.userCredentials.token,
+        email: action.payload.userCredentials.email,
+        name: action.payload.userCredentials.name,
+        picture: action.payload.userCredentials.picture,
       };
     default:
       return state;

@@ -37,9 +37,9 @@ export const fetchSingleStory = (storyId) => ({
 })
 
 
-export const storeToken = (token) => ({
+export const storeCredentials = (userCredentials) => ({
   type: 'USER_CREDENTIALS',
   payload: {
-    token,
+    userCredentials,
   }
 })
