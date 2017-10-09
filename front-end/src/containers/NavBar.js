@@ -6,6 +6,9 @@ import { storeCredentials } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
+import Logged from '../components/Logged';
+
+import AppBar from 'material-ui/AppBar';
 
 class NavBar extends Component {
 
@@ -20,19 +23,22 @@ class NavBar extends Component {
     // post to db?
   }
 
-  renderLogStatus = () => {
-    if (this.props.userCredentials.token) return <p>logged in</p>
-    else return <LoginButton handleLogin={this.handleLogin}/>
-  }
-
   render() {
     return (
-      <div className="NavBar">
-        <div className="logo">
-          <Link to='/'>Map Stories</Link>
-        </div>
-        {this.renderLogStatus()}
-      </div>
+        <AppBar
+          className="NavBar"
+          title={<Link to='/'>Map Stories</Link>}
+          showMenuIconButton={false}
+          iconElementRight={this.props.userCredentials.token
+            ? (
+              <div className="LoggedInActions">
+                <p>{this.props.userCredentials.name}</p>
+                <Logged/>
+              </div>
+            ) : (
+              <LoginButton handleLogin={this.handleLogin}/>
+            )}
+        />
     );
   }
 }

@@ -1,18 +1,23 @@
 .NavBar {
-  height: 0.6em;
-  min-height: 3em;
-  background-color: black;
-  opacity: 0.7;
-  color: white;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
 
-.logo {
-  margin-left: 1em;
 }
 
 .LoginButton {
-  margin-right: 1em;
+  display: flex;
+  background-color: #4c69ba;
+  border: none;
+  border-radius: 3px;
+  font-size: 3em;
+  cursor: pointer;
+  transition: background 0.5s linear;
+}
+
+.LoginButton:hover {
+  background-color: #3b5998;
+}
+
+.LoggedInActions {
+  display: flex;
 }
