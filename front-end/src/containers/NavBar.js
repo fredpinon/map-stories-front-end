@@ -20,19 +20,26 @@ class NavBar extends Component {
     // post to db?
   }
 
+  renderLogStatus = () => {
+    if (this.props.loggedIn) return <p>logged in</p>
+    else return <LoginButton handleLogin={this.handleLogin}/>
+  }
+
   render() {
     return (
       <div className="NavBar">
         <div className="logo">
           <Link to='/'>Map Stories</Link>
         </div>
-        <LoginButton handleLogin={this.handleLogin}/>
+        {this.renderLogStatus()}
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  loggedIn: state.authentication.token,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   logIn: (userCredentials) => dispatch(storeCredentials(userCredentials))
