@@ -15,8 +15,9 @@ class StoryList extends Component {
       return accum;
     }, [])
     .map((story, key) => {
+      const location = {pathname: `/story/${story.id}`}
       return (
-        <Link key={key} to={`story/${story.id}`}>
+        <Link key={key} to={location}>
           <StoryListItem key={key} story={story}/>
         </Link>
       )
