@@ -10,7 +10,6 @@ class Logged extends Component {
     return (
       <div className="Logged">
       <IconMenu
-
         iconButtonElement={
           <IconButton><MoreVertIcon/></IconButton>
         }

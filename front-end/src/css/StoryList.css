@@ -1,11 +1,21 @@
 .StoryList {
+  max-width: 1200px;
   display: flex;
-  border: 1px solid red;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 2em;
 }
 
 .StoryListItem {
-  border: 1px solid black;
-  margin: 1em 0.5em;
-  padding: 0.5em;
+  margin: 0.5em 0;
   cursor: pointer;
+}
+
+.ListItemDescription{
+  display: flex;
+}
+
+.Paper {
+  display: flex;
+  align-items: center;
 }

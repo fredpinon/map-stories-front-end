@@ -9,9 +9,7 @@ class LoginButton extends Component {
   }
 
   render() {
-    const style = {
-      color:'white'
-    };
+    const style = {color:'white'};
     return (
       <FacebookLogin
         cssClass="LoginButton"
