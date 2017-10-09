@@ -4,18 +4,28 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-const Logged = (props) => (
-  <IconMenu
-  {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-    <MenuItem primaryText="Profile" />
-    <MenuItem primaryText="Sign out" />
-  </IconMenu>
-);
+class Logged extends Component {
+
+  render() {
+    return (
+      <div className="Logged">
+      <IconMenu
+
+        iconButtonElement={
+          <IconButton><MoreVertIcon/></IconButton>
+        }
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        >
+        <MenuItem primaryText="Profile" />
+        <MenuItem
+          primaryText="Sign out"
+          onClick={this.props.handleSignOut}
+          />
+      </IconMenu>
+      </div>
+    );
+  }
+}
 
 export default Logged;

@@ -9,6 +9,9 @@ class LoginButton extends Component {
   }
 
   render() {
+    const style = {
+      color:'white'
+    };
     return (
       <FacebookLogin
         cssClass="LoginButton"
@@ -18,7 +21,7 @@ class LoginButton extends Component {
         scope="public_profile, email"
         callback={this.responseFacebook}
         textButton={null}
-        icon={<TiSocialFacebookCircular />}
+        icon={<TiSocialFacebookCircular style={style}/>}
       />
     );
   }

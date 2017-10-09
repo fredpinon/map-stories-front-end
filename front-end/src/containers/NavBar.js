@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { storeCredentials } from '../actions';
+import { storeCredentials, logOutUser } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
@@ -23,6 +23,10 @@ class NavBar extends Component {
     // post to db?
   }
 
+  handleSignOut = () => {
+    this.props.logOut();
+  }
+
   render() {
     return (
         <AppBar
@@ -33,7 +37,7 @@ class NavBar extends Component {
             ? (
               <div className="LoggedInActions">
                 <p>{this.props.userCredentials.name}</p>
-                <Logged/>
+                <Logged handleSignOut={this.handleSignOut}/>
               </div>
             ) : (
               <LoginButton handleLogin={this.handleLogin}/>
@@ -48,7 +52,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logIn: (userCredentials) => dispatch(storeCredentials(userCredentials))
+  logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
+  logOut: () => dispatch(logOutUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

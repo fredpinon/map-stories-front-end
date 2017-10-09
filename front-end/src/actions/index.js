@@ -46,3 +46,10 @@ export const storeCredentials = (userCredentials) => ({
     userCredentials,
   }
 })
+
+export const logOutUser = () => ({
+  type: 'USER_LOGGED_OUT',
+  payload: {
+
+  }
+})
