@@ -1,6 +1,5 @@
 import { CALL_API, Schemas } from '../middleware/api';
 
-
 export const STORIES_HP_REQUEST = 'STORIES_HP_REQUEST';
 export const STORIES_HP_SUCCESS = 'STORIES_HP_SUCCESS';
 export const STORIES_HP_FAILURE = 'STORIES_HP_FAILURE';
@@ -12,7 +11,6 @@ export const fetchStoriesHomePage = () => ({
     schema: Schemas.STORY_ARRAY
   }
 })
-
 
 export const STORIES_USER_REQUEST = 'STORIES_USER_REQUEST';
 export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
@@ -26,7 +24,6 @@ export const fetchStoriesUserPage = () => ({
   }
 })
 
-
 export const STORY_REQUEST = 'STORY_REQUEST';
 export const STORY_SUCCESS = 'STORY_SUCCESS';
 export const STORY_FAILURE = 'STORY_FAILURE';
@@ -39,6 +36,17 @@ export const fetchSingleStory = (storyId) => ({
   }
 })
 
+export const STORIES_SEARCH_REQUEST = 'STORIES_SEARCH_REQUEST';
+export const STORIES_SEARCH_SUCCESS = 'STORIES_SEARCH_SUCCESS';
+export const STORIES_SEARCH_FAILURE = 'STORIES_SEARCH_FAILURE';
+
+export const fetchStoriesSearch = (query) => ({
+  [CALL_API]: {
+    types: [ STORIES_SEARCH_REQUEST, STORIES_SEARCH_SUCCESS, STORIES_SEARCH_FAILURE ],
+    endpoint: `/stories/?q=${query}`,
+    schema: Schemas.STORY_ARRAY
+  }
+})
 
 export const storeCredentials = (userCredentials) => ({
   type: 'USER_CREDENTIALS',

@@ -2,7 +2,6 @@ import { normalize, schema } from 'normalizr';
 
 const callApi = (endpoint, schema) => {
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
-
   return fetch(fullUrl)
     .then(response => response.json())
     .then(data => {
