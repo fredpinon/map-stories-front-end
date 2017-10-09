@@ -21,7 +21,7 @@ class NavBar extends Component {
   }
 
   renderLogStatus = () => {
-    if (this.props.loggedIn) return <p>logged in</p>
+    if (this.props.userCredentials.token) return <p>logged in</p>
     else return <LoginButton handleLogin={this.handleLogin}/>
   }
 
@@ -38,7 +38,7 @@ class NavBar extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  loggedIn: state.authentication.token,
+  userCredentials: state.authentication,
 });
 
 const mapDispatchToProps = (dispatch) => ({

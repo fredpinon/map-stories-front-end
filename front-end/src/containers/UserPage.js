@@ -13,9 +13,15 @@ class UserPage extends Component {
   }
 
   render() {
+    const ownStories = Object.keys(this.props.stories)
+    .filter(key => this.props.stories[key].editor === 'E-A')
+    .reduce((accum, el) => {
+      accum[el] = this.props.stories[el]
+      return accum;
+    },{});
     return (
       <div className="UserPage">
-        <StoryList stories={this.props.stories}/>
+        <StoryList stories={ownStories}/>
       </div>
     );
   }
