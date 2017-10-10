@@ -1,0 +1,11 @@
+.StoryList {
+  display: flex;
+  border: 1px solid red;
+}
+
+.StoryListItem {
+  border: 1px solid black;
+  margin: 1em 0.5em;
+  padding: 0.5em;
+  cursor: pointer;
+}
