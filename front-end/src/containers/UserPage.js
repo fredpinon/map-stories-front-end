@@ -3,6 +3,7 @@ import '../css/UserPage.css';
 
 import { connect } from 'react-redux';
 import { fetchStoriesUserPage } from '../actions';
+import { Link } from 'react-router-dom';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -26,9 +27,11 @@ class UserPage extends Component {
     },{});
     return (
       <div className="UserPage">
-        <FloatingActionButton>
-          <ContentAdd />
-        </FloatingActionButton>
+      <Link to={'/me/addstory'}>
+          <FloatingActionButton className="AddStoryButton" style={style}>
+            <ContentAdd />
+          </FloatingActionButton>
+        </Link>
         <StoryList stories={ownStories}/>
       </div>
     );

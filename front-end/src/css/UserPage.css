@@ -1,3 +1,7 @@
 .UserPage {
   flex: 1;
 }
+.AddStoryButton {
+  float: right;
+  position: fixed;
+}

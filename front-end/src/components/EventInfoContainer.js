@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
 import '../css/EventInfoContainer.css';
+import Paper from 'material-ui/Paper';
 
 class EventInfoContainer extends Component {
 
   render() {
+    const style = {
+      height: 950,
+      width: 550,
+      margin: 40,
+      textAlign: 'center',
+      display: 'inline-block',
+    };
     return (
       <div className="EventInfoContainer">
-        <h1>EventInfoContainer</h1>
+        <Paper style={style} zDepth={3} />
       </div>
     );
   }
