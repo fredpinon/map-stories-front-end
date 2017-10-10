@@ -1,10 +1,12 @@
 import { normalize, schema } from 'normalizr';
 
 const callApi = (endpoint, schema) => {
+  // console.log(endpoint);
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
   return fetch(fullUrl)
     .then(response => response.json())
     .then(data => {
+      // console.log(data);
       return Object.assign({},
           normalize(data, schema)
         )

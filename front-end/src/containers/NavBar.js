@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { storeCredentials, logOutUser, fetchStoriesSearch  } from '../actions';
+import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
@@ -13,9 +13,9 @@ import TextField from 'material-ui/TextField';
 
 class NavBar extends Component {
 
-  state = {
-    searchTerm: '',
-  }
+  // state = {
+  //   searchTerm: '',
+  // }
 
   handleLogin = (response) => {
     const userCredentials = {
@@ -25,29 +25,32 @@ class NavBar extends Component {
       picture: response.picture.data.url,
     };
     this.props.logIn(userCredentials);
-    // post to db?
+    // post to db
   }
 
   handleSignOut = () => {
     this.props.logOut();
   }
 
-  handleKeyPress = e => {
-    if (e.key === 'Enter' && this.state.searchTerm !== '') {
-      this.props.searchStory(this.state.searchTerm);
-    }
-  }
 
-  handleSearching = e => this.setState({searchTerm: e.target.value});
+  handleSearching = e => {
+    // dispatch searchStory
+    // debounce
+    // if its empty -> dispatch clear array
+    if (e.target.value.length > 2) this.props.searchStory(e.target.value)
+    else this.props.clear()
+
+  };
 
   render() {
+    // console.log('searched stories', this.props.page);
+
     const search = (
       <TextField
         className="Search"
         hintText="search..."
-        value = {this.state.searchTerm}
+        // value = {this.state.searchTerm}
         onChange= {this.handleSearching}
-        onKeyPress={this.handleKeyPress}
       />
     )
     return (
@@ -76,12 +79,14 @@ class NavBar extends Component {
 
 const mapStateToProps = (state) => ({
   userCredentials: state.authentication,
+  page: state.pages.storiesList
 });
 
 const mapDispatchToProps = (dispatch) => ({
   logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
   logOut: () => dispatch(logOutUser()),
-  searchStory: (query) => dispatch(fetchStoriesSearch(query))
+  searchStory: (query) => dispatch(fetchStoriesSearch(query)),
+  clear: () => dispatch(clearSearch())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

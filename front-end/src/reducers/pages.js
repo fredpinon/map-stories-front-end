@@ -1,5 +1,7 @@
 const defaultState = {
-  searchedStories: []
+  storiesList: {
+    searchResults: []
+  }
 }
 
 const pages = (state = defaultState, action) => {
@@ -7,8 +9,19 @@ const pages = (state = defaultState, action) => {
     case 'STORIES_SEARCH_SUCCESS':
       return {
         ...state,
-        searchedStories: action.response,
+        storiesList: {
+            ...state.storiesList,
+            searchResult: action.response
+        },
       };
+    case 'CLEAR_SEARCH':
+    console.log('INSIDE CLEAR SEARCH');
+      return {
+        ...state,
+        storiesList: {
+          
+        }
+      }
     default:
       return state;
   }

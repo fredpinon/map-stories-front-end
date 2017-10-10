@@ -61,3 +61,10 @@ export const logOutUser = () => ({
 
   }
 })
+
+export const clearSearch = () => ({
+  type: 'CLEAR_SEARCH',
+  payload: {
+
+  }
+})
