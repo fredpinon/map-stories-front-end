@@ -6,6 +6,7 @@ const callApi = (endpoint, schema) => {
   return fetch(fullUrl)
     .then(response => response.json())
     .then(data => {
+      console.log('in the fetch ', data);
       return Object.assign({},
           normalize(data, schema)
         )
@@ -46,9 +47,7 @@ export default store => next => action => {
 
   const [ requestType, successType, failureType ] = types;
 
-  next(actionWith({
-    type: requestType
-  }));
+  next(actionWith({type: requestType}));
 
   return callApi(endpoint, schema)
     .then(response => store.dispatch(actionWith({

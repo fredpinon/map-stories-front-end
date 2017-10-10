@@ -3,6 +3,8 @@ import '../css/Viewer.css';
 
 import { connect } from 'react-redux';
 import { fetchSingleStory } from '../actions';
+import Chip from 'material-ui/Chip';
+import EventCard from '../components/EventCard';
 
 class Viewer extends Component {
 
@@ -11,27 +13,49 @@ class Viewer extends Component {
     this.props.loadStory(this.props.match.params.storyId);
   }
 
-  renderStoryDetails = () => {
-    if (!this.props.story) return null;
+  renderTitles = () => {
+    const title = 'Thai Boxing in the 17th Century';
+    const tagline = 'A brief history of Thai Boxing';
+    const styles = {
+      titles: {
+        marginTop: 15,
+        marginLeft: 15,
+      }
+    }
     return (
-      <div className="storyDetails">
-        {/*story details go here*/}
-      </div>
+        <Chip className="Titles" style={styles.titles}>
+          <span className="Title">{title}: </span>
+          <span className="Tagline">{tagline}</span>
+        </Chip>
     )
   }
 
-  render() {
+  renderEvents = () => {
+    const events = ['event a', 'event b', 'event c', 'event d', 'event e'];
+    return events.map((event, i) => {
+      if (i < 2) return <EventCard key={i} data={event} expanded={true}/>
+      else return <EventCard key={i} data={event}/>
+    });
+  }
 
+  render() {
     return (
       <div className="Viewer">
-        {this.renderStoryDetails()}
+        <div className="MapViewer">
+          {this.renderTitles()}
+          <div className="EventsContainer">
+            {this.renderEvents()}
+          </div>
+        </div>
+        <div className="Progress">
+
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  story: state.entities.story,
 });
 
 const mapDispatchToProps = (dispatch) => ({

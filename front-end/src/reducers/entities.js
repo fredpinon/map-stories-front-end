@@ -5,6 +5,7 @@ const defaultState = {
 
 const entities = (state = defaultState, action) => {
   if(action.response && action.response.entities) {
+    console.log('in the reducer ', action.response);
     return {
       ...state,
       editors: {
