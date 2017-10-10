@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../css/EventInfoContainer.css';
 
 class EventInfoContainer extends Component {
 

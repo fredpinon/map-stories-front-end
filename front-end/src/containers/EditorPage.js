@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
 
-import MapContainer from './MapContainer';
+import Map from '../components/Map';
 import EventInfoContainer from '../components/EventInfoContainer';
 
 class EditorPage extends Component {
@@ -10,6 +10,7 @@ class EditorPage extends Component {
     return (
       <div className="EditorPage">
         <EventInfoContainer/>
+        <Map />
       </div>
     )
   }
