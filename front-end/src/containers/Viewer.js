@@ -3,7 +3,8 @@ import '../css/Viewer.css';
 
 import { connect } from 'react-redux';
 import { fetchSingleStory } from '../actions';
-import Chip from 'material-ui/Chip';
+import { Card, CardHeader } from 'material-ui/Card';
+// import Chip from 'material-ui/Chip';
 import EventCard from '../components/EventCard';
 
 class Viewer extends Component {
@@ -14,28 +15,34 @@ class Viewer extends Component {
   }
 
   renderTitles = () => {
-    const title = 'Thai Boxing in the 17th Century';
-    const tagline = 'A brief history of Thai Boxing';
+    const story = this.props.stories[this.props.match.params.storyId];
+    const { title, tagLine } = story;
     const styles = {
-      titles: {
-        marginTop: 15,
-        marginLeft: 15,
+      title: {
+        fontWeight: 'bold',
+      },
+      subtitle: {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
       }
     }
     return (
-        <Chip className="Titles" style={styles.titles}>
-          <span className="Title">{title}: </span>
-          <span className="Tagline">{tagline}</span>
-        </Chip>
+      <Card className="Titles">
+        <CardHeader
+          title={title}
+          titleStyle={styles.title}
+          subtitle={tagLine}
+          subtitleStyle={styles.subtitle}
+        />
+      </Card>
     )
   }
 
   renderEvents = () => {
-    const events = ['event a', 'event b', 'event c', 'event d', 'event e'];
-    return events.map((event, i) => {
-      if (i < 2) return <EventCard key={i} data={event} expanded={true}/>
-      else return <EventCard key={i} data={event}/>
-    });
+    if (!this.props.stories || !this.props.match.params.storyId) return null;
+    const story = this.props.stories[this.props.match.params.storyId];
+    const {events} = story;
+    return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
   render() {
@@ -47,15 +54,14 @@ class Viewer extends Component {
             {this.renderEvents()}
           </div>
         </div>
-        <div className="Progress">
-
-        </div>
+        <div className="SliderContainer"></div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
+  stories: state.entities.stories,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -6,15 +6,14 @@ const callApi = (endpoint, schema) => {
   return fetch(fullUrl)
     .then(response => response.json())
     .then(data => {
-      console.log('in the fetch ', data);
       return Object.assign({},
           normalize(data, schema)
         )
     })
 }
 
-const editorSchema = new schema.Entity('editors', {}, { editorId: 'id' });
-const storySchema = new schema.Entity('stories', { editor: editorSchema }, { id: 'id' });
+const editorSchema = new schema.Entity('editors', {});
+const storySchema = new schema.Entity('stories', { editor: editorSchema });
 
 export const Schemas = {
   EDITOR: editorSchema,
