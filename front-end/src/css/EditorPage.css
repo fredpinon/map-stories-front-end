@@ -1,0 +1,12 @@
+.EditorPage {
+  display: flex;
+  width: 100VW;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  
+}
