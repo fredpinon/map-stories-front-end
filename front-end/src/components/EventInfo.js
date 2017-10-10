@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../css/EventInfoContainer.css';
 import Paper from 'material-ui/Paper';
 
-class EventInfoContainer extends Component {
+class EventInfo extends Component {
 
   render() {
     const style = {
@@ -20,4 +20,4 @@ class EventInfoContainer extends Component {
   }
 }
 
-export default EventInfoContainer;
+export default EventInfo;

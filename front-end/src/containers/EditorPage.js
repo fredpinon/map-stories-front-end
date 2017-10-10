@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
 
-import MapContainer from './MapContainer';
-import EventInfoContainer from '../components/EventInfoContainer';
+import Map from '../components/Map';
+import EventInfo from '../components/EventInfo';
 
 class EditorPage extends Component {
 
   render () {
     return (
       <div className="EditorPage">
-        <EventInfoContainer/>
+        <Map/>
       </div>
     )
   }
