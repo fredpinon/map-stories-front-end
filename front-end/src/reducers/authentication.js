@@ -8,6 +8,8 @@ const authentication = (state = {}, action) => {
         name: action.payload.userCredentials.name,
         picture: action.payload.userCredentials.picture,
       };
+    case 'USER_LOGGED_OUT':
+      return {};
     default:
       return state;
   }
