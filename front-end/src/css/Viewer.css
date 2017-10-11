@@ -38,3 +38,31 @@
   min-height: 90px;
   background-color: #f4f7fc;
 }
+
+.Link {
+  display: flex;
+  flex-basis: 100%;
+  box-sizing: border-box;
+}
+
+.LinkChildren {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.LinkChildren a {
+  word-break: break-all;
+  text-decoration: underline;
+  margin-right: 1em;
+}
+
+.LinkChildren img {
+  max-width: 30%;
+}
+
+.LinkChildrenWithDesc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
