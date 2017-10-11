@@ -6,12 +6,9 @@ class Map extends Component {
 
   constructor (props) {
     super(props);
-    this.state = {
-      coordinates: {}
-    };
   }
 
-  createGeoJson(points = []){
+  createGeoJson (points = []) {
     return {
       type: "FeatureCollection",
       features: points.map(point => ({
@@ -49,7 +46,6 @@ class Map extends Component {
     }));
 
     this.map.on('load', (e) => {
-      console.log('loaded');
       this.map.addSource('markers', {
         type: 'geojson',
         data: this.createGeoJson()
@@ -65,15 +61,13 @@ class Map extends Component {
       });
 
       this.map.on('click', (e) => {
-        console.log('clicked');
-        this.map.getSource('markers').setData(this.createGeoJson([{
+        const point = {
           lng: e.lngLat.lng,
           lat: e.lngLat.lat
-        }]));
-        console.log(this.createGeoJson([{
-          lng: e.lngLat.lng,
-          lat: e.lngLat.lat
-        }]));
+        };
+        this.map.getSource('markers').setData(this.createGeoJson([point]));
+        console.log(this.createGeoJson([point]));
+        this.props.onMarkerAdded(point);
       })
     });
   }
