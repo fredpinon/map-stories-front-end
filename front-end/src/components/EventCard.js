@@ -7,6 +7,7 @@ class EventCard extends Component {
 
   state = {
     expanded: false,
+    shadow: 1,
   }
 
   componentDidMount() {
@@ -15,6 +16,8 @@ class EventCard extends Component {
   }
 
   handleExpandChange = expanded => this.setState({expanded: expanded});
+  onMouseOver = () => this.setState({ shadow: 2 });
+  onMouseOut = () => this.setState({ shadow: 1 });
 
   renderLinks = (attachment, i, style) => {
     const childrenWithDesc = (
@@ -102,7 +105,14 @@ class EventCard extends Component {
   render() {
     const { title } = this.props.data;
     return (
-      <Card className="EventCard" expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+      <Card
+        className="EventCard"
+        expanded={this.state.expanded}
+        onExpandChange={this.handleExpandChange}
+        onMouseOver={this.onMouseOver}
+        onMouseOut={this.onMouseOut}
+        zDepth={this.state.shadow}
+        >
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
