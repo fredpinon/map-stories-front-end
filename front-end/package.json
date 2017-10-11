@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "camelize": "^1.0.0",
-    "dotenv": "^4.0.0",
     "eslint": "^4.8.0",
     "eslint-plugin-react": "^7.4.0",
     "mapbox-gl": "^0.40.1",

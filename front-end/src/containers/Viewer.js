@@ -3,6 +3,8 @@ import '../css/Viewer.css';
 
 import { connect } from 'react-redux';
 import { fetchSingleStory } from '../actions';
+import { Card, CardHeader } from 'material-ui/Card';
+import EventCard from '../components/EventCard';
 
 class Viewer extends Component {
 
@@ -11,27 +13,54 @@ class Viewer extends Component {
     this.props.loadStory(this.props.match.params.storyId);
   }
 
-  renderStoryDetails = () => {
-    if (!this.props.story) return null;
+  renderTitles = () => {
+    const story = this.props.stories[this.props.match.params.storyId];
+    const { title, tagLine } = story;
+    const styles = {
+      title: {
+        fontWeight: 'bold',
+      },
+      subtitle: {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+      }
+    }
     return (
-      <div className="storyDetails">
-        {/*story details go here*/}
-      </div>
+      <Card className="Titles">
+        <CardHeader
+          title={title}
+          titleStyle={styles.title}
+          subtitle={tagLine}
+          subtitleStyle={styles.subtitle}
+        />
+      </Card>
     )
   }
 
-  render() {
+  renderEvents = () => {
+    const { storyId } = this.props.match.params
+    if (!this.props.stories[storyId].events) return null;
+    const events = this.props.stories[storyId].events;
+    return events.map((event, i) => <EventCard key={i} data={event}/>);
+  }
 
+  render() {
     return (
       <div className="Viewer">
-        {this.renderStoryDetails()}
+        <div className="MapViewer">
+          {this.renderTitles()}
+          <div className="EventsContainer">
+            { this.renderEvents() }
+          </div>
+        </div>
+        <div className="SliderContainer"></div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  story: state.entities.story,
+  stories: state.entities.stories,
 });
 
 const mapDispatchToProps = (dispatch) => ({

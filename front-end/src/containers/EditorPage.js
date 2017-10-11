@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../css/EditorPage.css';
 
 import Map from '../components/Map';
-import EventInfoContainer from '../components/EventInfoContainer';
+import EventInfo from '../components/EventInfo';
 
 class EditorPage extends Component {
 
@@ -13,7 +13,6 @@ class EditorPage extends Component {
   render () {
     return (
       <div className="EditorPage">
-        <EventInfoContainer/>
         <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
