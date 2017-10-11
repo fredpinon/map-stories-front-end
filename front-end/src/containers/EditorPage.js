@@ -15,10 +15,6 @@ class EditorPage extends Component {
     return (
       <div className="EditorPage">
         <EventInfo/>
-        <div className="buttons">
-          <RaisedButton label="Save Event" primary={true} style={styleButton}/>
-          <RaisedButton label="Save and Publish Story" primary={true} style={styleButton}/>
-        </div>
       </div>
     )
   }
