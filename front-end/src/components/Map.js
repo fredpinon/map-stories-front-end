@@ -9,24 +9,24 @@ class Map extends Component {
     this.state = {
       coordinates: {}
     };
-
-    this.geoJson = {
-      "type": "FeatureCollection",
-      "features": []
-    }
   }
 
-  // {
-  //   "type": "Feature",
-  //   "properties": {},
-  //   "geometry": {
-  //     "type": "Point",
-  //     "coordinates": [
-  //       e.lngLat.lng,
-  //       e.lngLat.lat,
-  //     ]
-  //   }
-  // }
+  createGeoJson(points = []){
+    return {
+      type: "FeatureCollection",
+      features: points.map(point => ({
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Point",
+          coordinates: [
+            point.lng,
+            point.lat,
+          ]
+        }
+      }))
+    }
+  }
 
   componentDidMount () {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWNvbGxpbnM4NSIsImEiOiJjajhnMGZwYzMwOHBxMnhxajd0aWppbWE5In0.i6PUo_ai7q6NeIWBFPtGKA';
@@ -49,9 +49,10 @@ class Map extends Component {
     }));
 
     this.map.on('load', (e) => {
+      console.log('loaded');
       this.map.addSource('markers', {
         type: 'geojson',
-        data: this.geoJson
+        data: this.createGeoJson()
       });
       this.map.addLayer({
         id: 'carina',
@@ -62,39 +63,20 @@ class Map extends Component {
         },
         source: 'markers',
       });
+
+      this.map.on('click', (e) => {
+        console.log('clicked');
+        this.map.getSource('markers').setData(this.createGeoJson([{
+          lng: e.lngLat.lng,
+          lat: e.lngLat.lat
+        }]));
+        console.log(this.createGeoJson([{
+          lng: e.lngLat.lng,
+          lat: e.lngLat.lat
+        }]));
+      })
     });
-
-    this.map.on('click', (e) => {
-      // this.setState({
-      //   coordinates: {
-      //     lng: e.lngLat.lng,
-      //     lat: e.lngLat.lat
-      //   }
-      // });
-
-      if (this.geoJson.features.length === 0) {
-        this.geoJson.features.push({
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "Point",
-            coordinates: [
-              e.lngLat.lng,
-              e.lngLat.lat,
-            ]
-          }
-        });
-      } else {
-        this.geoJson.features[0].geometry.coordinates = [
-          e.lngLat.lng,
-          e.lngLat.lat,
-        ]
-      }
-      console.log(this.geoJson.features);
-    })
   }
-
-
 
   render () {
     return (
