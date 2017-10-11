@@ -9,6 +9,9 @@
 .StoryListItem {
   margin: 0.5em 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+
 }
 
 .ListItemDescription{
@@ -18,4 +21,9 @@
 .Paper {
   display: flex;
   align-items: center;
+}
+
+.Buttons {
+  display: flex;
+  flex-direction: column;
 }

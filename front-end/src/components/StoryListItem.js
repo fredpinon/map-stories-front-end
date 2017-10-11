@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class StoryListItem extends Component {
 
@@ -23,17 +24,26 @@ class StoryListItem extends Component {
     return (
       <div className="StoryListItem">
         <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
+        <div className='Buttons'>
+          <RaisedButton
+            target='_blank'
+            label='DELETE'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          />
+          <RaisedButton
+            target='_blank'
+            label='PUBLISH'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          />
+        </div>
       </div>
     );
   }
 }
 
-// return (
-//   <div>
-//     <p>{title}</p>
-//     <p>{tagLine}</p>
-//     <p>{editor}</p>
-//   </div>
-// )
 
 export default StoryListItem;
