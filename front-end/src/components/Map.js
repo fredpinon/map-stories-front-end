@@ -56,7 +56,7 @@ class Map extends Component {
         source: 'markers',
       });
 
-      if (this.props.markers.length===0) {
+      if (!this.props.markers || this.props.markers.length===0) {
         this.map.on('click', (e) => {
           const point = {
             lng: e.lngLat.lng,
