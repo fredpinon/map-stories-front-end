@@ -12,8 +12,8 @@ const callApi = (endpoint, schema) => {
     })
 }
 
-const editorSchema = new schema.Entity('editors', {}, { editorId: 'id' });
-const storySchema = new schema.Entity('stories', { editor: editorSchema }, { id: 'id' });
+const editorSchema = new schema.Entity('editors', {});
+const storySchema = new schema.Entity('stories', { editor: editorSchema });
 
 export const Schemas = {
   EDITOR: editorSchema,
@@ -46,9 +46,7 @@ export default store => next => action => {
 
   const [ requestType, successType, failureType ] = types;
 
-  next(actionWith({
-    type: requestType
-  }));
+  next(actionWith({type: requestType}));
 
   return callApi(endpoint, schema)
     .then(response => store.dispatch(actionWith({
