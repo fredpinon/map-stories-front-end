@@ -11,10 +11,15 @@ class HomePage extends Component {
     this.props.loadStories();
   }
 
+
+
+
   render() {
     return (
       <div className="HomePage">
         <StoryList stories={this.props.stories}/>
+        
+
       </div>
     );
   }
