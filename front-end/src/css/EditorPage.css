@@ -19,11 +19,18 @@
   flex-direction: column;
 }
 
+.InputHeader {
+  max-width: 550px;
+  height: 65px;
+  margin-left: 2em;
+  transform: translateY(30px);
+  background-color: #fafafa;
+}
+
 .InputInfo {
   flex-basis: 100%;
   max-width: 550px;
   padding: 2em;
-  margin-top: 2em;
   margin-left: 2em;
   textAlign: center;
   overflow: scroll;
