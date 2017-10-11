@@ -6,6 +6,8 @@
     "camelize": "^1.0.0",
     "eslint": "^4.8.0",
     "eslint-plugin-react": "^7.4.0",
+    "mapbox-gl": "^0.40.1",
+    "mapbox-gl-geocoder": "^2.0.1",
     "material-ui": "^0.19.4",
     "normalizr": "^3.2.3",
     "react": "^16.0.0",
