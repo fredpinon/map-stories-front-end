@@ -59,9 +59,13 @@ class EventInfo extends Component {
 
     const style = {marginTop: 50}
 
+    const headerStyle={
+      color: "grey",
+    }
+
     return (
       <div className="EventInfoContainer">
-        <Paper className="InputHeader" value="ADD EVENT" zDepth={3}></Paper>
+        <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
           <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true}/><br />
           <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true}/><br />
