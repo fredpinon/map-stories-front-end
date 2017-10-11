@@ -4,10 +4,6 @@ import MapboxGeocoder from 'mapbox-gl-geocoder';
 
 class Map extends Component {
 
-  constructor (props) {
-    super(props);
-  }
-
   createGeoJson (points = []) {
     return {
       type: "FeatureCollection",
@@ -60,15 +56,20 @@ class Map extends Component {
         source: 'markers',
       });
 
-      this.map.on('click', (e) => {
-        const point = {
-          lng: e.lngLat.lng,
-          lat: e.lngLat.lat
-        };
-        this.map.getSource('markers').setData(this.createGeoJson([point]));
-        console.log(this.createGeoJson([point]));
-        this.props.onMarkerAdded(point);
-      })
+      if (this.props.markers.length===0) {
+        this.map.on('click', (e) => {
+          const point = {
+            lng: e.lngLat.lng,
+            lat: e.lngLat.lat
+          };
+          this.map.getSource('markers').setData(this.createGeoJson([point]));
+          console.log('we show marker editor puts on map with coords ->', point);
+          this.props.onMarkerAdded(point);
+        })
+      } else {
+        this.map.getSource('markers').setData(this.createGeoJson(this.props.markers));
+        console.log('we show from EditorPage markers with coords ->', this.props.markers);
+      }
     });
   }
 
