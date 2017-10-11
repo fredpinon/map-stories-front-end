@@ -27,7 +27,6 @@ class EventCard extends Component {
     if (!this.props.data.attachments) return null;
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
-      console.log(attachment);
       if (attachment.type === 'text') return <CardText style={style.text} key={i} expandable={true}>{attachment.text}</CardText>
       if (attachment.type === 'img') return (
         <CardMedia key={i} expandable={true}>

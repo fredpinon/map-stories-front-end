@@ -4,7 +4,6 @@ import '../css/Viewer.css';
 import { connect } from 'react-redux';
 import { fetchSingleStory } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
-// import Chip from 'material-ui/Chip';
 import EventCard from '../components/EventCard';
 
 class Viewer extends Component {
@@ -39,9 +38,9 @@ class Viewer extends Component {
   }
 
   renderEvents = () => {
-    if (!this.props.stories || !this.props.match.params.storyId) return null;
-    const story = this.props.stories[this.props.match.params.storyId];
-    const {events} = story;
+    const { storyId } = this.props.match.params
+    if (!this.props.stories[storyId].events) return null;
+    const events = this.props.stories[storyId].events;
     return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
@@ -51,7 +50,7 @@ class Viewer extends Component {
         <div className="MapViewer">
           {this.renderTitles()}
           <div className="EventsContainer">
-            {this.renderEvents()}
+            { this.renderEvents() }
           </div>
         </div>
         <div className="SliderContainer"></div>
