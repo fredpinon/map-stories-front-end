@@ -1,5 +1,18 @@
 import { CALL_API, Schemas } from '../middleware/api';
 
+export const CREATE_STORY_REQUEST = 'CREATE_STORY_REQUEST';
+export const CREATE_STORY_SUCCESS = 'CREATE_STORY_SUCCESS';
+export const CREATE_STORY_FAILURE = 'CREATE_STORY_FAILURE';
+
+export const createStory = (data) => ({
+  [CALL_API]: {
+    types: [ CREATE_STORY_REQUEST, CREATE_STORY_SUCCESS, CREATE_STORY_FAILURE ],
+    endpoint: '/me/addstory',
+    schema: Schemas.STORY,
+    method: 'POST',
+    data: data,
+  }
+})
 
 export const STORIES_HP_REQUEST = 'STORIES_HP_REQUEST';
 export const STORIES_HP_SUCCESS = 'STORIES_HP_SUCCESS';
