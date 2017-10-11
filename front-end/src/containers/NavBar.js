@@ -11,11 +11,10 @@ import Logged from '../components/Logged';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 
+const _ = require('underscore');
+
 class NavBar extends Component {
 
-  // state = {
-  //   searchTerm: '',
-  // }
 
   handleLogin = (response) => {
     const userCredentials = {
@@ -25,7 +24,7 @@ class NavBar extends Component {
       picture: response.picture.data.url,
     };
     this.props.logIn(userCredentials);
-    // post to db
+
   }
 
   handleSignOut = () => {
@@ -34,13 +33,15 @@ class NavBar extends Component {
 
 
   handleSearching = e => {
-    // dispatch searchStory
-    // debounce
-    // if its empty -> dispatch clear array
-    if (e.target.value.length > 2) this.props.searchStory(e.target.value)
-    else this.props.clear()
+    this.search(e.target.value);
+  }
 
-  };
+  search = _.debounce((query) => {
+    if (query.length > 2) {
+      this.props.searchStory(query)
+    }
+    else this.props.clear()
+  }, 500);
 
   render() {
     // console.log('searched stories', this.props.page);

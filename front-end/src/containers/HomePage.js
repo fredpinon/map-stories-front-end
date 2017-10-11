@@ -12,17 +12,20 @@ class HomePage extends Component {
   }
 
   renderSearch() {
-    for (let key in this.props.page) {
-      if (Array.isArray(this.props.page[key])) delete this.props.page[key]
-    }
-    console.log(this.props.page);
-    if (Object.keys(this.props.page).length === 0) {
-      console.log('Default results');
-      return <StoryList stories={this.props.stories}/>
+
+    const storiesRes = this.props.page.searchResults;
+    const stories = this.props.stories;
+   console.log(storiesRes);
+  //  console.log(this.props.page.);
+    if (this.props.page.searchResults.length > 0) {
+
+      let searched = {};
+      storiesRes.forEach((el, i) => {
+        searched[i] = stories[el]
+      })
+      return <StoryList className="Searched" stories={searched}/>
     } else {
-      console.log('Search results');
-      const stories = this.props.page.searchResult.entities.stories
-      return <StoryList className="Searched" stories={stories}/>
+      return <StoryList stories={stories}/>
     }
 
   }

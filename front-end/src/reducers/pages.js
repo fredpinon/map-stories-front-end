@@ -11,7 +11,7 @@ const pages = (state = defaultState, action) => {
         ...state,
         storiesList: {
             ...state.storiesList,
-            searchResult: action.response
+            searchResults: action.response.result
         },
       };
     case 'CLEAR_SEARCH':
@@ -19,7 +19,8 @@ const pages = (state = defaultState, action) => {
       return {
         ...state,
         storiesList: {
-          
+          ...state.storiesList,
+          searchResults: []
         }
       }
     default:
