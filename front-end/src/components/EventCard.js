@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
+import ReactPlayer from 'react-player'
 
 class EventCard extends Component {
 
@@ -52,6 +53,22 @@ class EventCard extends Component {
     )
   }
 
+  renderVideos = (attachment, i, style) => {
+    const children = (
+      <div className="VideoChildren">
+        <CardText>{attachment.description}</CardText>
+        <ReactPlayer url={attachment.videoURL}/>
+      </div>
+    )
+    return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
+  }
+
+  renderImages = (attachment, i, style) => (
+    <CardMedia key={i} expandable={true} style={style}>
+      <img src={attachment.imageURL} alt={i}/>
+    </CardMedia>
+  )
+
   renderAttachments = () => {
     const style = {
       borderBottom: '1px solid #cccecf',
@@ -61,12 +78,9 @@ class EventCard extends Component {
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
       if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>
-      if (attachment.type === 'img') return (
-        <CardMedia key={i} expandable={true}>
-          <img src={attachment.imageURL} alt={i}/>
-        </CardMedia>
-      )
+      if (attachment.type === 'img') return this.renderImages(attachment, i, style);
       if (attachment.type === 'link') return this.renderLinks(attachment, i, style);
+      if (attachment.type === 'video') return this.renderVideos(attachment, i, style);
       else return null;
     });
   }
