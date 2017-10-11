@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../css/EventInfoContainer.css';
 import Paper from 'material-ui/Paper';
 
 class EventInfo extends Component {
