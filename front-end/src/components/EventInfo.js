@@ -10,6 +10,14 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 class EventInfo extends Component {
+  constructor () {
+    super()
+    this.startTime;
+    this.title;
+    this.dateTime;
+    this.location;
+    this.attachments = [];
+  }
 
   state = {
     attachments: []
@@ -32,11 +40,14 @@ class EventInfo extends Component {
         type: ''
       }])
     })
+    console.log(this.title.input.value);
   }
 
   render() {
-
+    console.log(this.title);
     const attachments = this.state.attachments.map((el, index) => {
+    let attachmentType = '';
+    let attachmentInfo = '';
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
@@ -44,15 +55,26 @@ class EventInfo extends Component {
           value={el.type}
           onChange={(event, i, value) => this.selectType(index, value)}
           placeholder='Select a type'
-          fullWidth={true}>
+          fullWidth={true}
+          ref={input => attachmentType = input}>
             <MenuItem value={''} primaryText="" />
             <MenuItem value={'text'} primaryText="Text" />
-            <MenuItem value={'image'} primaryText="Image URL" />
-            <MenuItem value={'video'} primaryText="Video URL" />
-            <MenuItem value={'audio'} primaryText="Audio URL" />
+            <MenuItem value={'image'} primaryText="Image" />
+            <MenuItem value={'video'} primaryText="Video" />
+            <MenuItem value={'audio'} primaryText="Audio" />
           </SelectField>
           <br />
-          <TextField hintText="Add text, URL or upload file" floatingLabelText="Add..." fullWidth={true}/>
+          <TextField
+          hintText="Add text, URL or upload file"
+          floatingLabelText="Add..."
+          fullWidth={true}
+          ref={input => attachmentInfo = input}
+          />
+          <Divider style={{
+            width: '112%',
+            marginLeft: -30,
+            marginTop: 60,
+          }} />
         </div>
       )
     })
@@ -67,10 +89,10 @@ class EventInfo extends Component {
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true}/><br />
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true}/><br />
+          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTime = input}/><br />
+          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.title = input}/><br />
+          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTime = input}/><br />
+          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.location = input}/><br />
           <Divider style={{
             width: '112%',
             marginLeft: -30,
@@ -85,33 +107,3 @@ class EventInfo extends Component {
 }
 
 export default EventInfo;
-
-// addAttachmentInput = (event, index, value) => {
-//   this.setState({value});
-// }
-//
-// renderInputField = () => {
-//   if (!this.state.value) return null;
-//   return <TextField hintText="Add text, URL or upload file" floatingLabelText="Add..." fullWidth={true}/>
-// }
-
-// addAttachment = () => {
-//   console.log('hello');
-//   return (
-//     <div className="AddAttachment">
-//       <SelectField
-//         floatingLabelText="Attachment"
-//         value={this.state.value}
-//         onChange={this.addAttachmentInput}
-//         fullWidth={true}>
-//         <MenuItem value={1} primaryText="" />
-//         <MenuItem value={2} primaryText="Text" />
-//         <MenuItem value={3} primaryText="Image URL" />
-//         <MenuItem value={4} primaryText="Video URL" />
-//         <MenuItem value={5} primaryText="Audio URL" />
-//       </SelectField>
-//       <br />
-//       {this.renderInputField()}
-//     </div>
-//   )
-// }
