@@ -7,15 +7,24 @@ import FlatButton from 'material-ui/FlatButton';
 class StoryListItem extends Component {
 
   state = {
-    open: false,
+    openDelete: false,
+    openPublish: false
   };
 
-  handleOpen = () => {
-    this.setState({open: true});
+  handleOpenPublish = () => {
+    this.setState({openPublish: true});
   };
 
-  handleClose = () => {
-    this.setState({open: false});
+  handleClosePublish = () => {
+    this.setState({openPublish: false});
+  };
+
+  handleOpenDelete = () => {
+    this.setState({openDelete: true});
+  };
+
+  handleCloseDelete = () => {
+    this.setState({openDelete: false});
   };
 
 
@@ -31,34 +40,29 @@ class StoryListItem extends Component {
     )
   }
 
-  // onClickedButton (e) {
-  //   this.handleOpen;
-  //   e.preventDefault();
-  // }
-
   render() {
     const actionsDelete = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleCloseDelete}
       />,
       <FlatButton
         label="Delete"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleCloseDelete}
       />,
     ];
     const actionsPublish = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleClosePublish}
       />,
       <FlatButton
         label="Publish"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleClosePublish}
       />,
     ];
 
@@ -75,14 +79,14 @@ class StoryListItem extends Component {
             label='DELETE'
             onClick={(e) => {
               e.preventDefault();
-              this.setState({open: true});;
+              this.setState({openDelete: true});;
             }}
           >
             <Dialog
            title="Are you sure you want to delete?"
            actions={actionsDelete}
            modal={true}
-           open={this.state.open}
+           open={this.state.openDelete}
             >
             Story cannot be restored later
             </Dialog>
@@ -91,14 +95,14 @@ class StoryListItem extends Component {
             label='PUBLISH'
             onClick={(e) => {
               e.preventDefault();
-              this.setState({open: true});;
+              this.setState({openPublish: true});;
             }}
           >
             <Dialog
            title="Are you sure you want to publish?"
            actions={actionsPublish}
            modal={true}
-           open={this.state.open}
+           open={this.state.openPublish}
             >
             </Dialog>
           </RaisedButton>
