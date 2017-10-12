@@ -15,8 +15,6 @@ class HomePage extends Component {
 
     const storiesRes = this.props.page.searchResults;
     const stories = this.props.stories;
-   console.log(storiesRes);
-  //  console.log(this.props.page.);
     if (this.props.page.searchResults.length > 0) {
 
       let searched = {};
