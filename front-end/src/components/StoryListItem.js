@@ -95,14 +95,28 @@ class StoryListItem extends Component {
     )
   }
 
+  renderButtons = () => {
+    return (
+      <div className='ButtonsRender'>
+        {this.renderDeleteButton()}
+        {this.renderPublishButton()}
+      </div>
+    )
+  }
+
   renderStoryAssets = () => {
     const { title, tagLine, editor } = this.props.story;
 
     return (
-      <div className="ListItemDescription">
-        <p>{title}</p>
-        <p>{tagLine}</p>
-        <p>{editor}</p>
+      <div className="ListItemPaper">
+        <div className="ListItemDescription">
+          <p>{title}</p>
+          <p>{tagLine}</p>
+          <p>{editor}</p>
+        </div>
+        <div className='Buttons'>
+          {this.renderButtons()}
+        </div>
       </div>
     )
   }
@@ -117,10 +131,6 @@ class StoryListItem extends Component {
     return (
       <div className="StoryListItem">
         <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
-        <div className='Buttons'>
-          {this.renderDeleteButton()}
-          {this.renderPublishButton()}
-        </div>
       </div>
     );
   }

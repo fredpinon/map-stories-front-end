@@ -10,13 +10,11 @@
   margin: 0.5em 0;
   cursor: pointer;
   display: flex;
-  align-items: center;
-
 }
 
 .ListItemDescription{
   display: flex;
-  justify-content: center;
+  flex-direction: row;
 }
 
 .Paper {
@@ -24,7 +22,12 @@
   align-items: center;
 }
 
-.Buttons {
+.ButtonsRender {
   display: flex;
-  flex-direction: column;
+  right: 0;
+  position: absolute;
+}
+
+.ListItemPaper {
+  display: flex;
 }
