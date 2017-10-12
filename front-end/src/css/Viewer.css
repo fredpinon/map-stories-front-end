@@ -67,8 +67,6 @@
   align-items: flex-start;
 }
 
-.VideoChildren {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+.Video {
+  margin-top: 0.5em;
 }

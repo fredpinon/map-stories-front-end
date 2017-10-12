@@ -54,12 +54,7 @@ class EventCard extends Component {
   }
 
   renderVideos = (attachment, i, style) => {
-    const children = (
-      <div className="VideoChildren">
-        <CardText>{attachment.description}</CardText>
-        <ReactPlayer url={attachment.videoURL}/>
-      </div>
-    )
+    const children = <ReactPlayer className="Video" url={attachment.videoURL}/>;
     return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
   }
 
@@ -70,10 +65,7 @@ class EventCard extends Component {
   )
 
   renderAttachments = () => {
-    const style = {
-      borderBottom: '1px solid #cccecf',
-      maxWidth: '100%',
-    }
+    const style = { maxWidth: '100%' };
     if (!this.props.data.attachments) return null;
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
