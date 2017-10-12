@@ -6,10 +6,14 @@ import EventInfo from '../components/EventInfo';
 
 class EditorPage extends Component {
 
+  markerAdded = (coordinates) => {
+    console.log('from editorpage', coordinates);
+  }
+
   render () {
     return (
       <div className="EditorPage">
-        <Map/>
+        <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
   }
