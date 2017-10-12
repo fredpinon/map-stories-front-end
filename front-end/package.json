@@ -20,7 +20,8 @@
     "react-scripts": "1.0.14",
     "react-tweet-embed": "^1.0.8",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "underscore": "^1.8.3"
   },
   "scripts": {
     "start": "react-scripts start",

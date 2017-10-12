@@ -10,7 +10,10 @@ export const loadState = () => {
 
 export const saveState = (state) => {
   try {
-    const serializedState = JSON.stringify(state);
+    const serializedState = JSON.stringify({
+      entities: state.entities,
+      authentication: state.authentication
+    });
     localStorage.setItem('state', serializedState);
   } catch (err) {
     console.log(err);

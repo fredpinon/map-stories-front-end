@@ -11,8 +11,22 @@ class HomePage extends Component {
     this.props.loadStories();
   }
 
+  renderSearch() {
 
+    const storiesRes = this.props.page.searchResults;
+    const stories = this.props.stories;
+    if (this.props.page.searchResults.length > 0) {
 
+      let searched = {};
+      storiesRes.forEach((el, i) => {
+        searched[i] = stories[el]
+      })
+      return <StoryList className="Searched" stories={searched}/>
+    } else {
+      return <StoryList stories={stories}/>
+    }
+
+  }
 
   render() {
     const publishedStories = Object.keys(this.props.stories)
@@ -23,7 +37,7 @@ class HomePage extends Component {
     },{});
     return (
       <div className="HomePage">
-        <StoryList stories={this.props.stories}/>
+        {this.renderSearch()}
       </div>
     );
   }
@@ -31,6 +45,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => ({
   stories: state.entities.stories,
+  page: state.pages.storiesList
 });
 
 const mapDispatchToProps = (dispatch) => ({

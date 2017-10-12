@@ -64,6 +64,19 @@ export const fetchSingleStory = (storyId) => ({
   }
 })
 
+
+export const STORIES_SEARCH_REQUEST = 'STORIES_SEARCH_REQUEST';
+export const STORIES_SEARCH_SUCCESS = 'STORIES_SEARCH_SUCCESS';
+export const STORIES_SEARCH_FAILURE = 'STORIES_SEARCH_FAILURE';
+
+export const fetchStoriesSearch = (query) => ({
+  [CALL_API]: {
+    types: [ STORIES_SEARCH_REQUEST, STORIES_SEARCH_SUCCESS, STORIES_SEARCH_FAILURE ],
+    endpoint: `/stories/?q=${query}`,
+    schema: Schemas.STORY_ARRAY
+  }
+})
+
 export const storeCredentials = (userCredentials) => ({
   type: 'USER_CREDENTIALS',
   payload: {
@@ -73,6 +86,13 @@ export const storeCredentials = (userCredentials) => ({
 
 export const logOutUser = () => ({
   type: 'USER_LOGGED_OUT',
+  payload: {
+
+  }
+})
+
+export const clearSearch = () => ({
+  type: 'CLEAR_SEARCH',
   payload: {
 
   }
