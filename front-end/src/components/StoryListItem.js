@@ -34,11 +34,13 @@ class StoryListItem extends Component {
         label="Cancel"
         primary={true}
         onClick={this.closeDeleteDialog}
+        rippleColor="purple"
       />,
       <FlatButton
         label="Delete"
         primary={true}
         onClick={this.closeDeleteDialog}
+        rippleColor="purple"
       />,
     ];
     return (
@@ -49,6 +51,8 @@ class StoryListItem extends Component {
             e.preventDefault();
             this.setState({openDelete: true});;
           }}
+          rippleColor="purple"
+          primary={true}
           >
           <Dialog
             title="Are you sure you want to delete?"
@@ -69,11 +73,13 @@ class StoryListItem extends Component {
         label="Cancel"
         primary={true}
         onClick={this.closePublishDialog}
+        rippleColor="purple"
       />,
       <FlatButton
         label="Publish"
         primary={true}
         onClick={this.closePublishDialog}
+        rippleColor="purple"
       />,
     ];
     return (
@@ -83,6 +89,8 @@ class StoryListItem extends Component {
           e.preventDefault();
           this.setState({openPublish: true});;
         }}
+        rippleColor="purple"
+        primary={true}
         >
         <Dialog
           title="Are you sure you want to publish?"
