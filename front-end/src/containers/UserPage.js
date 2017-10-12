@@ -27,7 +27,7 @@ class UserPage extends Component {
     },{});
     return (
       <div className="UserPage">
-      <Link to={'/me/addstory'}>
+      <Link to={'/me/createstory'}>
           <FloatingActionButton className="AddStoryButton" style={style}>
             <ContentAdd />
           </FloatingActionButton>

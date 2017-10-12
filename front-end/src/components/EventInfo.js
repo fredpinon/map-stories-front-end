@@ -12,11 +12,14 @@ import FlatButton from 'material-ui/FlatButton';
 class EventInfo extends Component {
   constructor () {
     super()
-    this.startTime;
-    this.title;
-    this.dateTime;
-    this.location;
-    this.attachments = [];
+    this.event = {
+      startTime: '',
+      title: '',
+      dateTime: '',
+      location: '',
+      attachments: []
+
+    }
   }
 
   state = {
@@ -40,11 +43,10 @@ class EventInfo extends Component {
         type: ''
       }])
     })
-    console.log(this.title.input.value);
+    console.log(this.event.title.input.value);
   }
 
   render() {
-    console.log(this.title);
     const attachments = this.state.attachments.map((el, index) => {
     let attachmentType = '';
     let attachmentInfo = '';
@@ -59,9 +61,11 @@ class EventInfo extends Component {
           ref={input => attachmentType = input}>
             <MenuItem value={''} primaryText="" />
             <MenuItem value={'text'} primaryText="Text" />
+            <MenuItem value={'link'} primaryText="Link" />
             <MenuItem value={'image'} primaryText="Image" />
             <MenuItem value={'video'} primaryText="Video" />
             <MenuItem value={'audio'} primaryText="Audio" />
+            <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
           <TextField
@@ -89,10 +93,10 @@ class EventInfo extends Component {
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTime = input}/><br />
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.title = input}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTime = input}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.location = input}/><br />
+          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.event.startTime = input}/><br />
+          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.event.title = input}/><br />
+          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.event.dateTime = input}/><br />
+          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.event.location = input}/><br />
           <Divider style={{
             width: '112%',
             marginLeft: -30,
