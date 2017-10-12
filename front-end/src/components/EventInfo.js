@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import '../css/EditorPage.css';
 
 import Paper from 'material-ui/Paper';
@@ -86,32 +87,4 @@ class EventInfo extends Component {
 
 export default EventInfo;
 
-// addAttachmentInput = (event, index, value) => {
-//   this.setState({value});
-// }
-//
-// renderInputField = () => {
-//   if (!this.state.value) return null;
-//   return <TextField hintText="Add text, URL or upload file" floatingLabelText="Add..." fullWidth={true}/>
-// }
 
-// addAttachment = () => {
-//   console.log('hello');
-//   return (
-//     <div className="AddAttachment">
-//       <SelectField
-//         floatingLabelText="Attachment"
-//         value={this.state.value}
-//         onChange={this.addAttachmentInput}
-//         fullWidth={true}>
-//         <MenuItem value={1} primaryText="" />
-//         <MenuItem value={2} primaryText="Text" />
-//         <MenuItem value={3} primaryText="Image URL" />
-//         <MenuItem value={4} primaryText="Video URL" />
-//         <MenuItem value={5} primaryText="Audio URL" />
-//       </SelectField>
-//       <br />
-//       {this.renderInputField()}
-//     </div>
-//   )
-// }

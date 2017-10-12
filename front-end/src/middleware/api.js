@@ -1,9 +1,17 @@
 import { normalize, schema } from 'normalizr';
 
-const callApi = (endpoint, schema) => {
+const callApi = (endpoint, schema, method='GET', accessToken) => {
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
 
-  return fetch(fullUrl)
+  const headers = {}
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return fetch(fullUrl, {
+    method,
+    headers
+  })
     .then(response => response.json())
     .then(data => {
       return Object.assign({},
@@ -12,8 +20,8 @@ const callApi = (endpoint, schema) => {
     })
 }
 
-const editorSchema = new schema.Entity('editors', {}, { editorId: 'id' });
-const storySchema = new schema.Entity('stories', { editor: editorSchema }, { id: 'id' });
+const editorSchema = new schema.Entity('editors', {});
+const storySchema = new schema.Entity('stories', { editor: editorSchema });
 
 export const Schemas = {
   EDITOR: editorSchema,
@@ -28,7 +36,7 @@ export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, schema, types } = callAPI;
+  const { endpoint, schema, types, method } = callAPI;
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
@@ -46,11 +54,14 @@ export default store => next => action => {
 
   const [ requestType, successType, failureType ] = types;
 
-  next(actionWith({
-    type: requestType
-  }));
+  next(actionWith({type: requestType}));
 
-  return callApi(endpoint, schema)
+  let accessToken;
+  if(store.getState().authentication.token) {
+    accessToken = store.getState().authentication.token;
+  }
+
+  return callApi(endpoint, schema, method, accessToken)
     .then(response => store.dispatch(actionWith({
         type: successType,
         response

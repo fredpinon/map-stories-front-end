@@ -45,45 +45,33 @@
 }
 
 
-
-
-/*.Viewer {
-  flex: 1;
+.EditorPage {
   display: flex;
-  flex-direction: column;
-  background-color: #eaf0f9;
+  flex:1;
+  height: 100vh;
+  position: relative;
+  z-index: 0;
 }
 
-.MapViewer {
-  flex-basis: 90%;
+.Map {
   display: flex;
-  flex-direction: column;
+  position: relative;
+  flex:1;
+  z-index: 1;
 }
 
-.Titles {
-  max-width: 350px;
+#map {
+  width: 100%;
+  height: 100%;
+  top:0;
+  bottom: 0;
 }
 
-::-webkit-scrollbar {
-  display: none;
+
+.EventInfoContainer {
+  position: absolute;
+  z-index: 2;
+  padding-left: 50px;
+
 }
 
-.EventsContainer {
-  max-width: 350px;
-  flex-basis: 100%;
-  overflow: scroll;
-}
-
-.EventCard:nth-child(1) {
-  margin-top: 0;
-}
-
-.EventCard {
-  margin: 0.2em 0;
-}
-
-.SliderContainer {
-  flex: 1;
-  min-height: 90px;
-  background-color: #f4f7fc;
-}*/

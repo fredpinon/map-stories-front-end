@@ -7,6 +7,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class EditorPage extends Component {
 
+  markerAdded = (coordinates) => {
+    console.log('from editorpage', coordinates);
+  }
+
   render () {
     const styleButton = {
       marginRight: 30,
@@ -15,6 +19,7 @@ class EditorPage extends Component {
     return (
       <div className="EditorPage">
         <EventInfo/>
+        <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
   }
