@@ -4,13 +4,14 @@ import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
+import { updateStory, deleteStory } from '../actions';
+
 class StoryListItem extends Component {
 
   state = {
     openDelete: false,
     openPublish: false
   };
-
 
   openPublishDialog = () => {
     this.setState({openPublish: true});
@@ -28,6 +29,18 @@ class StoryListItem extends Component {
     this.setState({openDelete: false});
   };
 
+  deleteStoryConfirm = () => {
+    this.setState({openDelete: false});
+    const storyId = this.props.story.id;
+    this.props.deleteStory(storyId);
+  };
+
+  publishStoryConfirm = () => {
+    this.setState({openPublish: false});
+    const storyId = this.props.story.id;
+    this.props.publishStory(storyId);
+  };
+
   renderDeleteButton = () => {
     const actionsDelete = [
       <FlatButton
@@ -39,8 +52,7 @@ class StoryListItem extends Component {
       <FlatButton
         label="Delete"
         primary={true}
-        onClick={this.closeDeleteDialog}
-     // onClick={this.deleteStory} //function
+        onClick={this.deleteStoryConfirm}
         rippleColor="purple"
       />,
     ];
@@ -79,8 +91,7 @@ class StoryListItem extends Component {
       <FlatButton
         label="Publish"
         primary={true}
-        onClick={this.closePublishDialog}
-        // onClick={this.publishStory} //function
+        onClick={this.publishStoryConfirm}
         rippleColor="purple"
       />,
     ];
@@ -140,6 +151,7 @@ class StoryListItem extends Component {
     };
 
     return (
+
       <div className="StoryListItem">
         <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
       </div>
@@ -147,14 +159,13 @@ class StoryListItem extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => ({
 
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // publishStory: () => dispatch(publishStory())
-  // deleteStory: () => dispatch(deleteStory())
+  publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),
+  deleteStory: (storyId) => dispatch(deleteStory(storyId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);

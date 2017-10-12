@@ -1,9 +1,18 @@
 import { normalize, schema } from 'normalizr';
 
-const callApi = (endpoint, schema) => {
+const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
 
-  return fetch(fullUrl)
+  const headers = {}
+  if (accessToken) {
+    headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return fetch(fullUrl, {
+    method,
+    headers,
+    body
+  })
     .then(response => response.json())
     .then(data => {
       return Object.assign({},
@@ -28,7 +37,10 @@ export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, schema, types } = callAPI;
+  const { endpoint, schema, types, method, onSuccess } = callAPI;
+
+  let data;
+  if (callAPI.data) data = JSON.stringify(callAPI.data);
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
@@ -48,11 +60,19 @@ export default store => next => action => {
 
   next(actionWith({type: requestType}));
 
-  return callApi(endpoint, schema)
-    .then(response => store.dispatch(actionWith({
+  let accessToken;
+  if(store.getState().authentication.token) {
+    accessToken = store.getState().authentication.token;
+  }
+
+  return callApi(endpoint, schema, method, data, accessToken)
+    .then(response => {
+      store.dispatch(actionWith({
         type: successType,
         response
-      })))
+      }))
+      if (typeof onSuccess === 'function') onSuccess(response);
+    })
     .catch(error => store.dispatch(actionWith({
         type: failureType,
         error
