@@ -2,15 +2,19 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { storeCredentials, logOutUser } from '../actions';
+import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
 import Logged from '../components/Logged';
 
 import AppBar from 'material-ui/AppBar';
+import TextField from 'material-ui/TextField';
+
+const _ = require('underscore');
 
 class NavBar extends Component {
+
 
   handleLogin = (response) => {
     const userCredentials = {
@@ -20,40 +24,68 @@ class NavBar extends Component {
       picture: response.picture.data.url,
     };
     this.props.logIn(userCredentials);
-    // post to db?
+
   }
 
   handleSignOut = () => {
     this.props.logOut();
   }
 
-  render() {
-    return (
-        <AppBar
-          className="NavBar"
-          title={<Link to='/'>Map Stories</Link>}
-          showMenuIconButton={false}
-          iconElementRight={this.props.userCredentials.token
-            ? (
-              <div className="LoggedInActions">
-                <p>{this.props.userCredentials.name}</p>
-                <Logged handleSignOut={this.handleSignOut}/>
-              </div>
-            ) : (
-              <LoginButton handleLogin={this.handleLogin}/>
-            )}
-        />
-    );
+
+  handleSearching = e => {
+    this.search(e.target.value);
   }
-}
 
-const mapStateToProps = (state) => ({
-  userCredentials: state.authentication,
-});
+  search = _.debounce((query) => {
+    if (query.length > 2) {
+      this.props.searchStory(query)
+    }
+    else this.props.clear()
+  }, 500);
 
-const mapDispatchToProps = (dispatch) => ({
-  logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
-  logOut: () => dispatch(logOutUser())
-});
+  render() {
+    const search = (
+      <TextField
+        className="Search"
+        hintText="search..."
+        // value = {this.state.searchTerm}
+        onChange= {this.handleSearching}
+      />
+    )
+    return (
+      <AppBar
+        className="NavBar"
+        title={<Link to='/'>Map Stories</Link>}
+        showMenuIconButton={false}
+        iconElementRight={
+          this.props.userCredentials.token
+          ? (
+            <div className="LoggedInActions">
+              {search}
+              <p>{this.props.userCredentials.name}</p>
+              <Logged handleSignOut={this.handleSignOut}/>
+            </div>
+          ) : (
+            <div className="LoggedInActions">
+              {search}
+              <LoginButton handleLogin={this.handleLogin}/>
+            </div>
+          )}
+        />
+      );
+    }
+  }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+  const mapStateToProps = (state) => ({
+    userCredentials: state.authentication,
+    page: state.pages.storiesList
+  });
+
+  const mapDispatchToProps = (dispatch) => ({
+    logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
+    logOut: () => dispatch(logOutUser()),
+    searchStory: (query) => dispatch(fetchStoriesSearch(query)),
+    clear: () => dispatch(clearSearch())
+  });
+
+  export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-
 import '../css/EditorPage.css';
+import { editStory } from '../actions';
+import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -19,13 +20,14 @@ class EventInfo extends Component {
       dateTime: '',
       location: '',
       attachments: []
-
     }
   }
 
   state = {
     attachments: []
   };
+
+
 
   selectType = (index, value) => {
     const attachments = this.state.attachments.slice();
@@ -45,6 +47,12 @@ class EventInfo extends Component {
       }])
     })
     console.log(this.event.title.input.value);
+  }
+
+  saveEvent = () => {
+  const eventInfo = {}
+
+  this.props.onEventSave(eventInfo)
   }
 
   render() {
@@ -86,6 +94,11 @@ class EventInfo extends Component {
 
     const style = {marginTop: 50}
 
+    const style2 = {
+      marginTop: 50,
+      float: 'right'
+    }
+
     const headerStyle={
       color: "grey",
     }
@@ -105,11 +118,26 @@ class EventInfo extends Component {
           }} />
           {attachments}
           <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment}/>
+          <Divider style={{
+            width: '112%',
+            marginLeft: -30,
+            marginTop: 60,
+          }} />
+          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
+          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
         </Paper>
       </div>
     );
   }
 }
 
-export default EventInfo;
+const mapStateToProps = (state, ownProps) => ({
+  // id: ownProps.computedMatch.params.storyId
+  // story: state.entities.stories[ownProps.computedMatch.params.storyId],
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  editStory: (data) => dispatch(editStory(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventInfo);

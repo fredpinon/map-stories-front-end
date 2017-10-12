@@ -8,6 +8,7 @@ import HomePage from './HomePage';
 import Viewer from './Viewer';
 import UserPage from './UserPage';
 import EditorPage from './EditorPage';
+import CreatePage from './CreatePage';
 import NoMatch from '../components/NoMatch';
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -31,7 +32,12 @@ class Main extends Component {
           />
           <PrivateRoute
             token={this.props.token}
-            path="/me/addstory"
+            path="/me/createstory"
+            component={CreatePage}
+          />
+          <PrivateRoute
+            token={this.props.token}
+            path="/me/editstory"
             component={EditorPage}
           />
           <Route

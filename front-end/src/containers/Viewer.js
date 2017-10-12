@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { fetchSingleStory } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
+import Map from '../components/Map';
+
 
 class Viewer extends Component {
 
@@ -37,6 +39,10 @@ class Viewer extends Component {
     )
   }
 
+  markerAdded = (coordinates) => {
+    console.log('from editorpage', coordinates);
+  }
+
   renderEvents = () => {
     const { storyId } = this.props.match.params
     if (!this.props.stories[storyId].events) return null;
@@ -44,14 +50,16 @@ class Viewer extends Component {
     return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
+
   render() {
     return (
       <div className="Viewer">
         <div className="MapViewer">
-          {this.renderTitles()}
           <div className="EventsContainer">
+            {this.renderTitles()}
             { this.renderEvents() }
           </div>
+          <Map onMarkerAdded={this.markerAdded}/>
         </div>
         <div className="SliderContainer"></div>
       </div>

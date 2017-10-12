@@ -42,6 +42,7 @@ export default store => next => action => {
   let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 
+
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
   if (!schema) throw new Error('Specify one of the exported Schemas.');
