@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
-import ReactPlayer from 'react-player'
+import TweetEmbed from 'react-tweet-embed';
+import ReactPlayer from 'react-player';
 
 class EventCard extends Component {
 
@@ -64,15 +65,27 @@ class EventCard extends Component {
     </CardMedia>
   )
 
+  renderTweets = (attachment, i, style) => {
+    let tweetID = attachment.tweetURL.split('/');
+    tweetID = tweetID.pop();
+    const children = <TweetEmbed id={tweetID} />;
+    return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
+  }
+
   renderAttachments = () => {
+<<<<<<< HEAD
     const style = { maxWidth: '100%' };
+=======
+>>>>>>> feat/showTweetAttachments
     if (!this.props.data.attachments) return null;
+    const style = { maxWidth: '100%' };
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
-      if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>
+      if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>;
       if (attachment.type === 'img') return this.renderImages(attachment, i, style);
       if (attachment.type === 'link') return this.renderLinks(attachment, i, style);
       if (attachment.type === 'video') return this.renderVideos(attachment, i, style);
+      if (attachment.type === 'tweet') return this.renderTweets(attachment, i, style);
       else return null;
     });
   }
