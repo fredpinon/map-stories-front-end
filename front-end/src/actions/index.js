@@ -21,7 +21,7 @@ export const EDIT_STORY_FAILURE = 'EDIT_STORY_FAILURE';
 export const editStory = (data, storyId) => ({
   [CALL_API]: {
     types: [ EDIT_STORY_REQUEST, EDIT_STORY_SUCCESS, EDIT_STORY_FAILURE ],
-    endpoint: `/stories/story/${storyId}`
+    endpoint: `/stories/story/${storyId}`,
     schema: Schemas.STORY,
     method: 'PUT',
     data: data,

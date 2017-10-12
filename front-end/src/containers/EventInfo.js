@@ -46,12 +46,15 @@ class EventInfo extends Component {
         type: ''
       }])
     })
-    console.log(this.event.title.input.value);
   }
 
   saveEvent = () => {
-  const eventInfo = {}
-
+  const eventInfo = {
+    title: this.titleField.input.value,
+    startTime: this.startTimeField.input.value,
+    mapLocation: this.locationField.input.value,
+    dateAndTime: this.dateTimeField.input.value
+  }
   this.props.onEventSave(eventInfo)
   }
 
@@ -107,10 +110,10 @@ class EventInfo extends Component {
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.event.startTime = input}/><br />
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.event.title = input}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.event.dateTime = input}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.event.location = input}/><br />
+          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.titleField = input}/><br />
+          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTimeField = input}/><br />
+          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.locationField = input}/><br />
+          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTimeField = input}/><br />
           <Divider style={{
             width: '112%',
             marginLeft: -30,

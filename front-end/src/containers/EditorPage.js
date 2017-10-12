@@ -44,11 +44,17 @@ class EditorPage extends Component {
   render () {
     return (
       <div className="EditorPage">
-        <EventInfo
-          event={this.state.currentEvent}
-          onEventSave={this.onEventSave}
-          onEventDelete={this.onEventDelete}
-        />
+        <div style={{
+          position: 'absolute',
+          height: '100%',
+          overflowY: 'scroll'
+        }}>
+          <EventInfo
+            event={this.state.currentEvent}
+            onEventSave={this.onEventSave}
+            onEventDelete={this.onEventDelete}
+          />
+        </div>
         <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
