@@ -1,0 +1,18 @@
+.LoginButton {
+  font-size: 1vw;
+
+  justify-content: space-around;
+  font-weight: lighter;
+  /*font-family: 'Fredoka One';*/
+  text-align: center;
+  color: white;
+  border-radius: 100px;
+  height: 2.2em;
+  margin-top: 0.75vh;
+  width: 15vw;
+  background: #3B5998;
+  background: -webkit-linear-gradient(left, #344f89 ,#3B5998 , #3e5fa5);
+  background: -o-linear-gradient(right, #344f89 ,#3B5998 , #3e5fa5);
+  background: -moz-linear-gradient(right, #344f89 ,#3B5998 , #3e5fa5);
+  background: linear-gradient(to right, #344f89 ,#3B5998 , #3e5fa5);
+}

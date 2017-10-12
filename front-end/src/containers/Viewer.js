@@ -6,6 +6,17 @@ import { fetchSingleStory } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
+import Slider from 'material-ui/Slider';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon'
+import { purple500 } from 'material-ui/styles/colors';
+import { Link } from 'react-router-dom';
+// import playbutton from '../resources/playbutton.svg';
+// import playbutton from 'material-ui/svg-icons/action/play_circle_filled'
+import Subheader from 'material-ui/Subheader';
+// import Slider from 'material-ui-slider-label/Slider';
+import { cyan500 } from 'material-ui/styles/colors';
 
 
 class Viewer extends Component {
@@ -50,7 +61,37 @@ class Viewer extends Component {
     return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
+<<<<<<< HEAD
 
+=======
+  timeLine = () => {
+
+  }
+  styles = {
+    subheader: {
+      textTransform: 'capitalize',
+    },
+    labelStyleOuter: {
+      width: '30px',
+      height: '30px',
+      borderRadius: '50% 50% 50% 0',
+      background: purple500,
+      position: 'absolute',
+      transform: 'rotate(-45deg)',
+      top: '-40px',
+      left: '-9px',
+    },
+    labelStyleInner: {
+      transform: 'rotate(45deg)',
+      color: 'white',
+      textAlign: 'center',
+      position: 'relative',
+      top: '3px',
+      right: '0px',
+      fontSize: '10px',
+    },
+  };
+>>>>>>> unfinished
   render() {
     return (
       <div className="Viewer">
@@ -63,8 +104,25 @@ class Viewer extends Component {
           </div>
           <Map onMarkerAdded={this.markerAdded} editorPage={false}/>
         </div>
-        <div className="SliderContainer"></div>
+        <div className="SliderContainer">
+          <i class="material-icons md-36 purple">play_circle_filled</i>
+          <Slider
+            defaultValue={5 / 100}
+            min={0}
+            max={1}
+            step={5 / 100}
+            value={0.5}
+            // onChange={onChange}
+            label={
+              <div style={this.styles.labelStyleOuter}>
+                <div style={this.styles.labelStyleInner}>
+                  {0.5}
+                </div>
+              </div>
+            }
+          />
       </div>
+    </div>
     );
   }
 }

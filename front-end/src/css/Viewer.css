@@ -1,3 +1,5 @@
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.purple { color: #673AB7 ; }
 .Viewer {
   display: flex;
   flex: 1;
@@ -10,9 +12,17 @@
   position: absolute;
   flex:1;
 }
+.btn {
+  background: white;
+  border: none;
+}
 
 
 .MapViewer {
+<<<<<<< HEAD
+=======
+  flex-basis: 100%;
+>>>>>>> unfinished
   display: flex;
   flex: 1;
   position: relative;
@@ -46,11 +56,30 @@
 .EventCard {
   margin-bottom: 0.3em;
 }
-
+.Slider {
+  margin-left: 4.5vw;
+  width: 85%;
+  margin-top: -2vh;
+}
 .SliderContainer {
+<<<<<<< HEAD
   flex: 1;
   max-height: 50px;
   background-color: #f4f7fc;
+=======
+  display: flex;
+  /*position: static;*/
+  border-top: 2px solid #F7F6F5;
+  /*border-bottom: 2px solid #B5B5B5;*/
+  flex-direction: row;
+  /*flex:1;*/
+  height: 7%;
+  /*justify-content: space-around;*/
+  /*align-items: center;*/
+  /*flex: 0.5;
+  /*max-height: 180px;*/
+  /*background-color: #f4f7fc;*/
+>>>>>>> unfinished
 }
 
 .Link {
