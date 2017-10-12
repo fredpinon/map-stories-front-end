@@ -10,7 +10,7 @@ class StoryListItem extends Component {
       <div className="ListItemDescription">
         <p>{title}</p>
         <p>{tagLine}</p>
-        <p>{editor}</p>
+        {/* <p>{editor}</p> */}
       </div>
     )
   }

@@ -1,7 +1,9 @@
 .EditorPage {
   display: flex;
   flex: 1;
-  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  z-index: 0;
 }
 
 .buttons {
@@ -22,6 +24,8 @@
   max-width: 500px;
   flex-direction: column;
   margin: 2em 0;
+  position: absolute;
+  z-index: 2;
 }
 
 .InputHeader {
@@ -47,4 +51,18 @@
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.Map {
+  display: flex;
+  position: relative;
+  flex:1;
+  z-index: 1;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  top:0;
+  bottom: 0;
 }

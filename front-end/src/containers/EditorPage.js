@@ -37,6 +37,10 @@ class EditorPage extends Component {
     this.props.editstory(event);
   }
 
+  markerAdded = (coordinates) => {
+    console.log('from editorpage', coordinates);
+  }
+
   render () {
     return (
       <div className="EditorPage">
@@ -45,6 +49,7 @@ class EditorPage extends Component {
           onEventSave={this.onEventSave}
           onEventDelete={this.onEventDelete}
         />
+        <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
   }
