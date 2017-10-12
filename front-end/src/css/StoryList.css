@@ -14,7 +14,6 @@
 
 .ListItemDescription{
   display: flex;
-  flex-direction: row;
 }
 
 .Paper {
@@ -24,10 +23,15 @@
 
 .ButtonsRender {
   display: flex;
-  right: 0;
-  position: absolute;
+}
+
+.Buttons {
+  display: flex;
+  align-self: center;
 }
 
 .ListItemPaper {
   display: flex;
+  flex: 1 1;
+  justify-content: space-between;
 }
