@@ -73,21 +73,13 @@ class EventCard extends Component {
   renderTweets = (attachment, i, style) => {
     let tweetID = attachment.tweetURL.split('/');
     tweetID = tweetID.pop();
-    const children = (
-      <div>
-        <CardText>{attachment.description}</CardText>
-        <TweetEmbed id={tweetID} />
-      </div>
-    );
+    const children = <TweetEmbed id={tweetID} />;
     return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
   }
 
   renderAttachments = () => {
     if (!this.props.data.attachments) return null;
-    const style = {
-      borderBottom: '1px solid #cccecf',
-      maxWidth: '100%',
-    }
+    const style = { maxWidth: '100%' };
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
       if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>;
