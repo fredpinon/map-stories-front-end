@@ -1,5 +1,52 @@
 .EditorPage {
   display: flex;
+  flex: 1;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-left: 3em;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.EventInfoContainer {
+  display: flex;
+  flex-basis: 25%;
+  flex-direction: column;
+  margin: 2em 0;
+}
+
+.InputHeader {
+  max-width: 550px;
+  height: 65px;
+  margin-left: 2em;
+  padding-left: 2em;
+  padding-top: 2em;
+  background-color: #fafafa;
+}
+
+.InputInfo {
+  flex-basis: 100%;
+  padding: 2em;
+  margin-left: 2em;
+  textAlign: center;
+  overflow: scroll;
+};
+
+.AddAttachment {
+  margin-top: 2em;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+.EditorPage {
+  display: flex;
   flex:1;
   height: 100vh;
   position: relative;
@@ -27,3 +74,4 @@
   padding-left: 50px;
 
 }
+
