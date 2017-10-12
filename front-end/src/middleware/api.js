@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 
-const callApi = (endpoint, schema, method='GET', accessToken) => {
+const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
 
   const headers = {}
@@ -10,7 +10,8 @@ const callApi = (endpoint, schema, method='GET', accessToken) => {
 
   return fetch(fullUrl, {
     method,
-    headers
+    headers,
+    body
   })
     .then(response => response.json())
     .then(data => {
@@ -38,6 +39,9 @@ export default store => next => action => {
 
   const { endpoint, schema, types, method } = callAPI;
 
+  let data;
+  if (callAPI.data) data = callAPI.data;
+
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
   if (!schema) throw new Error('Specify one of the exported Schemas.');
@@ -61,7 +65,7 @@ export default store => next => action => {
     accessToken = store.getState().authentication.token;
   }
 
-  return callApi(endpoint, schema, method, accessToken)
+  return callApi(endpoint, schema, method, data, accessToken)
     .then(response => store.dispatch(actionWith({
         type: successType,
         response

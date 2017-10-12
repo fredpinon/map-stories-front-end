@@ -11,6 +11,17 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 class EventInfo extends Component {
+  constructor () {
+    super()
+    this.event = {
+      startTime: '',
+      title: '',
+      dateTime: '',
+      location: '',
+      attachments: []
+
+    }
+  }
 
   state = {
     attachments: []
@@ -33,11 +44,13 @@ class EventInfo extends Component {
         type: ''
       }])
     })
+    console.log(this.event.title.input.value);
   }
 
   render() {
-
     const attachments = this.state.attachments.map((el, index) => {
+    let attachmentType = '';
+    let attachmentInfo = '';
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
@@ -45,15 +58,28 @@ class EventInfo extends Component {
           value={el.type}
           onChange={(event, i, value) => this.selectType(index, value)}
           placeholder='Select a type'
-          fullWidth={true}>
+          fullWidth={true}
+          ref={input => attachmentType = input}>
             <MenuItem value={''} primaryText="" />
             <MenuItem value={'text'} primaryText="Text" />
-            <MenuItem value={'image'} primaryText="Image URL" />
-            <MenuItem value={'video'} primaryText="Video URL" />
-            <MenuItem value={'audio'} primaryText="Audio URL" />
+            <MenuItem value={'link'} primaryText="Link" />
+            <MenuItem value={'image'} primaryText="Image" />
+            <MenuItem value={'video'} primaryText="Video" />
+            <MenuItem value={'audio'} primaryText="Audio" />
+            <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          <TextField hintText="Add text, URL or upload file" floatingLabelText="Add..." fullWidth={true}/>
+          <TextField
+          hintText="Add text, URL or upload file"
+          floatingLabelText="Add..."
+          fullWidth={true}
+          ref={input => attachmentInfo = input}
+          />
+          <Divider style={{
+            width: '112%',
+            marginLeft: -30,
+            marginTop: 60,
+          }} />
         </div>
       )
     })
@@ -68,10 +94,10 @@ class EventInfo extends Component {
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true}/><br />
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true}/><br />
+          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.event.startTime = input}/><br />
+          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.event.title = input}/><br />
+          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.event.dateTime = input}/><br />
+          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.event.location = input}/><br />
           <Divider style={{
             width: '112%',
             marginLeft: -30,
@@ -86,5 +112,4 @@ class EventInfo extends Component {
 }
 
 export default EventInfo;
-
 

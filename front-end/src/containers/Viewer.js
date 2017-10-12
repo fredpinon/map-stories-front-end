@@ -7,6 +7,7 @@ import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
 
+
 class Viewer extends Component {
 
   componentWillMount() {
@@ -49,11 +50,11 @@ class Viewer extends Component {
     return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
+
   render() {
     return (
       <div className="Viewer">
         <div className="MapViewer">
-
           <div className="EventsContainer">
             {this.renderTitles()}
             { this.renderEvents() }

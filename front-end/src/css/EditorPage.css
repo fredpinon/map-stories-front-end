@@ -14,7 +14,7 @@
 
 .EventInfoContainer {
   display: flex;
-  flex-basis: 25%;
+  flex-basis: 30%;
   flex-direction: column;
   margin: 2em 0;
 }
@@ -43,7 +43,6 @@
 ::-webkit-scrollbar {
   display: none;
 }
-
 
 .EditorPage {
   display: flex;
