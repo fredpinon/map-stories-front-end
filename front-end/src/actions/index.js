@@ -7,7 +7,7 @@ export const CREATE_STORY_FAILURE = 'CREATE_STORY_FAILURE';
 export const createStory = (data) => ({
   [CALL_API]: {
     types: [ CREATE_STORY_REQUEST, CREATE_STORY_SUCCESS, CREATE_STORY_FAILURE ],
-    endpoint: '/me/createstory',
+    endpoint: '/stories',
     schema: Schemas.STORY,
     method: 'POST',
     data: data,
@@ -21,7 +21,7 @@ export const EDIT_STORY_FAILURE = 'EDIT_STORY_FAILURE';
 export const editStory = (data) => ({
   [CALL_API]: {
     types: [ EDIT_STORY_REQUEST, EDIT_STORY_SUCCESS, EDIT_STORY_FAILURE ],
-    endpoint: '/me/editstory',
+    endpoint: '/stories/story/:storyid',
     schema: Schemas.STORY,
     method: 'POST',
     data: data,
