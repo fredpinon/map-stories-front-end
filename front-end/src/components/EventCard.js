@@ -62,6 +62,9 @@ class EventCard extends Component {
 
   render() {
     const { title } = this.props.data;
+    const titleStyle = {
+      fontStyle: 'italic',
+    };
     return (
       <Card
         className="EventCard"
@@ -74,6 +77,8 @@ class EventCard extends Component {
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
+          titleColor='rgba(0, 0, 0, 0.54)'
+          style={titleStyle}
           title={title}
         />
         {this.renderAttachments()}
