@@ -37,7 +37,7 @@ class Main extends Component {
           />
           <PrivateRoute
             token={this.props.token}
-            path="/me/editstory"
+            path="/me/editstory/:storyId"
             component={EditorPage}
           />
           <Route

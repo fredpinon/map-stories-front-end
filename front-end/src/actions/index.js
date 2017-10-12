@@ -18,12 +18,12 @@ export const EDIT_STORY_REQUEST = 'EDIT_STORY_REQUEST';
 export const EDIT_STORY_SUCCESS = 'EDIT_STORY_SUCCESS';
 export const EDIT_STORY_FAILURE = 'EDIT_STORY_FAILURE';
 
-export const editStory = (data) => ({
+export const editStory = (data, storyId) => ({
   [CALL_API]: {
     types: [ EDIT_STORY_REQUEST, EDIT_STORY_SUCCESS, EDIT_STORY_FAILURE ],
-    endpoint: '/stories/story/:storyid',
+    endpoint: `/stories/story/${storyId}`
     schema: Schemas.STORY,
-    method: 'POST',
+    method: 'PUT',
     data: data,
   }
 })

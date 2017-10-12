@@ -1,20 +1,25 @@
 .EditorPage {
   display: flex;
   flex: 1;
+  flex-direction: column;
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
-  width: 30%;
-  margin-left: 3em;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
+  flex: 1;
+  align-items: flex-end;
+  margin-bottom: 3em;
+}
+
+.buttons > * {
+  margin-right: 2em;
 }
 
 .EventInfoContainer {
   display: flex;
-  flex-basis: 30%;
+  max-width: 500px;
   flex-direction: column;
   margin: 2em 0;
 }

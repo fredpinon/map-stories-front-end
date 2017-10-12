@@ -1,40 +1,62 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { createStory } from '../actions';
+import { editStory } from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Map from '../components/Map';
-import EventInfo from '../components/EventInfo';
+import EventInfo from './EventInfo';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class EditorPage extends Component {
+  state = {
+    currentEvent: {}
+  }
+
+  constructor (props) {
+    super(props);
+    console.log('props in editor page', props);
+    if(props.story.events.length > 0) {
+      this.state.currentEvent = props.story.events[props.story.events.length-1]
+    }
+  }
 
   saveStory = () => {
-    this.props.createStory();
+    this.props.editStory();
+  }
+
+  onEventUpdate = (event) => {
+
+  }
+
+  onEventDelete = (event) => {
+
+  }
+
+  onEventSave = (event) => {
+    console.log('in onEventSave',event);
   }
 
   render () {
     return (
       <div className="EditorPage">
-        <EventInfo/>
-        <div className="buttons">
-          <RaisedButton label="Next Event" primary={true} onClick={this.saveStory}/>
-          <Link to={'/me/stories'}>
-            <RaisedButton label="Publish Story" primary={true} onClick={this.saveStory}/>
-          </Link>
-      </div>
+        <EventInfo
+          event={this.state.currentEvent}
+          onEventSave={this.onEventSave}
+          onEventDelete={this.onEventDelete}
+          sendInfo={this.fetchEventInfo}
+        />
       </div>
     )
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   story: state.entities.story,
-// });
-
-const mapDispatchToProps = (dispatch) => ({
-  createStory: (data) => dispatch(createStory(data))
+const mapStateToProps = (state, ownProps) => ({
+  story: state.entities.stories[ownProps.computedMatch.params.storyId],
 });
 
-export default connect(mapDispatchToProps)(EditorPage);
+const mapDispatchToProps = (dispatch) => ({
+  editStory: (data) => dispatch(editStory(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditorPage);
