@@ -104,17 +104,18 @@ class StoryListItem extends Component {
   }
 
   renderButtons = () => {
-    return (
-      <div className='ButtonsRender'>
-        {this.renderDeleteButton()}
-        {this.renderPublishButton()}
-      </div>
-    )
+    if (window.location.href.match('me/stories') !== null) {
+      return (
+        <div className='ButtonsRender'>
+          {this.renderDeleteButton()}
+          {this.renderPublishButton()}
+        </div>
+      )
+    }
   }
 
   renderStoryAssets = () => {
     const { title, tagLine, editor } = this.props.story;
-
     return (
       <div className="ListItemPaper">
         <div className="ListItemDescription">
