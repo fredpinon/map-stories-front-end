@@ -59,3 +59,7 @@
 .LinkChildren img {
   max-width: 25%;
 }
+
+.Video {
+  margin-top: 0.5em;
+}

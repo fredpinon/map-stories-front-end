@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
+import TweetEmbed from 'react-tweet-embed';
+import ReactPlayer from 'react-player';
 
 class EventCard extends Component {
 
@@ -24,18 +26,33 @@ class EventCard extends Component {
     return <CardText className="Link" key={i} expandable={true} children={children}></CardText>;
   }
 
+  renderVideos = (attachment, i) => {
+    const children = <ReactPlayer className="Video" url={attachment.videoURL}/>;
+    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
+  }
+
+  renderImages = (attachment, i) => (
+    <CardMedia key={i} expandable={true}>
+      <img src={attachment.imageURL} alt={i}/>
+    </CardMedia>
+  )
+
+  renderTweets = (attachment, i) => {
+    let tweetID = attachment.tweetURL.split('/');
+    tweetID = tweetID.pop();
+    const children = <TweetEmbed id={tweetID} />;
+    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
+  }
+
   renderAttachments = () => {
-    const style = { maxWidth: '100%' };
     if (!this.props.data.attachments) return null;
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
-      if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>
-      if (attachment.type === 'img') return (
-        <CardMedia key={i} expandable={true}>
-          <img src={attachment.imageURL} alt={i}/>
-        </CardMedia>
-      );
-      if (attachment.type === 'link') return this.renderLinks(attachment, i);
+      if (attachment.type === 'Text') return <CardText key={i} expandable={true}>{attachment.text}</CardText>;
+      if (attachment.type === 'Image') return this.renderImages(attachment, i);
+      if (attachment.type === 'Link') return this.renderLinks(attachment, i);
+      if (attachment.type === 'Video') return this.renderVideos(attachment, i);
+      if (attachment.type === 'Tweet') return this.renderTweets(attachment, i);
       else return null;
     });
   }
