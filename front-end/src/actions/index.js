@@ -40,7 +40,6 @@ export const fetchStoriesHomePage = () => ({
   }
 })
 
-
 export const STORIES_USER_REQUEST = 'STORIES_USER_REQUEST';
 export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
 export const STORIES_USER_FAILURE = 'STORIES_USER_FAILURE';
@@ -53,7 +52,6 @@ export const fetchStoriesUserPage = () => ({
   }
 })
 
-
 export const STORY_REQUEST = 'STORY_REQUEST';
 export const STORY_SUCCESS = 'STORY_SUCCESS';
 export const STORY_FAILURE = 'STORY_FAILURE';
@@ -65,7 +63,6 @@ export const fetchSingleStory = (storyId) => ({
     schema: Schemas.STORY
   }
 })
-
 
 export const storeCredentials = (userCredentials) => ({
   type: 'USER_CREDENTIALS',
