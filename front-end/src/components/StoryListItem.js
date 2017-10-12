@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -40,6 +40,7 @@ class StoryListItem extends Component {
         label="Delete"
         primary={true}
         onClick={this.closeDeleteDialog}
+     // onClick={this.deleteStory} //function
         rippleColor="purple"
       />,
     ];
@@ -79,6 +80,7 @@ class StoryListItem extends Component {
         label="Publish"
         primary={true}
         onClick={this.closePublishDialog}
+        // onClick={this.publishStory} //function
         rippleColor="purple"
       />,
     ];
@@ -146,4 +148,13 @@ class StoryListItem extends Component {
 }
 
 
-export default StoryListItem;
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  // publishStory: () => dispatch(publishStory())
+  // deleteStory: () => dispatch(deleteStory())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);
