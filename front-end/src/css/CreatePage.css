@@ -1,0 +1,6 @@
+.CreatePage {
+  /*flex: 1;*/
+  margin-top: 2em;
+  flex-direction: column;
+  justify-content: center;
+}
