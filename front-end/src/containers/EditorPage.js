@@ -34,7 +34,7 @@ class EditorPage extends Component {
   }
 
   onEventSave = (event) => {
-    console.log('in onEventSave',event);
+    this.props.editstory(event);
   }
 
   render () {
@@ -44,7 +44,6 @@ class EditorPage extends Component {
           event={this.state.currentEvent}
           onEventSave={this.onEventSave}
           onEventDelete={this.onEventDelete}
-          sendInfo={this.fetchEventInfo}
         />
       </div>
     )
