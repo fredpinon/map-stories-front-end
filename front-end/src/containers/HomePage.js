@@ -29,6 +29,12 @@ class HomePage extends Component {
   }
 
   render() {
+    const publishedStories = Object.keys(this.props.stories)
+    .filter(key => this.props.stories[key].published)
+    .reduce((accum, el) => {
+      accum[el] = this.props.stories[el]
+      return accum;
+    },{});
     return (
       <div className="HomePage">
         {this.renderSearch()}

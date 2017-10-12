@@ -3,7 +3,10 @@ import '../css/UserPage.css';
 
 import { connect } from 'react-redux';
 import { fetchStoriesUserPage } from '../actions';
+import { Link } from 'react-router-dom';
 
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import StoryList from '../components/StoryList';
 
 class UserPage extends Component {
@@ -13,6 +16,9 @@ class UserPage extends Component {
   }
 
   render() {
+    const style = {
+      margin: 20,
+    }
     const ownStories = Object.keys(this.props.stories)
     .filter(key => this.props.stories[key].editor === 'E-A')
     .reduce((accum, el) => {
@@ -21,6 +27,11 @@ class UserPage extends Component {
     },{});
     return (
       <div className="UserPage">
+      <Link to={'/me/createstory'}>
+          <FloatingActionButton className="AddStoryButton" style={style}>
+            <ContentAdd />
+          </FloatingActionButton>
+        </Link>
         <StoryList stories={ownStories}/>
       </div>
     );

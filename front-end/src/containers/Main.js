@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 
 import HomePage from './HomePage';
 import Viewer from './Viewer';
-import NoMatch from '../components/NoMatch';
 import UserPage from './UserPage';
+import EditorPage from './EditorPage';
+import CreatePage from './CreatePage';
+import NoMatch from '../components/NoMatch';
 import PrivateRoute from '../components/PrivateRoute';
 
 class Main extends Component {
@@ -27,6 +29,16 @@ class Main extends Component {
             token={this.props.token}
             path="/me/stories"
             component={UserPage}
+          />
+          <PrivateRoute
+            token={this.props.token}
+            path="/me/createstory"
+            component={CreatePage}
+          />
+          <PrivateRoute
+            token={this.props.token}
+            path="/me/editstory"
+            component={EditorPage}
           />
           <Route
             component={NoMatch}
