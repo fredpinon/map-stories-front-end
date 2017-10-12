@@ -12,9 +12,15 @@ class HomePage extends Component {
   }
 
   render() {
+    const publishedStories = Object.keys(this.props.stories)
+    .filter(key => this.props.stories[key].published === true)
+    .reduce((accum, el) => {
+      accum[el] = this.props.stories[el]
+      return accum;
+    },{});
     return (
       <div className="HomePage">
-        <StoryList stories={this.props.stories}/>
+        <StoryList stories={publishedStories}/>
       </div>
     );
   }
