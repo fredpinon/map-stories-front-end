@@ -16,7 +16,7 @@ class EventCard extends Component {
 
   handleExpandChange = expanded => this.setState({expanded: expanded});
 
-  renderLinks = (attachment, i, style) => {
+  renderLinks = (attachment, i) => {
     const childrenWithDesc = (
       <div className="LinkChildrenWithDesc">
         <p>{attachment.description}</p>
@@ -29,11 +29,11 @@ class EventCard extends Component {
     const childrenNoDesc = (
       <div className="LinkChildren">
         <a href={attachment.link}>{attachment.title}</a>
-        <img style={style.linkImage} src={attachment.imageURL} alt={i}/>
+        <img src={attachment.imageURL} alt={i}/>
       </div>
     )
     return (
-      <CardMedia key={i} expandable={true} style={style}>
+      <CardMedia key={i} expandable={true}>
         {attachment.description ? (
             <CardText
               className="Link"
@@ -54,38 +54,33 @@ class EventCard extends Component {
     )
   }
 
-  renderVideos = (attachment, i, style) => {
+  renderVideos = (attachment, i) => {
     const children = <ReactPlayer className="Video" url={attachment.videoURL}/>;
-    return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
+    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
   }
 
-  renderImages = (attachment, i, style) => (
-    <CardMedia key={i} expandable={true} style={style}>
+  renderImages = (attachment, i) => (
+    <CardMedia key={i} expandable={true}>
       <img src={attachment.imageURL} alt={i}/>
     </CardMedia>
   )
 
-  renderTweets = (attachment, i, style) => {
+  renderTweets = (attachment, i) => {
     let tweetID = attachment.tweetURL.split('/');
     tweetID = tweetID.pop();
     const children = <TweetEmbed id={tweetID} />;
-    return <CardMedia key={i} expandable={true} style={style} children={children}></CardMedia>;
+    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
   }
 
   renderAttachments = () => {
-<<<<<<< HEAD
-    const style = { maxWidth: '100%' };
-=======
->>>>>>> feat/showTweetAttachments
     if (!this.props.data.attachments) return null;
-    const style = { maxWidth: '100%' };
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
-      if (attachment.type === 'text') return <CardText style={style} key={i} expandable={true}>{attachment.text}</CardText>;
-      if (attachment.type === 'img') return this.renderImages(attachment, i, style);
-      if (attachment.type === 'link') return this.renderLinks(attachment, i, style);
-      if (attachment.type === 'video') return this.renderVideos(attachment, i, style);
-      if (attachment.type === 'tweet') return this.renderTweets(attachment, i, style);
+      if (attachment.type === 'text') return <CardText key={i} expandable={true}>{attachment.text}</CardText>;
+      if (attachment.type === 'img') return this.renderImages(attachment, i);
+      if (attachment.type === 'link') return this.renderLinks(attachment, i);
+      if (attachment.type === 'video') return this.renderVideos(attachment, i);
+      if (attachment.type === 'tweet') return this.renderTweets(attachment, i);
       else return null;
     });
   }
