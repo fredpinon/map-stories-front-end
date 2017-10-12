@@ -11,22 +11,89 @@ class StoryListItem extends Component {
     openPublish: false
   };
 
-  handleOpenPublish = () => {
+
+  openPublishDialog = () => {
     this.setState({openPublish: true});
   };
 
-  handleClosePublish = () => {
+  closePublishDialog = () => {
     this.setState({openPublish: false});
   };
 
-  handleOpenDelete = () => {
+  openDeleteDialog = () => {
     this.setState({openDelete: true});
   };
 
-  handleCloseDelete = () => {
+  closeDeleteDialog = () => {
     this.setState({openDelete: false});
   };
 
+  renderDeleteButton = () => {
+    const actionsDelete = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.closeDeleteDialog}
+      />,
+      <FlatButton
+        label="Delete"
+        primary={true}
+        onClick={this.closeDeleteDialog}
+      />,
+    ];
+    return (
+      <div>
+        <FlatButton
+          label='DELETE'
+          onClick={(e) => {
+            e.preventDefault();
+            this.setState({openDelete: true});;
+          }}
+          >
+          <Dialog
+            title="Are you sure you want to delete?"
+            actions={actionsDelete}
+            modal={true}
+            open={this.state.openDelete}
+          >
+            Story cannot be restored later
+          </Dialog>
+        </FlatButton>
+      </div>
+    )
+  }
+
+  renderPublishButton = () => {
+    const actionsPublish = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.closePublishDialog}
+      />,
+      <FlatButton
+        label="Publish"
+        primary={true}
+        onClick={this.closePublishDialog}
+      />,
+    ];
+    return (
+      <FlatButton
+        label='PUBLISH'
+        onClick={(e) => {
+          e.preventDefault();
+          this.setState({openPublish: true});;
+        }}
+        >
+        <Dialog
+          title="Are you sure you want to publish?"
+          actions={actionsPublish}
+          modal={true}
+          open={this.state.openPublish}
+        >
+        </Dialog>
+      </FlatButton>
+    )
+  }
 
   renderStoryAssets = () => {
     const { title, tagLine, editor } = this.props.story;
@@ -41,30 +108,6 @@ class StoryListItem extends Component {
   }
 
   render() {
-    const actionsDelete = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleCloseDelete}
-      />,
-      <FlatButton
-        label="Delete"
-        primary={true}
-        onClick={this.handleCloseDelete}
-      />,
-    ];
-    const actionsPublish = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleClosePublish}
-      />,
-      <FlatButton
-        label="Publish"
-        primary={true}
-        onClick={this.handleClosePublish}
-      />,
-    ];
 
     const style = {
       height: 80,
@@ -75,37 +118,8 @@ class StoryListItem extends Component {
       <div className="StoryListItem">
         <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
         <div className='Buttons'>
-          <RaisedButton
-            label='DELETE'
-            onClick={(e) => {
-              e.preventDefault();
-              this.setState({openDelete: true});;
-            }}
-          >
-            <Dialog
-           title="Are you sure you want to delete?"
-           actions={actionsDelete}
-           modal={true}
-           open={this.state.openDelete}
-            >
-            Story cannot be restored later
-            </Dialog>
-          </RaisedButton>
-          <RaisedButton
-            label='PUBLISH'
-            onClick={(e) => {
-              e.preventDefault();
-              this.setState({openPublish: true});;
-            }}
-          >
-            <Dialog
-           title="Are you sure you want to publish?"
-           actions={actionsPublish}
-           modal={true}
-           open={this.state.openPublish}
-            >
-            </Dialog>
-          </RaisedButton>
+          {this.renderDeleteButton()}
+          {this.renderPublishButton()}
         </div>
       </div>
     );
