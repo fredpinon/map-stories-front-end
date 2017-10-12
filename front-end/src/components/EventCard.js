@@ -14,49 +14,18 @@ class EventCard extends Component {
 
   handleExpandChange = expanded => this.setState({expanded: expanded});
 
-  renderLinks = (attachment, i, style) => {
-    const childrenWithDesc = (
-      <div className="LinkChildrenWithDesc">
-        <p>{attachment.description}</p>
-        <div className="LinkChildren">
-          <a href={attachment.link}>{attachment.title}</a>
-          <img src={attachment.imageURL} alt={i}/>
-        </div>
-      </div>
-    )
-    const childrenNoDesc = (
+  renderLinks = (attachment, i) => {
+    const children = (
       <div className="LinkChildren">
         <a href={attachment.link}>{attachment.title}</a>
-        <img style={style.linkImage} src={attachment.imageURL} alt={i}/>
+        <img src={attachment.imageURL} alt={i}/>
       </div>
-    )
-    return (
-      <CardMedia key={i} expandable={true} style={style}>
-        {attachment.description ? (
-            <CardText
-              className="Link"
-              key={i}
-              expandable={true}
-              children={childrenWithDesc}>
-            </CardText>
-          ) : (
-            <CardText
-              className="Link"
-              key={i}
-              expandable={true}
-              children={childrenNoDesc}>
-            </CardText>
-          )
-        }
-      </CardMedia>
-    )
+    );
+    return <CardText className="Link" key={i} expandable={true} children={children}></CardText>;
   }
 
   renderAttachments = () => {
-    const style = {
-      borderBottom: '1px solid #cccecf',
-      maxWidth: '100%',
-    }
+    const style = { maxWidth: '100%' };
     if (!this.props.data.attachments) return null;
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
@@ -65,8 +34,8 @@ class EventCard extends Component {
         <CardMedia key={i} expandable={true}>
           <img src={attachment.imageURL} alt={i}/>
         </CardMedia>
-      )
-      if (attachment.type === 'link') return this.renderLinks(attachment, i, style);
+      );
+      if (attachment.type === 'link') return this.renderLinks(attachment, i);
       else return null;
     });
   }
