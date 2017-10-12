@@ -13,17 +13,16 @@ class EditorPage extends Component {
   saveStory = () => {
     this.props.createStory();
   }
+  
+  markerAdded = (coordinates) => {
+    console.log('from editorpage', coordinates);
+  }
 
   render () {
     return (
       <div className="EditorPage">
         <EventInfo/>
-        <div className="buttons">
-          <RaisedButton label="Next Event" primary={true} onClick={this.saveStory}/>
-          <Link to={'/me/stories'}>
-            <RaisedButton label="Publish Story" primary={true} onClick={this.saveStory}/>
-          </Link>
-      </div>
+        <Map onMarkerAdded={this.markerAdded}/>
       </div>
     )
   }

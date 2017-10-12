@@ -11,7 +11,16 @@ class HomePage extends Component {
     this.props.loadStories();
   }
 
+
+
+
   render() {
+    const publishedStories = Object.keys(this.props.stories)
+    .filter(key => this.props.stories[key].published)
+    .reduce((accum, el) => {
+      accum[el] = this.props.stories[el]
+      return accum;
+    },{});
     return (
       <div className="HomePage">
         <StoryList stories={this.props.stories}/>

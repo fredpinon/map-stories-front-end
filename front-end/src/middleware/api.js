@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 
-const callApi = (endpoint, schema, method='GET', data=undefined, accessToken) => {
+const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
 
   const headers = {}
@@ -11,7 +11,7 @@ const callApi = (endpoint, schema, method='GET', data=undefined, accessToken) =>
   return fetch(fullUrl, {
     method,
     headers,
-    body: data
+    body
   })
     .then(response => response.json())
     .then(data => {

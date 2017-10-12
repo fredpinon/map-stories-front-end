@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import '../css/EditorPage.css';
 
 import Paper from 'material-ui/Paper';
@@ -111,3 +112,4 @@ class EventInfo extends Component {
 }
 
 export default EventInfo;
+
