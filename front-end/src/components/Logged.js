@@ -15,6 +15,7 @@ class Logged extends Component {
     return (
       <div className="Logged">
       <IconMenu
+        iconStyle={{fill: 'white'}}
         iconButtonElement={
           <IconButton><MoreVertIcon/></IconButton>
         }
