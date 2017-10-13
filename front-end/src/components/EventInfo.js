@@ -122,7 +122,9 @@ class EventInfo extends Component {
       return alert('Please choose a file to upload first.');
     }
     const file = files[0];
-    const fileName = uuid();
+    const fileNameComponents = file.name.split('.');
+    const fileFormat = fileNameComponents[fileNameComponents.length-1];
+    const fileName = uuid() + '.' + fileFormat;
     const albumFileKey = 'event-file/';
     const fileKey = albumFileKey + fileName;
     s3.upload({
