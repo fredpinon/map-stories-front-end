@@ -55,14 +55,10 @@ class Viewer extends Component {
     return (
       <div className="Viewer">
         <div className="MapViewer">
-          <div style={{
-            position: 'absolute',
-            height: '100%',
-            overflowY: 'scroll'
-          }}>
+          <div className="EventsContainerWrapper">
           <div className="EventsContainer">
             {this.renderTitles()}
-            { this.renderEvents() }
+            {this.renderEvents()}
           </div>
           </div>
           <Map onMarkerAdded={this.markerAdded}/>

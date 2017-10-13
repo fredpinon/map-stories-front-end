@@ -28,6 +28,12 @@
   display: none;
 }
 
+.EventsContainerWrapper {
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .EventsContainer {
   display: flex;
   max-width: 400px;
