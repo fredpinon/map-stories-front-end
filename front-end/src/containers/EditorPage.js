@@ -13,7 +13,7 @@ class EditorPage extends Component {
   saveStory = () => {
     this.props.createStory();
   }
-  
+
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
@@ -22,7 +22,7 @@ class EditorPage extends Component {
     return (
       <div className="EditorPage">
         <EventInfo/>
-        <Map onMarkerAdded={this.markerAdded}/>
+        <Map onMarkerAdded={this.markerAdded} editorPage={true}/>
       </div>
     )
   }

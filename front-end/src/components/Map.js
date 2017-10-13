@@ -21,6 +21,20 @@ class Map extends Component {
     }
   }
 
+  mapExtras() {
+    console.log("its happening");
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken
+    });
+    this.map.addControl(geocoder, 'top-right');
+    this.map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }));
+  }
+
   componentDidMount () {
     mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWNvbGxpbnM4NSIsImEiOiJjajhnMGZwYzMwOHBxMnhxajd0aWppbWE5In0.i6PUo_ai7q6NeIWBFPtGKA';
     this.map = new mapboxgl.Map({
@@ -30,17 +44,7 @@ class Map extends Component {
       zoom: 9
     });
     this.map.doubleClickZoom.disable();
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken
-    });
-    this.map.addControl(geocoder, 'top-right');
-    this.map.addControl(new mapboxgl.GeolocateControl({
-      positionOptions: {
-          enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    }));
-
+    if (this.props.editorPage) this.mapExtras();
     this.map.on('load', (e) => {
       this.map.addSource('markers', {
         type: 'geojson',
