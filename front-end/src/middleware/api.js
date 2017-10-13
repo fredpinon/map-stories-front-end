@@ -37,10 +37,11 @@ export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
-  const { endpoint, schema, types, method } = callAPI;
+  const { endpoint, schema, types, method, onSuccess } = callAPI;
 
   let data;
-  if (callAPI.data) data = callAPI.data;
+  if (callAPI.data) data = JSON.stringify(callAPI.data);
+
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
@@ -66,10 +67,13 @@ export default store => next => action => {
   }
 
   return callApi(endpoint, schema, method, data, accessToken)
-    .then(response => store.dispatch(actionWith({
+    .then(response => {
+      store.dispatch(actionWith({
         type: successType,
         response
-      })))
+      }))
+      if (typeof onSuccess === 'function') onSuccess(response);
+    })
     .catch(error => store.dispatch(actionWith({
         type: failureType,
         error
