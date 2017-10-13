@@ -76,24 +76,37 @@ class EventInfo extends Component {
   previewInputFile = (type, index) => {
     console.log("state");
     if (this.state.attachments) {
-      console.log(this.state.attachments[index]);
-      switch (type) {
-        case 'image':
-          return (
-            <div className="previewImage">
-              <img src={this.state.attachments[index].imageUrl} />
-            </div>
-          )
-          break;
-        case 'video':
-          return (
-            <div className="previewVideo">
-              <Player
-                src={this.state.attachments[index].url}
-              />
-            </div>
-          )
-          break;
+      if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
+        console.log(this.state.attachments[index]);
+        switch (type) {
+          case 'image':
+            return (
+              <div className="previewImage">
+                <img src={this.state.attachments[index].imageUrl} />
+              </div>
+            )
+            break;
+          case 'video':
+            return (
+              <div className="previewVideo">
+                <Player
+                  id="player"
+                  poster='http://madisonlib.org/wp-content/uploads/2015/07/story-time.jpg'
+                  src={this.state.attachments[index].url}
+                />
+              </div>
+            )
+            break;
+            case 'audio':
+              return (
+                <div className="previewAudio">
+                  <audio controls autoplay>
+                      <source src={this.state.attachments[index].url}  />
+                    </ audio>
+                </div>
+              )
+              break;
+        }
       }
     }
   }
