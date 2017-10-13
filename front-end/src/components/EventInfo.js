@@ -44,13 +44,11 @@ class EventInfo extends Component {
       mapLocation: this.locationField.input.value,
       dateAndTime: this.dateTimeField.input.value,
     }
-  this.props.onEventEdit(eventInfo)
+    this.props.onEventEdit(eventInfo)
   }
 
   deleteEvent = () => {
-    const eventInfo = {
-      id: '1',
-    }
+    const eventInfo = { id: '1' };
     this.props.onEventEdit(eventInfo, 'DELETE')
   }
 
@@ -90,18 +88,12 @@ class EventInfo extends Component {
         </div>
       )
     })
-
     const style = {marginTop: 50}
-
     const style2 = {
       marginTop: 50,
       float: 'right'
     }
-
-    const headerStyle={
-      color: "grey",
-    }
-
+    const headerStyle={ color: "grey" }
     return (
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
@@ -124,6 +116,8 @@ class EventInfo extends Component {
           }} />
           <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
           <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} /> : null}
+          {this.props.showPrevious ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} /> : null}
         </Paper>
       </div>
     );

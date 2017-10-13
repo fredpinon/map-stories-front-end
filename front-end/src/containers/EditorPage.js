@@ -7,11 +7,13 @@ import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
 import EventInfo from '../components/EventInfo';
-import RaisedButton from 'material-ui/RaisedButton';
 
 class EditorPage extends Component {
+
   state = {
-    currentEvent: {}
+    currentEvent: {},
+    showPrevious: true,
+    showNext: true,
   }
 
   constructor (props) {
@@ -19,6 +21,13 @@ class EditorPage extends Component {
     if(props.story.events.length > 0) {
       this.state.currentEvent = props.story.events[props.story.events.length-1]
     }
+  }
+
+  componentWillMount () {
+    console.log(this.state.currentEvent, this.props.story.events);
+    if (this.props.story.events.length === 0) this.setState({showPrevious: false, showNext: false});
+    if (this.state.currentEvent === this.props.story.events[0]) this.setState({showPrevious: false});
+    if (this.state.currentEvent === this.props.story.events[this.props.story.events.length-1]) this.setState({showNext: false});
   }
 
   onEventEdit = (event, method=undefined) => {
@@ -41,11 +50,9 @@ class EditorPage extends Component {
           <EventInfo
             event={this.state.currentEvent}
             onEventEdit={this.onEventEdit}
+            showPrevious={this.state.showPrevious}
+            showNext={this.state.showNext}
           />
-          <div className="buttons">
-            <RaisedButton label="Prev Event" primary={true} />
-            <RaisedButton label="Next Event" primary={true} />
-          </div>
         </div>
         <Map onMarkerAdded={this.markerAdded}/>
       </div>
