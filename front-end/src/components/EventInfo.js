@@ -69,9 +69,24 @@ class EventInfo extends Component {
   }
 
   saveEvent = () => {
-  const eventInfo = {}
+    const eventInfo = {};
+    this.props.onEventSave(eventInfo);
+  }
 
-  this.props.onEventSave(eventInfo)
+  previewInputFile = (type, index) => {
+    console.log("state");
+    if (this.state.attachments) {
+      console.log(this.state.attachments[index]);
+      switch (type) {
+        case 'image':
+          return (
+            <div>
+              <img src={this.state.attachments[index].imageUrl} />
+            </div>
+          )
+          break;
+      }
+    }
   }
 
   optionalInputOrLink = (type, index) => {
@@ -109,7 +124,7 @@ class EventInfo extends Component {
                       floatingLabelText="or just paste URL"
                       fullWidth={true}
           />
-          {this.previewInputFile(type)}
+          {this.previewInputFile(type, index)}
         </div>
       )
     }
