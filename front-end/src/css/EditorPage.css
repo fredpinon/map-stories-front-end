@@ -17,10 +17,15 @@
   flex-basis: 30%;
   flex-direction: column;
   margin: 2em 0;
+  max-width: 550px;
+}
+
+.previewImage img {
+  width:100%;
+
 }
 
 .InputHeader {
-  max-width: 550px;
   height: 65px;
   margin-left: 2em;
   padding-left: 2em;
@@ -73,4 +78,3 @@
   padding-left: 50px;
 
 }
-

@@ -80,7 +80,7 @@ class EventInfo extends Component {
       switch (type) {
         case 'image':
           return (
-            <div>
+            <div className="previewImage">
               <img src={this.state.attachments[index].imageUrl} />
             </div>
           )
