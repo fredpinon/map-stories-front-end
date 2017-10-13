@@ -15,7 +15,6 @@ const _ = require('underscore');
 
 class NavBar extends Component {
 
-
   handleLogin = (response) => {
     const userCredentials = {
       token: response.accessToken,
@@ -30,7 +29,6 @@ class NavBar extends Component {
   handleSignOut = () => {
     this.props.logOut();
   }
-
 
   handleSearching = e => {
     this.search(e.target.value);
@@ -48,7 +46,6 @@ class NavBar extends Component {
       <TextField
         className="Search"
         hintText="search..."
-        // value = {this.state.searchTerm}
         onChange= {this.handleSearching}
       />
     )
