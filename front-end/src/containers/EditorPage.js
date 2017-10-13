@@ -22,7 +22,7 @@ class EditorPage extends Component {
     return (
       <div className="EditorPage">
         <EventInfo/>
-        <Map onMarkerAdded={this.markerAdded} editorPage={true}/>
+        <Map onMarkerAdded={this.markerAdded} editorPage />
       </div>
     )
   }
