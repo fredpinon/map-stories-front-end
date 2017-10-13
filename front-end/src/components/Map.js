@@ -22,7 +22,6 @@ class Map extends Component {
   }
 
   mapExtras() {
-    console.log("its happening");
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken
     });
