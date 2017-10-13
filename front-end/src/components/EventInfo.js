@@ -48,24 +48,24 @@ class EventInfo extends Component {
     attachments: []
   };
 
-  selectType = (index, value) => {
+
+  changeAttachmentProperty = (index, key, value) => {
     const attachments = this.state.attachments.slice();
     attachments.splice(index, 1, {
       ...this.state.attachments[index],
-      type: value
+      [key]: value,
     });
     this.setState({
       attachments
     });
   }
 
-  addAttachment = () => {
+  addAttachment = (url) => {
     this.setState({
       attachments: this.state.attachments.concat([{
-        type: ''
+        type: '',
       }])
     })
-    console.log(this.event.title.input.value);
   }
 
   saveEvent = () => {
@@ -74,7 +74,7 @@ class EventInfo extends Component {
   this.props.onEventSave(eventInfo)
   }
 
-  optionalInputOrLink = (type) => {
+  optionalInputOrLink = (type, index) => {
     const styles = {
       inputForm: {
         cursor: 'pointer',
@@ -87,6 +87,7 @@ class EventInfo extends Component {
         opacity: 0,
       },
     };
+
     if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
@@ -101,21 +102,20 @@ class EventInfo extends Component {
               type="file"
               ref={type}
               style={styles.inputForm}
-              onChange={this.handleAWSPath}
+              onChange={(e) => this.handleAWSPath(e, index, type)}
             />
           </RaisedButton>
           <TextField  hintText="url"
                       floatingLabelText="or just paste URL"
                       fullWidth={true}
           />
+          {this.previewInputFile(type)}
         </div>
       )
     }
   }
 
-  handleAWSPath = (event) => {
-    console.log("its happening");
-    console.log(event.target.files);
+  handleAWSPath = (event, index, type) => {
     let location;
     const files = event.target.files;
     if (!files.length) {
@@ -136,6 +136,7 @@ class EventInfo extends Component {
         return console.error('There was an error uploading your file: ', err.message);
       }
       console.log('Successfully uploaded file.', data.Location, this.state);
+      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
     });
   }
 
@@ -148,7 +149,7 @@ class EventInfo extends Component {
           <SelectField
           floatingLabelText="Attachment"
           value={el.type}
-          onChange={(event, i, value) => this.selectType(index, value)}
+          onChange={(event, i, value) => this.changeAttachmentProperty(index, 'type', value)}
           placeholder='Select a type'
           fullWidth={true}
           ref={input => attachmentType = input}>
@@ -161,7 +162,7 @@ class EventInfo extends Component {
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          {this.optionalInputOrLink(el.type)}
+          {this.optionalInputOrLink(el.type, index)}
           <Divider style={{
             width: '112%',
             marginLeft: -30,
