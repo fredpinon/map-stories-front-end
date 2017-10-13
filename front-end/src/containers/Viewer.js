@@ -57,9 +57,9 @@ class Viewer extends Component {
         <div className="MapViewer">
           <div className="EventsContainer">
             {this.renderTitles()}
-            { this.renderEvents() }
+            {this.renderEvents()}
           </div>
-          <Map onMarkerAdded={this.markerAdded}/>
+          <Map onMarkerAdded={this.markerAdded} editorPage={false}/>
         </div>
         <div className="SliderContainer"></div>
       </div>
