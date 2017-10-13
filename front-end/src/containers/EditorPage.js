@@ -42,11 +42,7 @@ class EditorPage extends Component {
   render () {
     return (
       <div className="EditorPage">
-        <div style={{
-          position: 'absolute',
-          height: '100%',
-          overflowY: 'scroll'
-        }}>
+        <div className="EventInfoDiv">
           <EventInfo
             event={this.state.currentEvent}
             onEventEdit={this.onEventEdit}
