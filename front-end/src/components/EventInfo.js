@@ -53,21 +53,69 @@ class EventInfo extends Component {
   this.props.onEventSave(eventInfo)
   }
 
-  optionsImage = (type) => {
+  optionalInputOrLink = (type) => {
+    const styles = {
+      button: {
+        margin: 12,
+      },
+      inputForm: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+    };
     switch (type) {
       case 'image':
       return (
-        <FlatButton label="Choose an Image"/>
+        <div>
+          <FlatButton label="Choose an Image" style={styles.button}>
+            <input
+              id="files"
+              type="file"
+              ref="image"
+              style={styles.inputForm}
+              onChange={this.handlePath}
+            />
+          </FlatButton>
+          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
+        </div>
       );
       break;
       case 'video':
       return (
-        <FlatButton label="Choose a Video"/>
+        <div>
+          <FlatButton label="Choose a Video" style={styles.button}>
+            <input
+              id="files"
+              type="file"
+              ref="image"
+              style={styles.inputForm}
+              onChange={this.handlePath}
+            />
+          </FlatButton>
+          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
+        </div>
       );
       break;
       case 'audio':
       return (
-        <FlatButton label="Choose an Audio"/>
+        <div>
+          <FlatButton label="Choose an Audio" style={styles.button}>
+            <input
+              id="files"
+              type="file"
+              ref="image"
+              style={styles.inputForm}
+              onChange={this.handlePath}
+            />
+          </FlatButton>
+          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
+        </div>
       );
       break;
     }
@@ -95,7 +143,7 @@ class EventInfo extends Component {
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          {this.optionsImage(el.type)}
+          {this.optionalInputOrLink(el.type)}
           <Divider style={{
             width: '112%',
             marginLeft: -30,
