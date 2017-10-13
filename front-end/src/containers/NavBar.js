@@ -7,9 +7,9 @@ import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
 import Logged from '../components/Logged';
+import Search from '../components/Search';
 
 import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
 
 const _ = require('underscore');
 
@@ -23,32 +23,18 @@ class NavBar extends Component {
       picture: response.picture.data.url,
     };
     this.props.logIn(userCredentials);
-
   }
 
-  handleSignOut = () => {
-    this.props.logOut();
-  }
+  handleSignOut = () => this.props.logOut();
 
-  handleSearching = e => {
-    this.search(e.target.value);
-  }
+  handleSearching = query => this.search(query);
 
   search = _.debounce((query) => {
-    if (query.length > 2) {
-      this.props.searchStory(query)
-    }
-    else this.props.clear()
+    if (query.length > 2) this.props.searchStory(query);
+    else this.props.clear();
   }, 500);
 
   render() {
-    const search = (
-      <TextField
-        className="Search"
-        hintText="search..."
-        onChange= {this.handleSearching}
-      />
-    )
     return (
       <AppBar
         className="NavBar"
@@ -58,13 +44,13 @@ class NavBar extends Component {
           this.props.userCredentials.token
           ? (
             <div className="LoggedInActions">
-              {search}
+              <Search passQuery={this.handleSearching}/>
               <img className="ProfilePic" src={this.props.userCredentials.picture} alt="profilePic"/>
               <Logged handleSignOut={this.handleSignOut}/>
             </div>
           ) : (
             <div className="LoggedInActions">
-              {search}
+              <Search passQuery={this.handleSearching}/>
               <LoginButton handleLogin={this.handleLogin}/>
             </div>
           )}
