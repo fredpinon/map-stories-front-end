@@ -8,6 +8,25 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import AWS from 'aws-sdk';
+const albumBucketName = 'map-story';
+const bucketRegion = 'eu-west-1';
+const IdentityPoolId = 'eu-west-1:888bfed2-3d00-4100-a4d9-8011c6df4837';
+
+
+AWS.config.update({
+  region: bucketRegion,
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: IdentityPoolId
+  })
+});
+
+const s3 = new AWS.S3({
+  apiVersion: '2006-03-01',
+  params: {Bucket: albumBucketName}
+});
 
 
 class EventInfo extends Component {
