@@ -4,6 +4,8 @@ import '../css/HomePage.css';
 import { connect } from 'react-redux';
 import { fetchStoriesHomePage } from '../actions';
 import StoryList from '../components/StoryList';
+import Slider from 'material-ui/Slider';
+
 
 class HomePage extends Component {
 

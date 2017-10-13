@@ -61,37 +61,7 @@ class Viewer extends Component {
     return events.map((event, i) => <EventCard key={i} data={event}/>);
   }
 
-<<<<<<< HEAD
 
-=======
-  timeLine = () => {
-
-  }
-  styles = {
-    subheader: {
-      textTransform: 'capitalize',
-    },
-    labelStyleOuter: {
-      width: '30px',
-      height: '30px',
-      borderRadius: '50% 50% 50% 0',
-      background: purple500,
-      position: 'absolute',
-      transform: 'rotate(-45deg)',
-      top: '-40px',
-      left: '-9px',
-    },
-    labelStyleInner: {
-      transform: 'rotate(45deg)',
-      color: 'white',
-      textAlign: 'center',
-      position: 'relative',
-      top: '3px',
-      right: '0px',
-      fontSize: '10px',
-    },
-  };
->>>>>>> unfinished
   render() {
     return (
       <div className="Viewer">

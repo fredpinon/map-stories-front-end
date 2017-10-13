@@ -19,10 +19,8 @@
 
 
 .MapViewer {
-<<<<<<< HEAD
-=======
-  flex-basis: 100%;
->>>>>>> unfinished
+  flex: 1;
+
   display: flex;
   flex: 1;
   position: relative;
@@ -66,20 +64,6 @@
   flex: 1;
   max-height: 50px;
   background-color: #f4f7fc;
-=======
-  display: flex;
-  /*position: static;*/
-  border-top: 2px solid #F7F6F5;
-  /*border-bottom: 2px solid #B5B5B5;*/
-  flex-direction: row;
-  /*flex:1;*/
-  height: 7%;
-  /*justify-content: space-around;*/
-  /*align-items: center;*/
-  /*flex: 0.5;
-  /*max-height: 180px;*/
-  /*background-color: #f4f7fc;*/
->>>>>>> unfinished
 }
 
 .Link {
