@@ -39,7 +39,7 @@ export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
-  console.log(action);
+
   const { endpoint, schema, types, method, onSuccess } = callAPI;
 
   let data;
