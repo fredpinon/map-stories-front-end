@@ -11,6 +11,7 @@ import Logged from '../components/Logged';
 import Search from '../components/Search';
 
 import AppBar from 'material-ui/AppBar';
+import TextField from 'material-ui/TextField';
 
 const _ = require('underscore');
 
@@ -28,7 +29,7 @@ class NavBar extends Component {
 
   handleSignOut = () => this.props.logOut();
 
-  handleSearching = e => this.search(e.target.value);
+  handleSearching = query => this.search(query);
 
   search = _.debounce((query) => {
     if (query.length > 2) this.props.searchStory(query);
@@ -37,13 +38,6 @@ class NavBar extends Component {
 
   render() {
     const { pathname } = this.props.location;
-    const search = (
-      <TextField
-        className="Search"
-        hintText="search..."
-        onChange={this.handleSearching}
-      />
-    );
     return (
       <AppBar
         className="NavBar"
@@ -53,13 +47,14 @@ class NavBar extends Component {
           this.props.userCredentials.token
           ? (
             <div className="LoggedInActions">
-              {pathname === '/' ? search : null}
-              <p>{this.props.userCredentials.name}</p>
+              {pathname === '/' ? <Search passQuery={this.handleSearching}/> : null}
+              <img className="ProfilePic" src={this.props.userCredentials.picture}/>
               <Logged handleSignOut={this.handleSignOut}/>
             </div>
           ) : (
             <div className="LoggedInActions">
-              {pathname === '/' ? search : null}
+              {pathname === '/' ? <Search passQuery={this.handleSearching}/> : null}
+              <img className="ProfilePic" src={this.props.userCredentials.picture}/>
               <LoginButton handleLogin={this.handleLogin}/>
             </div>
           )}
