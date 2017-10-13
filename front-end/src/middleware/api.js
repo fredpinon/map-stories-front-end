@@ -8,6 +8,8 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
     headers.Authorization = `Bearer ${accessToken}`;
   }
 
+  console.log(method);
+
   return fetch(fullUrl, {
     method,
     headers,
@@ -37,11 +39,11 @@ export default store => next => action => {
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
+
   const { endpoint, schema, types, method, onSuccess } = callAPI;
 
   let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
-
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 

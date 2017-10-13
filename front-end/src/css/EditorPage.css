@@ -1,22 +1,37 @@
 .EditorPage {
   display: flex;
   flex: 1;
+  position: relative;
+  z-index: 0;
 }
 
 .buttons {
   display: flex;
-  flex-direction: column;
-  width: 30%;
-  margin-left: 3em;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
+  flex: 1;
+  align-items: flex-end;
+  margin-bottom: 3em;
+}
+
+.buttons {
+  z-index: 2;
+  float: right;
 }
 
 .EventInfoContainer {
   display: flex;
-  flex-basis: 30%;
+  max-width: 500px;
   flex-direction: column;
   margin: 2em 0;
+  position: relative;
+  z-index: 2;
+}
+
+.EventInfoDiv {
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .InputHeader {
@@ -44,14 +59,6 @@
   display: none;
 }
 
-.EditorPage {
-  display: flex;
-  flex:1;
-  height: 100vh;
-  position: relative;
-  z-index: 0;
-}
-
 .Map {
   display: flex;
   position: relative;
@@ -65,12 +72,3 @@
   top:0;
   bottom: 0;
 }
-
-
-.EventInfoContainer {
-  position: absolute;
-  z-index: 2;
-  padding-left: 50px;
-
-}
-

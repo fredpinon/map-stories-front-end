@@ -14,17 +14,30 @@ export const createStory = (data) => ({
   }
 })
 
-export const EDIT_STORY_REQUEST = 'EDIT_STORY_REQUEST';
-export const EDIT_STORY_SUCCESS = 'EDIT_STORY_SUCCESS';
-export const EDIT_STORY_FAILURE = 'EDIT_STORY_FAILURE';
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
 
-export const editStory = (data) => ({
+export const editEvent = (data, storyId, method=undefined) => ({
   [CALL_API]: {
-    types: [ EDIT_STORY_REQUEST, EDIT_STORY_SUCCESS, EDIT_STORY_FAILURE ],
-    endpoint: '/stories/story/:storyid',
+    types: [ EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE ],
+    endpoint: data.id !== undefined ? `/stories/${storyId}/events/${data.id}`: `/stories/${storyId}/events`,
     schema: Schemas.STORY,
-    method: 'POST',
+    method: data.id !=undefined ? 'PUT' : 'POST',
     data: data,
+  }
+})
+
+export const DELETE_EVENT_REQUEST = 'DELETE_EVENT_REQUEST';
+export const DELETE_EVENT_SUCCESS = 'DELETE_EVENT_SUCCESS';
+export const DELETE_EVENT_FAILURE = 'DELETE_EVENT_FAILURE';
+
+export const deleteEvent = (storyId, eventId) => ({
+  [CALL_API]: {
+    types: [ DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE ],
+    endpoint: `/stories/${storyId}/events/${eventId}`,
+    schema: Schemas.STORY,
+    method: 'DELETE',
   }
 })
 
