@@ -47,6 +47,32 @@ class EventInfo extends Component {
     console.log(this.event.title.input.value);
   }
 
+  saveEvent = () => {
+  const eventInfo = {}
+
+  this.props.onEventSave(eventInfo)
+  }
+
+  optionsImage = (type) => {
+    switch (type) {
+      case 'image':
+      return (
+        <FlatButton label="Choose an Image"/>
+      );
+      break;
+      case 'video':
+      return (
+        <FlatButton label="Choose a Video"/>
+      );
+      break;
+      case 'audio':
+      return (
+        <FlatButton label="Choose an Audio"/>
+      );
+      break;
+    }
+  }
+
   render() {
     const attachments = this.state.attachments.map((el, index) => {
     let attachmentType = '';
@@ -69,12 +95,7 @@ class EventInfo extends Component {
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          <TextField
-          hintText="Add text, URL or upload file"
-          floatingLabelText="Add..."
-          fullWidth={true}
-          ref={input => attachmentInfo = input}
-          />
+          {this.optionsImage(el.type)}
           <Divider style={{
             width: '112%',
             marginLeft: -30,
