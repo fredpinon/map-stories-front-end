@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editStory } from '../actions';
-import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -12,16 +10,6 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 class EventInfo extends Component {
-  constructor () {
-    super()
-    this.event = {
-      startTime: '',
-      title: '',
-      dateTime: '',
-      location: '',
-      attachments: []
-    }
-  }
 
   state = {
     attachments: []
@@ -48,14 +36,22 @@ class EventInfo extends Component {
     })
   }
 
+
   saveEvent = () => {
-  const eventInfo = {
-    title: this.titleField.input.value,
-    startTime: this.startTimeField.input.value,
-    mapLocation: this.locationField.input.value,
-    dateAndTime: this.dateTimeField.input.value
+    const eventInfo = {
+      title: this.titleField.input.value,
+      startTime: this.startTimeField.input.value,
+      mapLocation: this.locationField.input.value,
+      dateAndTime: this.dateTimeField.input.value,
+    }
+  this.props.onEventEdit(eventInfo)
   }
-  this.props.onEventSave(eventInfo)
+
+  deleteEvent = () => {
+    const eventInfo = {
+      id: '1',
+    }
+    this.props.onEventEdit(eventInfo, 'DELETE')
   }
 
   render() {
@@ -134,13 +130,4 @@ class EventInfo extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  // id: ownProps.computedMatch.params.storyId
-  // story: state.entities.stories[ownProps.computedMatch.params.storyId],
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  editStory: (data) => dispatch(editStory(data))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventInfo);
+export default EventInfo;

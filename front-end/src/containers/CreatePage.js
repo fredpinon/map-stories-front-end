@@ -3,7 +3,7 @@ import '../css/CreatePage.css';
 
 import { createStory } from '../actions';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';

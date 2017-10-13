@@ -8,6 +8,8 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
     headers.Authorization = `Bearer ${accessToken}`;
   }
 
+  console.log(method);
+
   return fetch(fullUrl, {
     method,
     headers,

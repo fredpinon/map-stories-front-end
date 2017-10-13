@@ -14,16 +14,16 @@ export const createStory = (data) => ({
   }
 })
 
-export const EDIT_STORY_REQUEST = 'EDIT_STORY_REQUEST';
-export const EDIT_STORY_SUCCESS = 'EDIT_STORY_SUCCESS';
-export const EDIT_STORY_FAILURE = 'EDIT_STORY_FAILURE';
+export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
+export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
+export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
 
-export const editStory = (data, storyId) => ({
+export const editEvent = (data, storyId, method=undefined) => ({
   [CALL_API]: {
-    types: [ EDIT_STORY_REQUEST, EDIT_STORY_SUCCESS, EDIT_STORY_FAILURE ],
-    endpoint: `/stories/story/${storyId}`,
+    types: [ EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE ],
+    endpoint: method !== undefined ? `/stories/${storyId}/events/${data.id}`: `/stories/${storyId}/events`,
     schema: Schemas.STORY,
-    method: 'PUT',
+    method: method !== undefined ? method : (data.id ? 'PUT' : 'POST'),
     data: data,
   }
 })

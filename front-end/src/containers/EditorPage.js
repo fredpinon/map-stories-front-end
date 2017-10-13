@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editStory } from '../actions';
+import { editEvent } from '../actions';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
-import EventInfo from './EventInfo';
+import EventInfo from '../components/EventInfo';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class EditorPage extends Component {
@@ -15,26 +16,14 @@ class EditorPage extends Component {
 
   constructor (props) {
     super(props);
-    console.log('props in editor page', props);
     if(props.story.events.length > 0) {
       this.state.currentEvent = props.story.events[props.story.events.length-1]
     }
   }
 
-  saveStory = () => {
-    this.props.editStory();
-  }
-
-  onEventUpdate = (event) => {
-
-  }
-
-  onEventDelete = (event) => {
-
-  }
-
-  onEventSave = (event) => {
-    this.props.editstory(event);
+  onEventEdit = (event, method=undefined) => {
+    const storyId = this.props.story.id;
+    method !== undefined ? this.props.editEvent(event, storyId, method) : this.props.editEvent(event, storyId);
   }
 
   markerAdded = (coordinates) => {
@@ -51,9 +40,12 @@ class EditorPage extends Component {
         }}>
           <EventInfo
             event={this.state.currentEvent}
-            onEventSave={this.onEventSave}
-            onEventDelete={this.onEventDelete}
+            onEventEdit={this.onEventEdit}
           />
+          <div className="buttons">
+            <RaisedButton label="Prev Event" primary={true} />
+            <RaisedButton label="Next Event" primary={true} />
+          </div>
         </div>
         <Map onMarkerAdded={this.markerAdded}/>
       </div>
@@ -66,7 +58,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  editStory: (data) => dispatch(editStory(data))
+  editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditorPage));

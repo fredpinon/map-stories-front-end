@@ -14,8 +14,9 @@
   margin-bottom: 3em;
 }
 
-.buttons > * {
-  margin-right: 2em;
+.buttons {
+  z-index: 2;
+  float: right;
 }
 
 .EventInfoContainer {
