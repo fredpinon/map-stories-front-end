@@ -67,7 +67,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method))
+  editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method)),
   deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
 });
 
