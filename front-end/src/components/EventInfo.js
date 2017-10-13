@@ -49,7 +49,7 @@ class EventInfo extends Component {
 
   deleteEvent = () => {
     const eventInfo = { id: '1' };
-    this.props.onEventEdit(eventInfo, 'DELETE')
+    this.props.onEventDelete(eventInfo.id)
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editEvent } from '../actions';
+import { editEvent, deleteEvent } from '../actions';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
@@ -35,6 +35,11 @@ class EditorPage extends Component {
     method !== undefined ? this.props.editEvent(event, storyId, method) : this.props.editEvent(event, storyId);
   }
 
+  onEventDelete = (eventId) => {
+    const storyId = this.props.story.id;
+    this.props.deleteEvent(storyId, eventId);
+  }
+
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
@@ -46,6 +51,7 @@ class EditorPage extends Component {
           <EventInfo
             event={this.state.currentEvent}
             onEventEdit={this.onEventEdit}
+            onEventDelete={this.onEventDelete}
             showPrevious={this.state.showPrevious}
             showNext={this.state.showNext}
           />
@@ -62,6 +68,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method))
+  deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditorPage));
