@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Player } from 'video-react';
 import '../css/EditorPage.css';
 import { editStory } from '../actions';
 import { connect } from 'react-redux';
@@ -40,7 +41,6 @@ class EventInfo extends Component {
       dateTime: '',
       location: '',
       attachments: []
-
     }
   }
 
@@ -82,6 +82,15 @@ class EventInfo extends Component {
           return (
             <div className="previewImage">
               <img src={this.state.attachments[index].imageUrl} />
+            </div>
+          )
+          break;
+        case 'video':
+          return (
+            <div className="previewVideo">
+              <Player
+                src={this.state.attachments[index].url}
+              />
             </div>
           )
           break;
