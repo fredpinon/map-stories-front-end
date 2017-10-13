@@ -59,7 +59,7 @@ class NavBar extends Component {
           ? (
             <div className="LoggedInActions">
               {search}
-              <p>{this.props.userCredentials.name}</p>
+              <img className="ProfilePic" src={this.props.userCredentials.picture} alt="profilePic"/>
               <Logged handleSignOut={this.handleSignOut}/>
             </div>
           ) : (
