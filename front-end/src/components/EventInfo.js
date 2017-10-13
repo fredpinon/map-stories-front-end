@@ -76,9 +76,6 @@ class EventInfo extends Component {
 
   optionalInputOrLink = (type) => {
     const styles = {
-      button: {
-        margin: 12,
-      },
       inputForm: {
         cursor: 'pointer',
         position: 'absolute',
@@ -93,7 +90,12 @@ class EventInfo extends Component {
     if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
-          <FlatButton label={`Choose your ${type}`} style={styles.button}>
+          <RaisedButton label={`Choose your ${type}`}
+                      style={styles.button}
+                      rippleColor="#673AB7"
+                      primary={true}
+                      fullWidth={true}
+          >
             <input
               id="files"
               type="file"
@@ -101,7 +103,7 @@ class EventInfo extends Component {
               style={styles.inputForm}
               onChange={this.handleAWSPath}
             />
-          </FlatButton>
+          </RaisedButton>
           <TextField  hintText="url"
                       floatingLabelText="or just paste URL"
                       fullWidth={true}
