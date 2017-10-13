@@ -8,9 +8,9 @@ import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
 import Logged from '../components/Logged';
+import Search from '../components/Search';
 
 import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
 
 const _ = require('underscore');
 
