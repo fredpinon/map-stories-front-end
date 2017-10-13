@@ -69,55 +69,24 @@ class EventInfo extends Component {
         opacity: 0,
       },
     };
-    switch (type) {
-      case 'image':
+    if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
-          <FlatButton label="Choose an Image" style={styles.button}>
+          <FlatButton label={`Choose your ${type}`} style={styles.button}>
             <input
               id="files"
               type="file"
-              ref="image"
+              ref={type}
               style={styles.inputForm}
-              onChange={this.handlePath}
+              onChange={this.handleAWSPath}
             />
           </FlatButton>
-          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
+          <TextField  hintText="url"
+                      floatingLabelText="or just paste URL"
+                      fullWidth={true}
+          />
         </div>
-      );
-      break;
-      case 'video':
-      return (
-        <div>
-          <FlatButton label="Choose a Video" style={styles.button}>
-            <input
-              id="files"
-              type="file"
-              ref="image"
-              style={styles.inputForm}
-              onChange={this.handlePath}
-            />
-          </FlatButton>
-          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
-        </div>
-      );
-      break;
-      case 'audio':
-      return (
-        <div>
-          <FlatButton label="Choose an Audio" style={styles.button}>
-            <input
-              id="files"
-              type="file"
-              ref="image"
-              style={styles.inputForm}
-              onChange={this.handlePath}
-            />
-          </FlatButton>
-          <TextField hintText="url" floatingLabelText="or paste URL" fullWidth={true} /><br />
-        </div>
-      );
-      break;
+      )
     }
   }
 
