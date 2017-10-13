@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import { connect } from 'react-redux';
 import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '../actions';
@@ -27,7 +28,7 @@ class NavBar extends Component {
 
   handleSignOut = () => this.props.logOut();
 
-  handleSearching = query => this.search(query);
+  handleSearching = e => this.search(e.target.value);
 
   search = _.debounce((query) => {
     if (query.length > 2) this.props.searchStory(query);
@@ -35,6 +36,14 @@ class NavBar extends Component {
   }, 500);
 
   render() {
+    const { pathname } = this.props.location;
+    const search = (
+      <TextField
+        className="Search"
+        hintText="search..."
+        onChange={this.handleSearching}
+      />
+    );
     return (
       <AppBar
         className="NavBar"
@@ -44,13 +53,13 @@ class NavBar extends Component {
           this.props.userCredentials.token
           ? (
             <div className="LoggedInActions">
-              <Search passQuery={this.handleSearching}/>
-              <img className="ProfilePic" src={this.props.userCredentials.picture} alt="profilePic"/>
+              {pathname === '/' ? search : null}
+              <p>{this.props.userCredentials.name}</p>
               <Logged handleSignOut={this.handleSignOut}/>
             </div>
           ) : (
             <div className="LoggedInActions">
-              <Search passQuery={this.handleSearching}/>
+              {pathname === '/' ? search : null}
               <LoginButton handleLogin={this.handleLogin}/>
             </div>
           )}
@@ -71,4 +80,4 @@ class NavBar extends Component {
     clear: () => dispatch(clearSearch())
   });
 
-  export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
