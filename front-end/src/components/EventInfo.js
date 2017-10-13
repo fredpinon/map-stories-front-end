@@ -92,7 +92,7 @@ class EventInfo extends Component {
         <div>
           <RaisedButton label={`Choose your ${type}`}
                       style={styles.button}
-                      rippleColor="#673AB7"
+                      ripplecolor="#673AB7"
                       primary={true}
                       fullWidth={true}
           >
@@ -123,22 +123,17 @@ class EventInfo extends Component {
     }
     const file = files[0];
     const fileName = uuid();
-    const albumPhotosKey = 'event-image/';
-    const photoKey = albumPhotosKey + fileName;
-    console.log({
-      photoKey,
-      file,
-    });
+    const albumFileKey = 'event-file/';
+    const fileKey = albumFileKey + fileName;
     s3.upload({
-      Key: photoKey,
+      Key: fileKey,
       Body: file,
       ACL: 'public-read'
     }, (err, data) => {
       if (err) {
-        console.log(err);
-        return console.error('There was an error uploading your image: ', err.message);
+        return console.error('There was an error uploading your file: ', err.message);
       }
-      console.log('Successfully uploaded image.', data.Location, this.state);
+      console.log('Successfully uploaded file.', data.Location, this.state);
     });
   }
 
