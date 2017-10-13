@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-
 import '../css/EditorPage.css';
+import { editStory } from '../actions';
+import { connect } from 'react-redux';
+import uuid from 'uuid/v4';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -107,6 +109,35 @@ class EventInfo extends Component {
         </div>
       )
     }
+  }
+
+  handleAWSPath = (event) => {
+    console.log("its happening");
+    console.log(event.target.files);
+    let location;
+    const files = event.target.files;
+    if (!files.length) {
+      return alert('Please choose a file to upload first.');
+    }
+    const file = files[0];
+    const fileName = uuid();
+    const albumPhotosKey = 'event-image/';
+    const photoKey = albumPhotosKey + fileName;
+    console.log({
+      photoKey,
+      file,
+    });
+    s3.upload({
+      Key: photoKey,
+      Body: file,
+      ACL: 'public-read'
+    }, (err, data) => {
+      if (err) {
+        console.log(err);
+        return console.error('There was an error uploading your image: ', err.message);
+      }
+      console.log('Successfully uploaded image.', data.Location, this.state);
+    });
   }
 
   render() {
