@@ -1,14 +1,13 @@
 import { normalize, schema } from 'normalizr';
 
 const callApi = (endpoint, schema, method='GET', body, accessToken) => {
+
   const fullUrl = 'http://localhost:4000' + endpoint;
-
   const headers = {}
-  if (accessToken) {
-    headers.Authorization = `Bearer ${accessToken}`;
-  }
 
-  console.log(method);
+  if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+
+  if (method === 'POST') headers['Content-Type'] = 'application/json';
 
   return fetch(fullUrl, {
     method,

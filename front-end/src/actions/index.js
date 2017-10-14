@@ -116,6 +116,20 @@ export const fetchStoriesSearch = (query) => ({
   }
 })
 
+export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
+export const LOGIN_USER_FAILURE = 'LOGIN_USER_FAILURE';
+
+export const loginUser = (data) => ({
+  [CALL_API]: {
+    types: [ LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE ],
+    endpoint: `/sign-up`,
+    schema: Schemas.EDITOR,
+    method: 'POST',
+    data,
+  }
+})
+
 export const storeCredentials = (userCredentials) => ({
   type: 'USER_CREDENTIALS',
   payload: {
