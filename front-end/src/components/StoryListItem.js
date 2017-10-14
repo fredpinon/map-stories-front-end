@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router-dom';
 
 import { updateStory, deleteStory } from '../actions';
 
@@ -40,6 +41,23 @@ class StoryListItem extends Component {
     const storyId = this.props.story.id;
     this.props.publishStory(storyId);
   };
+
+  editstory = () => {
+    const storyId = this.props.story.id;
+  }
+
+  renderEditButton = () => {
+    return (
+      <FlatButton
+        label='EDIT'
+        rippleColor="purple"
+        primary={true}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      />
+    )
+  }
 
   renderDeleteButton = () => {
     const actionsDelete = [
@@ -120,6 +138,7 @@ class StoryListItem extends Component {
     if (window.location.href.match('me/stories') !== null) {
       return (
         <div className='ButtonsRender'>
+          {this.renderEditButton()}
           {this.renderDeleteButton()}
           {this.renderPublishButton()}
         </div>

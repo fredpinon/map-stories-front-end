@@ -17,7 +17,7 @@ class UserPage extends Component {
 
   state = {
     open: false,
-    disabled: true
+    disabled: false
   };
 
   handleOpen = () => {
