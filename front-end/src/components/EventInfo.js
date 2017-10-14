@@ -12,6 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import ReactPlayer from 'react-player';
 
 import AWS from 'aws-sdk';
 const albumBucketName = 'map-story';
@@ -85,6 +86,7 @@ class EventInfo extends Component {
           )
         break;
         case 'video':
+        if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
           return (
             <div className="previewVideo">
               <Player
@@ -94,6 +96,13 @@ class EventInfo extends Component {
               />
             </div>
           )
+        } else {
+          return (
+            <div className="previewVideo">
+              <ReactPlayer url={this.state.attachments[index].url}/>
+            </div>
+          )
+        }
         break;
         case 'audio':
           return (
@@ -181,18 +190,18 @@ class EventInfo extends Component {
         }
         break;
         case 'video':
-        if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
+        // if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        } else {
-          alert('put valid video link')
-        }
+        // } else {
+          // alert('put valid video link')
+        // }
         break;
         case 'audio':
-        if ((/\.(wav|mp3)$/i).test(this.eventURLField.input.value)) {
+        // if ((/\.(wav|mp3)$/i).test(this.eventURLField.input.value)) {
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        } else {
-          alert('put valid audio link')
-        }
+        // } else {
+          // alert('put valid audio link')
+        // }
         break;
       }
     }
