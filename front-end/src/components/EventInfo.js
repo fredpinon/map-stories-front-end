@@ -133,6 +133,7 @@ class EventInfo extends Component {
                       ripplecolor="#673AB7"
                       primary={true}
                       fullWidth={true}
+                      disabled={this.toggleDisable(index)}
           >
             <input
               id="files"
@@ -145,8 +146,9 @@ class EventInfo extends Component {
           <TextField  hintText="url"
                       floatingLabelText="or just paste URL"
                       fullWidth={true}
-                      onChange={(e) => this.handleLinkInput(e, index, type)}
+                      onKeyPress={(e) => this.handleLinkInput(e, index, type)}
                       ref={input => this.eventURLField = input}
+                      disabled={this.toggleDisable(index)}
           />
           {this.previewInputFile(type, index)}
         </div>
@@ -155,10 +157,19 @@ class EventInfo extends Component {
   }
 
   handleLinkInput = (event, index, type) => {
-    console.log(this.eventURLField.input.value);
-    this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+    if (event.key === 'Enter') {
+      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+    }
   }
-  
+
+  toggleDisable = (index) => {
+    if (this.state.attachments[index].imageUrl) {
+      return this.state.attachments[index].imageUrl ? true : false;
+    } else {
+      return this.state.attachments[index].url ? true : false;
+    }
+  }
+
   handleAWSPath = (event, index, type) => {
     let location;
     const files = event.target.files;
