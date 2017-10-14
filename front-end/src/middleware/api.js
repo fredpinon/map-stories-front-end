@@ -1,7 +1,7 @@
 import { normalize, schema } from 'normalizr';
 
 const callApi = (endpoint, schema, method='GET', body, accessToken) => {
-  const fullUrl = 'https://private-538085-mapstories.apiary-mock.com' + endpoint;
+  const fullUrl = 'http://localhost:4000' + endpoint;
 
   const headers = {}
   if (accessToken) {
@@ -23,8 +23,8 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
     })
 }
 
-const editorSchema = new schema.Entity('editors', {});
-const storySchema = new schema.Entity('stories', { editor: editorSchema });
+const editorSchema = new schema.Entity('editors', {} ,{ idAttribute: '_id'} );
+const storySchema = new schema.Entity('stories', { editor: editorSchema }, { idAttribute: '_id'});
 
 export const Schemas = {
   EDITOR: editorSchema,

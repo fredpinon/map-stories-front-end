@@ -48,7 +48,7 @@ export const STORIES_HP_FAILURE = 'STORIES_HP_FAILURE';
 export const fetchStoriesHomePage = () => ({
   [CALL_API]: {
     types: [ STORIES_HP_REQUEST, STORIES_HP_SUCCESS, STORIES_HP_FAILURE ],
-    endpoint: '/stories/',
+    endpoint: '/stories/1',
     schema: Schemas.STORY_ARRAY
   }
 })
@@ -72,7 +72,7 @@ export const STORY_FAILURE = 'STORY_FAILURE';
 export const fetchSingleStory = (storyId) => ({
   [CALL_API]: {
     types: [ STORY_REQUEST, STORY_SUCCESS, STORY_FAILURE ],
-    endpoint: `/stories/${storyId}`,
+    endpoint: `/stories/story/${storyId}`,
     schema: Schemas.STORY
   }
 })
