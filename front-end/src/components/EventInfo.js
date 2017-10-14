@@ -102,7 +102,7 @@ class EventInfo extends Component {
                 <div className="previewAudio">
                   <audio controls autoplay>
                       <source src={this.state.attachments[index].url}  />
-                    </ audio>
+                    </audio>
                 </div>
               )
               break;

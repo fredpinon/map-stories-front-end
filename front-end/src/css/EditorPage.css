@@ -22,8 +22,12 @@
 
 .previewImage img {
   width:100%;
-
 }
+
+.video-react-video {
+  width: 100%;
+}
+
 
 .InputHeader {
   height: 65px;
