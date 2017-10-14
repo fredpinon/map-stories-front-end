@@ -74,40 +74,51 @@ class EventInfo extends Component {
   }
 
   previewInputFile = (type, index) => {
-    console.log("state");
-    if (this.state.attachments) {
-      if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
-        console.log(this.state.attachments[index]);
-        switch (type) {
-          case 'image':
-            return (
-              <div className="previewImage">
-                <img src={this.state.attachments[index].imageUrl} />
-              </div>
-            )
-            break;
-          case 'video':
-            return (
-              <div className="previewVideo">
-                <Player
-                  id="player"
-                  poster='http://madisonlib.org/wp-content/uploads/2015/07/story-time.jpg'
-                  src={this.state.attachments[index].url}
-                />
-              </div>
-            )
-            break;
-            case 'audio':
-              return (
-                <div className="previewAudio">
-                  <audio controls autoplay>
-                      <source src={this.state.attachments[index].url}  />
-                    </audio>
-                </div>
-              )
-              break;
-        }
+    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
+      console.log(this.state.attachments[index]);
+      switch (type) {
+        case 'image':
+          return (
+            <div className="previewImage">
+              <img src={this.state.attachments[index].imageUrl} />
+            </div>
+          )
+        break;
+        case 'video':
+          return (
+            <div className="previewVideo">
+              <Player
+                id="player"
+                poster='http://madisonlib.org/wp-content/uploads/2015/07/story-time.jpg'
+                src={this.state.attachments[index].url}
+              />
+            </div>
+          )
+        break;
+        case 'audio':
+          return (
+            <div className="previewAudio">
+              <audio controls autoplay>
+                  <source src={this.state.attachments[index].url}  />
+                </audio>
+            </div>
+          )
+        break;
       }
+    }
+  }
+
+  restrictInputType = (type) => {
+    switch (type) {
+      case 'image':
+        return "image/*"
+      break;
+      case 'video':
+        return "video/*"
+      break;
+      case 'audio':
+        return "audio/*"
+      break;
     }
   }
 
@@ -128,12 +139,13 @@ class EventInfo extends Component {
     if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
-          <RaisedButton label={`Choose your ${type}`}
-                      style={styles.button}
-                      ripplecolor="#673AB7"
-                      primary={true}
-                      fullWidth={true}
-                      disabled={this.toggleDisable(index)}
+          <RaisedButton
+            label={`Choose your ${type}`}
+            style={styles.button}
+            ripplecolor="#673AB7"
+            primary={true}
+            fullWidth={true}
+            disabled={this.toggleDisable(index)}
           >
             <input
               id="files"
@@ -141,14 +153,16 @@ class EventInfo extends Component {
               ref={type}
               style={styles.inputForm}
               onChange={(e) => this.handleAWSPath(e, index, type)}
+              accept={this.restrictInputType(type)}
             />
           </RaisedButton>
-          <TextField  hintText="url"
-                      floatingLabelText="or just paste URL"
-                      fullWidth={true}
-                      onKeyPress={(e) => this.handleLinkInput(e, index, type)}
-                      ref={input => this.eventURLField = input}
-                      disabled={this.toggleDisable(index)}
+          <TextField
+            hintText="url"
+            floatingLabelText="or just paste URL"
+            fullWidth={true}
+            onKeyPress={(e) => this.handleLinkInput(e, index, type)}
+            ref={input => this.eventURLField = input}
+            disabled={this.toggleDisable(index)}
           />
           {this.previewInputFile(type, index)}
         </div>
@@ -202,12 +216,12 @@ class EventInfo extends Component {
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
-          floatingLabelText="Attachment"
-          value={el.type}
-          onChange={(event, i, value) => this.changeAttachmentProperty(index, 'type', value)}
-          placeholder='Select a type'
-          fullWidth={true}
-          ref={input => attachmentType = input}>
+            floatingLabelText="Attachment"
+            value={el.type}
+            onChange={(event, i, value) => this.changeAttachmentProperty(index, 'type', value)}
+            placeholder='Select a type'
+            fullWidth={true}
+            ref={input => attachmentType = input}>
             <MenuItem value={''} primaryText="" />
             <MenuItem value={'text'} primaryText="Text" />
             <MenuItem value={'link'} primaryText="Link" />
