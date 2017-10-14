@@ -172,7 +172,29 @@ class EventInfo extends Component {
 
   handleLinkInput = (event, index, type) => {
     if (event.key === 'Enter') {
-      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+      switch (type) {
+        case 'image':
+        if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        } else {
+          alert('put valid image link')
+        }
+        break;
+        case 'video':
+        if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        } else {
+          alert('put valid video link')
+        }
+        break;
+        case 'audio':
+        if ((/\.(wav|mp3)$/i).test(this.eventURLField.input.value)) {
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        } else {
+          alert('put valid audio link')
+        }
+        break;
+      }
     }
   }
 
