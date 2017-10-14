@@ -15,7 +15,8 @@ class CreatePage extends Component {
   createStory = () => {
     this.props.createStory({
       title: this.titleField.input.value,
-      tagline: this.taglineField.input.value
+      tagline: this.taglineField.input.value,
+      email: this.props.user.email
     });
   }
 
@@ -49,7 +50,8 @@ class CreatePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  page: state.pages.createStory
+  page: state.pages.createStory,
+  user: state.authentication
 })
 
 const mapDispatchToProps = (dispatch) => ({
