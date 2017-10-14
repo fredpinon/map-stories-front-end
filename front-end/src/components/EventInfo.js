@@ -105,13 +105,21 @@ class EventInfo extends Component {
         }
         break;
         case 'audio':
+        if ((/\.(wav|mp3)$/i).test(this.state.attachments[index].url)) {
           return (
             <div className="previewAudio">
               <audio controls autoplay>
-                  <source src={this.state.attachments[index].url}  />
-                </audio>
+                <source src={this.state.attachments[index].url}  />
+              </audio>
             </div>
           )
+        } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
+          return (
+            <div className="previewAudio">
+              <ReactPlayer url={this.state.attachments[index].url}/>
+            </div>
+          )
+        }
         break;
       }
     }
