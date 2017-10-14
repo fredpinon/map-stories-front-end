@@ -81,7 +81,7 @@ class EventInfo extends Component {
           ref={input => attachmentInfo = input}
           />
           <Divider style={{
-            width: '112%',
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
@@ -102,15 +102,15 @@ class EventInfo extends Component {
           <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTimeField = input}/><br />
           <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.locationField = input}/><br />
           <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTimeField = input}/><br />
-          <Divider style={{
-            width: '112%',
+          <Divider className="Divider" style={{
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
           {attachments}
           <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment}/>
           <Divider style={{
-            width: '112%',
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
