@@ -6,17 +6,7 @@ import { fetchSingleStory } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
-import Slider from 'material-ui/Slider';
-import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon'
-import { purple500 } from 'material-ui/styles/colors';
-import { Link } from 'react-router-dom';
-// import playbutton from '../resources/playbutton.svg';
-// import playbutton from 'material-ui/svg-icons/action/play_circle_filled'
-import Subheader from 'material-ui/Subheader';
-// import Slider from 'material-ui-slider-label/Slider';
-import { cyan500 } from 'material-ui/styles/colors';
+import TimeLine from '../components/TimeLine';
 
 
 class Viewer extends Component {
@@ -74,25 +64,8 @@ class Viewer extends Component {
           </div>
           <Map onMarkerAdded={this.markerAdded} editorPage={false}/>
         </div>
-        <div className="SliderContainer">
-          <i class="material-icons md-36 purple">play_circle_filled</i>
-          <Slider
-            defaultValue={5 / 100}
-            min={0}
-            max={1}
-            step={5 / 100}
-            value={0.5}
-            // onChange={onChange}
-            label={
-              <div style={this.styles.labelStyleOuter}>
-                <div style={this.styles.labelStyleInner}>
-                  {0.5}
-                </div>
-              </div>
-            }
-          />
+        <TimeLine />
       </div>
-    </div>
     );
   }
 }
