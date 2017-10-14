@@ -24,7 +24,6 @@ class EditorPage extends Component {
   }
 
   componentWillMount () {
-    // console.log(this.state.currentEvent, this.props.story.events);
     if (this.props.story.events.length === 0) this.setState({showPrevious: false, showNext: false});
     if (this.state.currentEvent === this.props.story.events[0]) this.setState({showPrevious: false});
     if (this.state.currentEvent === this.props.story.events[this.props.story.events.length-1]) this.setState({showNext: false});

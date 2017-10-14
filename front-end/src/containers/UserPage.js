@@ -15,13 +15,9 @@ import StoryList from '../components/StoryList';
 
 class UserPage extends Component {
 
-  constructor(props) {
-    super(props);
-    this.disabled = true;
-  }
-
   state = {
     open: false,
+    disabled: true
   };
 
   handleOpen = () => {
@@ -30,9 +26,11 @@ class UserPage extends Component {
 
   handleClose = () => {
     this.setState({open: false});
+    this.state.disabled = true;
   };
 
   createStory = () => {
+    console.log(this.titleField.input.value, this.taglineField.input.value);
     this.props.createStory({
       title: this.titleField.input.value,
       tagline: this.taglineField.input.value
@@ -45,8 +43,8 @@ class UserPage extends Component {
   }
 
   toggleDisabled = () => {
-    console.log(this.disabled);
-    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.disabled = false;
+    console.log(this.state.disabled);
+    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.state.disabled = false;
   }
 
   render() {
@@ -69,7 +67,7 @@ class UserPage extends Component {
       <FlatButton
         label="Create"
         primary={true}
-        disabled={this.disabled}
+        disabled={this.state.disabled}
         onClick={this.createStory}
       />,
     ];
