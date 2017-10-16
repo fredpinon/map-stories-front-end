@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router-dom';
 
-import { updateStory, deleteStory } from '../actions';
+import { updateStory, deleteStory, fetchSingleStory } from '../actions';
 
 class StoryListItem extends Component {
 
@@ -40,6 +41,25 @@ class StoryListItem extends Component {
     const storyId = this.props.story.id;
     this.props.publishStory(storyId);
   };
+
+  editstory = () => {
+    const storyId = this.props.story.id;
+    this.props.editstory(storyId);
+  }
+
+  renderEditButton = () => {
+    return (
+      <FlatButton
+        label='EDIT'
+        rippleColor="purple"
+        primary={true}
+        onClick={(e) => {
+          e.preventDefault();
+          this.editstory
+        }}
+      />
+    )
+  }
 
   renderDeleteButton = () => {
     const actionsDelete = [
@@ -120,6 +140,7 @@ class StoryListItem extends Component {
     if (window.location.href.match('me/stories') !== null) {
       return (
         <div className='ButtonsRender'>
+          {this.renderEditButton()}
           {this.renderDeleteButton()}
           {this.renderPublishButton()}
         </div>
@@ -165,7 +186,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),
-  deleteStory: (storyId) => dispatch(deleteStory(storyId))
+  deleteStory: (storyId) => dispatch(deleteStory(storyId)),
+  editStory: (storyId) => dispatch(fetchSingleStory(storyId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);
