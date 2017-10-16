@@ -30,7 +30,6 @@ class UserPage extends Component {
   };
 
   createStory = () => {
-    console.log(this.titleField.input.value, this.taglineField.input.value);
     this.props.createStory({
       title: this.titleField.input.value,
       tagline: this.taglineField.input.value

@@ -5,7 +5,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router-dom';
 
-import { updateStory, deleteStory } from '../actions';
+import { updateStory, deleteStory, fetchSingleStory } from '../actions';
 
 class StoryListItem extends Component {
 
@@ -44,6 +44,7 @@ class StoryListItem extends Component {
 
   editstory = () => {
     const storyId = this.props.story.id;
+    this.props.editstory(storyId);
   }
 
   renderEditButton = () => {
@@ -54,6 +55,7 @@ class StoryListItem extends Component {
         primary={true}
         onClick={(e) => {
           e.preventDefault();
+          this.editstory
         }}
       />
     )
@@ -184,7 +186,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),
-  deleteStory: (storyId) => dispatch(deleteStory(storyId))
+  deleteStory: (storyId) => dispatch(deleteStory(storyId)),
+  editStory: (storyId) => dispatch(fetchSingleStory(storyId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);
