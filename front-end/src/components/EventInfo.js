@@ -102,7 +102,7 @@ class EventInfo extends Component {
         left: 0,
         width: '100%',
         opacity: 0,
-      },
+      }
     };
 
     if (type === 'image' || type === 'video' || type === 'audio') {
@@ -110,8 +110,6 @@ class EventInfo extends Component {
         <div>
           <RaisedButton
             label={`Choose your ${type}`}
-            style={styles.button}
-            ripplecolor="#673AB7"
             primary={true}
             fullWidth={true}
             disabled={this.toggleDisable(index)}
@@ -195,7 +193,6 @@ class EventInfo extends Component {
 
   previewInputFile = (type, index) => {
     if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
-      console.log(this.state.attachments[index]);
       switch (type) {
         case 'image':
           return (
@@ -219,13 +216,17 @@ class EventInfo extends Component {
         } else {
           return (
             <div className="previewVideo">
-              <ReactPlayer url={this.state.attachments[index].url}/>
+              <ReactPlayer
+                width={400}
+                height={225}
+                url={this.state.attachments[index].url}
+              />
             </div>
           )
         }
         break;
         case 'audio':
-        if ((/\.(wav|mp3)$/i).test(this.state.attachments[index].url)) {
+        if ((/\.(wav|mp3|mp4)$/i).test(this.state.attachments[index].url)) {
           return (
             <div className="previewAudio">
               <audio controls>
@@ -236,7 +237,11 @@ class EventInfo extends Component {
         } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
           return (
             <div className="previewAudio">
-              <ReactPlayer url={this.state.attachments[index].url}/>
+              <ReactPlayer
+                width={400}
+                height={225}
+                url={this.state.attachments[index].url}
+              />
             </div>
           )
         }
@@ -320,14 +325,14 @@ class EventInfo extends Component {
             marginTop: 60,
           }} />
           {attachments}
-          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment} ripplecolor="#673AB7"/>
+          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment} rippleColor="#673AB7"/>
           <Divider style={{
             width: '112%',
             marginLeft: -30,
             marginTop: 60,
           }} />
-          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent} ripplecolor="#673AB7"/>
-          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent} ripplecolor="#673AB7"/>
+          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent} rippleColor="#673AB7"/>
+          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent} rippleColor="#673AB7"/>
         </Paper>
       </div>
     );
