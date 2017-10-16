@@ -16,7 +16,10 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  saveState(store.getState());
+  saveState({
+    authentication: store.getState().authentication,
+    entities: store.getState().entities
+  });
 });
 
 export default store;
