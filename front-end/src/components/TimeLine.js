@@ -5,6 +5,7 @@ import { Slider } from 'antd';
 import 'antd/dist/antd.css';
 
 import { connect } from 'react-redux';
+import { timer } from '../actions';
 
 class TimeLine extends Component {
 
@@ -111,6 +112,7 @@ class TimeLine extends Component {
 
   handleChange = (event) => {
     this.setState({timeStamp: event});
+    this.props.timer(this.state.timeStamp)
     console.log(this.state.timeStamp);
   }
 
@@ -119,6 +121,7 @@ class TimeLine extends Component {
   render() {
     return (
       <div className="TimeLine">
+
         <div className="controls">
           <i id="forward" className="material-icons md-36 purple" onClick={this.Rewind}>fast_rewind</i>
           { this.renderPlay() }
@@ -135,11 +138,11 @@ class TimeLine extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+  time: state.timer.time
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  timer: (time) => dispatch(timer(time))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeLine);

@@ -123,10 +123,19 @@ export const storeCredentials = (userCredentials) => ({
   }
 })
 
+
+
 export const logOutUser = () => ({
   type: 'USER_LOGGED_OUT',
   payload: {
 
+  }
+})
+
+export const timer = (time) => ({
+  type: 'TIMER_EVENT',
+  payload: {
+    time,
   }
 })
 
