@@ -1,3 +1,5 @@
+/*@import "~antd/dist/antd.less";*/
+
 .TimeLine {
   display: flex;
   height: 7%;
@@ -34,4 +36,16 @@
   margin-left: 3vw;
   width: 85%;
   margin-top: 0.2vh;
+}
+
+.ant-slider-step {
+
+}
+
+.ant-slider-handle {
+  border: solid 2px #673AB7;
+}
+
+.Slider .ant-slider-mark-text .ant-slider-mark-text-active {
+  width: 10%;
 }

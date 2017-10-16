@@ -14,7 +14,7 @@ class TimeLine extends Component {
 
   state = {
     play: true,
-    timeStamps: ['00:00','05:30', '10:30'],
+    timeStamps: ['00:00', '02:45', '05:30', '07:45', '10:30'],
     timeStamp: 0
   }
 
@@ -25,8 +25,12 @@ class TimeLine extends Component {
       () => {
         if (!this.state.play) {
             console.log('hello');
-            const increment = this.state.timeStamp + ratio;
+            let increment = this.state.timeStamp + ratio;
             console.log(this.state.timeStamp + ratio);
+            if (increment > 100) {
+              increment = Math.floor(increment);
+              this.Pause();
+            }
             this.setState({timeStamp: increment})
             console.log(this.state.timeStamp);
         }
@@ -34,7 +38,9 @@ class TimeLine extends Component {
   }
 
   Play = () => {
-    this.setState({play: false});
+    if (this.state.timeStamp < 100) {
+      this.setState({play: false});
+    }
     console.log(this.state.play);
   }
 
@@ -61,7 +67,6 @@ class TimeLine extends Component {
 
   Rewind = () => {
     console.log('Rewind');
-
     const marks = Object.keys(this.calcMarks(this.state.timeStamps)[0])
     const points = [];
     marks.forEach(x => {
@@ -69,7 +74,9 @@ class TimeLine extends Component {
         points.push(parseInt(x))
       }
     })
-    this.setState({timeStamp: Math.max( ...points)})
+    if (this.state.timeStamp > 1) {
+      this.setState({timeStamp: Math.max( ...points)})
+    }
   }
 
   Forward = () => {
@@ -82,7 +89,9 @@ class TimeLine extends Component {
         points.push(parseInt(x))
       }
     })
-    this.setState({timeStamp: Math.min( ...points)})
+    if (this.state.timeStamp < 99) {
+      this.setState({timeStamp: Math.min( ...points)})
+    }
   }
 
   calcMarks = (marks) => {
@@ -115,6 +124,8 @@ class TimeLine extends Component {
           { this.renderPlay() }
           <i id="backward" className="material-icons md-36 purple" onClick={this.Forward}>fast_forward</i>
         </div>
+
+
         <div className="Slider">
           <Slider marks={this.calcMarks(this.state.timeStamps)[0]}  value={this.state.timeStamp} onChange={this.handleChange}/>
         </div>
