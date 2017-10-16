@@ -261,8 +261,11 @@ class EventInfo extends Component {
   }
 
   deleteAttachment = (index) => {
-    this.state.attachments.splice(index, 1);
-    this.forceUpdate();
+    const attachments = this.state.attachments.concat();
+    attachments.splice(index, 1)
+    this.setState({
+      attachments
+    });
   }
 
   render() {
