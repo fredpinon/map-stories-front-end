@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import { connect } from 'react-redux';
-import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '../actions';
+import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch, loginUser } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
@@ -24,7 +24,8 @@ class NavBar extends Component {
       name: response.name,
       picture: response.picture.data.url,
     };
-    this.props.logIn(userCredentials);
+    this.props.loginUserToDb(userCredentials);
+    this.props.saveUserInStore(userCredentials);
   }
 
   handleSignOut = () => this.props.logOut();
@@ -69,7 +70,8 @@ class NavBar extends Component {
   });
 
   const mapDispatchToProps = (dispatch) => ({
-    logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
+    saveUserInStore: (userCredentials) => dispatch(storeCredentials(userCredentials)),
+    loginUserToDb : (userCredentials) => dispatch(loginUser(userCredentials)),
     logOut: () => dispatch(logOutUser()),
     searchStory: (query) => dispatch(fetchStoriesSearch(query)),
     clear: () => dispatch(clearSearch())
