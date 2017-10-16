@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { editStory } from '../actions';
+import { editStory, showError } from '../actions';
 import uuid from 'uuid/v4';
 import { Player, BigPlayButton
 } from 'video-react';
@@ -139,7 +139,7 @@ class EventInfo extends Component {
         if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         } else {
-          alert('put valid image link')
+          this.props.showError('put valid image link');
         }
         break;
         case 'video':
@@ -362,5 +362,15 @@ class EventInfo extends Component {
   }
 }
 
-export default EventInfo;
+const mapStateToProps = (state, ownProps) => ({
+  // id: ownProps.computedMatch.params.storyId
+  // story: state.entities.stories[ownProps.computedMatch.params.storyId],
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
+  editStory: (data) => dispatch(editStory(data))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventInfo);
