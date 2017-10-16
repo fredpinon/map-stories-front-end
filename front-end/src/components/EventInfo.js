@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import '../css/EditorPage.css';
-import { editStory } from '../actions';
 import { connect } from 'react-redux';
+import { editStory } from '../actions';
 import uuid from 'uuid/v4';
-import { Player, ControlBar, ReplayControl,
-  ForwardControl, CurrentTimeDisplay,
-  TimeDivider, PlaybackRateMenuButton, VolumeMenuButton, BigPlayButton
+import { Player, BigPlayButton
 } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css";
+import ReactPlayer from 'react-player';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -16,7 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import ReactPlayer from 'react-player';
+import '../css/EditorPage.css';
 
 import AWS from 'aws-sdk';
 const albumBucketName = 'map-story';
@@ -78,63 +76,6 @@ class EventInfo extends Component {
     this.props.onEventSave(eventInfo);
   }
 
-  previewInputFile = (type, index) => {
-    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
-      console.log(this.state.attachments[index]);
-      switch (type) {
-        case 'image':
-          return (
-            <div className="previewImage">
-              <img src={this.state.attachments[index].imageUrl} />
-            </div>
-          )
-        break;
-        case 'video':
-        if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
-          return (
-            <div className="previewVideo">
-              <Player
-                id="player"
-              >
-                <source src={this.state.attachments[index].url} />
-                <BigPlayButton position="center" />
-                <ControlBar autoHide={false}r>
-                <ReplayControl  />
-                <ForwardControl  />
-                <CurrentTimeDisplay />
-                <VolumeMenuButton  />
-              </ControlBar>
-            </Player>
-            </div>
-          )
-        } else {
-          return (
-            <div className="previewVideo">
-              <ReactPlayer url={this.state.attachments[index].url}/>
-            </div>
-          )
-        }
-        break;
-        case 'audio':
-        if ((/\.(wav|mp3)$/i).test(this.state.attachments[index].url)) {
-          return (
-            <div className="previewAudio">
-              <audio controls autoplay>
-                <source src={this.state.attachments[index].url}  />
-              </audio>
-            </div>
-          )
-        } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
-          return (
-            <div className="previewAudio">
-              <ReactPlayer url={this.state.attachments[index].url}/>
-            </div>
-          )
-        }
-        break;
-      }
-    }
-  }
 
   restrictInputType = (type) => {
     switch (type) {
@@ -193,44 +134,9 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
           />
           {this.previewInputFile(type, index)}
+          {this.deleteAttachmentButton(type, index)}
         </div>
       )
-    }
-  }
-
-  handleLinkInput = (event, index, type) => {
-    if (event.key === 'Enter') {
-      switch (type) {
-        case 'image':
-        if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
-          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        } else {
-          alert('put valid image link')
-        }
-        break;
-        case 'video':
-        // if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)$/i).test(this.eventURLField.input.value)) {
-          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        // } else {
-          // alert('put valid video link')
-        // }
-        break;
-        case 'audio':
-        // if ((/\.(wav|mp3)$/i).test(this.eventURLField.input.value)) {
-          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        // } else {
-          // alert('put valid audio link')
-        // }
-        break;
-      }
-    }
-  }
-
-  toggleDisable = (index) => {
-    if (this.state.attachments[index].imageUrl) {
-      return this.state.attachments[index].imageUrl ? true : false;
-    } else {
-      return this.state.attachments[index].url ? true : false;
     }
   }
 
@@ -257,6 +163,92 @@ class EventInfo extends Component {
       console.log('Successfully uploaded file.', data.Location, this.state);
       this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
     });
+  }
+
+  toggleDisable = (index) => {
+    if (this.state.attachments[index].imageUrl) {
+      return this.state.attachments[index].imageUrl ? true : false;
+    } else {
+      return this.state.attachments[index].url ? true : false;
+    }
+  }
+
+  handleLinkInput = (event, index, type) => {
+    if (event.key === 'Enter') {
+      switch (type) {
+        case 'image':
+        if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        } else {
+          alert('put valid image link')
+        }
+        break;
+        case 'video':
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        break;
+        case 'audio':
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        break;
+      }
+    }
+  }
+
+  previewInputFile = (type, index) => {
+    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
+      console.log(this.state.attachments[index]);
+      switch (type) {
+        case 'image':
+          return (
+            <div className="previewImage">
+              <img src={this.state.attachments[index].imageUrl} />
+            </div>
+          )
+        break;
+        case 'video':
+        if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)/i).test(this.state.attachments[index].url)) {
+          return (
+            <div className="previewVideo">
+              <Player
+                id="player"
+              >
+                <source src={this.state.attachments[index].url} />
+                <BigPlayButton position="center" />
+            </Player>
+            </div>
+          )
+        } else {
+          return (
+            <div className="previewVideo">
+              <ReactPlayer url={this.state.attachments[index].url}/>
+            </div>
+          )
+        }
+        break;
+        case 'audio':
+        if ((/\.(wav|mp3)$/i).test(this.state.attachments[index].url)) {
+          return (
+            <div className="previewAudio">
+              <audio controls>
+                <source src={this.state.attachments[index].url}  />
+              </audio>
+            </div>
+          )
+        } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
+          return (
+            <div className="previewAudio">
+              <ReactPlayer url={this.state.attachments[index].url}/>
+            </div>
+          )
+        }
+        break;
+      }
+    }
+  }
+
+  deleteAttachmentButton = (type, index) => {
+    if (this.state.attachments[index]) {
+      console.log(this.state);
+    }
   }
 
   render() {
@@ -311,7 +303,14 @@ class EventInfo extends Component {
             marginTop: 60,
           }} />
           {attachments}
-          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment}/>
+          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment} ripplecolor="#673AB7"/>
+          <Divider style={{
+            width: '112%',
+            marginLeft: -30,
+            marginTop: 60,
+          }} />
+          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent} ripplecolor="#673AB7"/>
+          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent} ripplecolor="#673AB7"/>
         </Paper>
       </div>
     );
