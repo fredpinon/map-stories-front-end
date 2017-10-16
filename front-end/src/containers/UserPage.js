@@ -3,7 +3,6 @@ import '../css/UserPage.css';
 
 import { connect } from 'react-redux';
 import { fetchStoriesUserPage, createStory } from '../actions';
-import { Link, Redirect } from 'react-router-dom';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -15,44 +14,40 @@ import StoryList from '../components/StoryList';
 
 class UserPage extends Component {
 
-  state = {
+ state = {
     open: false,
     disabled: false
   };
 
-  handleOpen = () => {
-    this.setState({open: true});
+ handleOpen = () => this.setState({open: true});
+
+ handleClose = () => {
+    this.setState({
+      open: false,
+      disabled: true,
+    });
   };
 
-  handleClose = () => {
-    this.setState({open: false});
-    this.state.disabled = true;
-  };
-
-  createStory = () => {
+ createStory = () => {
     this.props.createStory({
       title: this.titleField.input.value,
       tagline: this.taglineField.input.value,
-      email: this.props.user.email
+      email: this.props.user.email,
     });
     this.setState({open: false});
   }
 
-  componentWillMount() {
-    this.props.loadStories();
+ componentWillMount() {
+    this.props.loadStories(this.props.userId);
   }
 
-  toggleDisabled = () => {
-    console.log(this.state.disabled);
-    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.state.disabled = false;
+ toggleDisabled = () => {
+    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.setState({disabled: false});
   }
 
-  render() {
-    if(this.props.page.newStoryId !== null) {
-      return <Redirect to={`/me/editstory/${this.props.page.newStoryId}`} />
-    }
+ render() {
     const ownStories = Object.keys(this.props.stories)
-    .filter(key => this.props.stories[key].editor === 'E-A')
+    .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el]
       return accum;
@@ -86,8 +81,19 @@ class UserPage extends Component {
         open={this.state.open}
         >
         Add a title and tagline for your new story
-        <TextField hintText="Story Title" floatingLabelText="Story Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.titleField = input} onKeyPress={this.toggleDisabled}/><br />
-        <TextField hintText="Story Tagline" floatingLabelText="Story Tagline" fullWidth={true} ref={input => this.taglineField = input} onKeyPress={this.toggleDisabled}/><br />
+        <TextField
+          hintText="Story Title"
+          floatingLabelText="Story Title"
+          style={{ fontSize: '24px' }}
+          fullWidth={true}
+          ref={input => this.titleField = input}
+          onKeyPress={this.toggleDisabled}/><br />
+        <TextField
+          hintText="Story Tagline"
+          floatingLabelText="Story Tagline"
+          fullWidth={true}
+          ref={input => this.taglineField = input}
+          onKeyPress={this.toggleDisabled}/><br />
         </Dialog>
         <StoryList stories={ownStories}/>
       </div>
@@ -102,7 +108,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStories: () => dispatch(fetchStoriesUserPage()),
+  loadStories: (userId) => dispatch(fetchStoriesUserPage(userId)),
   createStory: (data) => dispatch(createStory(data))
 });
 

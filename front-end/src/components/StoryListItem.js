@@ -3,51 +3,50 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { Link } from 'react-router-dom';
 
 import { updateStory, deleteStory, fetchSingleStory } from '../actions';
 
 class StoryListItem extends Component {
 
-  state = {
+ state = {
     openDelete: false,
     openPublish: false
   };
 
-  openPublishDialog = () => {
+ openPublishDialog = () => {
     this.setState({openPublish: true});
   };
 
-  closePublishDialog = () => {
+ closePublishDialog = () => {
     this.setState({openPublish: false});
   };
 
-  openDeleteDialog = () => {
+ openDeleteDialog = () => {
     this.setState({openDelete: true});
   };
 
-  closeDeleteDialog = () => {
+ closeDeleteDialog = () => {
     this.setState({openDelete: false});
   };
 
-  deleteStoryConfirm = () => {
+ deleteStoryConfirm = () => {
     this.setState({openDelete: false});
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
     this.props.deleteStory(storyId);
   };
 
-  publishStoryConfirm = () => {
+ publishStoryConfirm = () => {
     this.setState({openPublish: false});
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
     this.props.publishStory(storyId);
   };
 
-  editstory = () => {
-    const storyId = this.props.story.id;
+ editstory = () => {
+    const storyId = this.props.story._id;
     this.props.editstory(storyId);
   }
 
-  renderEditButton = () => {
+ renderEditButton = () => {
     return (
       <FlatButton
         label='EDIT'
@@ -55,13 +54,13 @@ class StoryListItem extends Component {
         primary={true}
         onClick={(e) => {
           e.preventDefault();
-          this.editstory
+          this.editstory();
         }}
       />
     )
   }
 
-  renderDeleteButton = () => {
+ renderDeleteButton = () => {
     const actionsDelete = [
       <FlatButton
         label="Cancel"
@@ -100,7 +99,7 @@ class StoryListItem extends Component {
     )
   }
 
-  renderPublishButton = () => {
+ renderPublishButton = () => {
     const actionsPublish = [
       <FlatButton
         label="Cancel"
@@ -136,7 +135,7 @@ class StoryListItem extends Component {
     )
   }
 
-  renderButtons = () => {
+ renderButtons = () => {
     if (window.location.href.match('me/stories') !== null) {
       return (
         <div className='ButtonsRender'>
@@ -148,7 +147,7 @@ class StoryListItem extends Component {
     }
   }
 
-  renderStoryAssets = () => {
+ renderStoryAssets = () => {
     const { title, tagLine, editor } = this.props.story;
     return (
       <div className="ListItemPaper">
@@ -164,25 +163,20 @@ class StoryListItem extends Component {
     )
   }
 
-  render() {
-
-    const style = {
+ render() {
+   const style = {
       height: 80,
       width: '100%'
     };
-
-    return (
-
-      <div className="StoryListItem">
+   return (
+     <div className="StoryListItem">
         <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),

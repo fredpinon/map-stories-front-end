@@ -23,7 +23,7 @@ export const editEvent = (data, storyId, method=undefined) => ({
     types: [ EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE ],
     endpoint: data.id !== undefined ? `/stories/${storyId}/events/${data.id}`: `/stories/${storyId}/events`,
     schema: Schemas.STORY,
-    method: data.id !=undefined ? 'PUT' : 'POST',
+    method: data.id !== undefined ? 'PUT' : 'POST',
     data: data,
   }
 })
@@ -57,10 +57,10 @@ export const STORIES_USER_REQUEST = 'STORIES_USER_REQUEST';
 export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
 export const STORIES_USER_FAILURE = 'STORIES_USER_FAILURE';
 
-export const fetchStoriesUserPage = () => ({
+export const fetchStoriesUserPage = (editorId) => ({
   [CALL_API]: {
     types: [ STORIES_USER_REQUEST, STORIES_USER_SUCCESS, STORIES_USER_FAILURE ],
-    endpoint: '/me/stories',
+    endpoint: `/me/stories/${editorId}`,
     schema: Schemas.STORY_ARRAY
   }
 })
@@ -77,16 +77,16 @@ export const fetchSingleStory = (storyId) => ({
   }
 })
 
-export const DELETE_REQUEST = 'DELETE_REQUEST';
-export const DELETE_SUCCESS = 'DELETE_SUCCESS';
-export const DELETE_FAILURE = 'DELETE_FAILURE';
+export const DELETE_STORY_REQUEST = 'DELETE_STORY_REQUEST';
+export const DELETE_STORY_SUCCESS = 'DELETE_STORY_SUCCESS';
+export const DELETE_STORY_FAILURE = 'DELETE_STORY_FAILURE';
 
 export const deleteStory = (storyId) => ({
   [CALL_API]: {
     method: 'DELETE',
-    types: [ DELETE_REQUEST, DELETE_SUCCESS, DELETE_FAILURE ],
-    endpoint: `/stories/${storyId}`,
-    schema: Schemas.STORY,
+    types: [ DELETE_STORY_REQUEST, DELETE_STORY_SUCCESS, DELETE_STORY_FAILURE ],
+    endpoint: `/stories/story/${storyId}`,
+    schema: Schemas.STORY_ARRAY,
   }
 })
 
@@ -130,17 +130,17 @@ export const loginUser = (data) => ({
   }
 })
 
-export const storeCredentials = (userCredentials) => ({
-  type: 'USER_CREDENTIALS',
-  payload: {
-    userCredentials,
-  }
-})
+export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
+export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
+export const LOGOUT_USER_FAILURE = 'LOGOUT_USER_FAILURE';
 
-export const logOutUser = () => ({
-  type: 'USER_LOGGED_OUT',
-  payload: {
-
+export const logOutUser = (data) => ({
+  [CALL_API]: {
+    types: [ LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE ],
+    endpoint: `/sign-out`,
+    schema: Schemas.EDITOR,
+    method: 'PUT',
+    data,
   }
 })
 
@@ -148,5 +148,5 @@ export const clearSearch = () => ({
   type: 'CLEAR_SEARCH',
   payload: {
 
-  }
+ }
 })
