@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import { connect } from 'react-redux';
 import { editStory } from '../actions';
 import uuid from 'uuid/v4';
@@ -6,6 +7,9 @@ import { Player, BigPlayButton
 } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css";
 import ReactPlayer from 'react-player';
+
+import '../css/EditorPage.css';
+
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -37,6 +41,7 @@ const s3 = new AWS.S3({
 
 
 class EventInfo extends Component {
+
   constructor () {
     super()
     this.event = {
@@ -47,6 +52,7 @@ class EventInfo extends Component {
       attachments: []
     }
   }
+
 
   state = {
     attachments: [],
@@ -294,6 +300,7 @@ class EventInfo extends Component {
         </div>
       )
     }
+
   }
 
   render() {
@@ -320,42 +327,45 @@ class EventInfo extends Component {
           <br />
           {this.renderOptionalInputOrLink(el.type, index)}
           <Divider style={{
-            width: '112%',
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
         </div>
       )
     })
-
     const style = {marginTop: 50}
-
-    const headerStyle={
-      color: "grey",
+    const style2 = {
+      marginTop: 50,
+      float: 'right'
     }
-
+    const headerStyle={ color: "grey" }
     return (
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.event.startTime = input}/><br />
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.event.title = input}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.event.dateTime = input}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.event.location = input}/><br />
-          <Divider style={{
-            width: '112%',
+          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.titleField = input}/><br />
+          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTimeField = input}/><br />
+          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.locationField = input}/><br />
+          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTimeField = input}/><br />
+          <Divider className="Divider" style={{
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
           {attachments}
-          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment} rippleColor="#673AB7"/>
+
+          <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment}/>
           <Divider style={{
-            width: '112%',
+            width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
-          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent} rippleColor="#673AB7"/>
-          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent} rippleColor="#673AB7"/>
+          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
+          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} /> : null}
+          {this.props.showPrevious ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} /> : null}
+
         </Paper>
       </div>
     );
@@ -363,4 +373,3 @@ class EventInfo extends Component {
 }
 
 export default EventInfo;
-

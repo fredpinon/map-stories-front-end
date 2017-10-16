@@ -12,32 +12,29 @@ class HomePage extends Component {
   }
 
   renderSearch() {
-
     const storiesRes = this.props.page.searchResults;
     const stories = this.props.stories;
     if (this.props.page.searchResults.length > 0) {
-
       let searched = {};
-      storiesRes.forEach((el, i) => {
-        searched[i] = stories[el]
-      })
-      return <StoryList className="Searched" stories={searched}/>
-    } else {
-      return <StoryList stories={stories}/>
-    }
-
+      storiesRes.forEach((el, i) => searched[i] = stories[el]);
+      return <StoryList className="Searched" stories={searched}/>;
+    } else return null;
   }
 
   render() {
     const publishedStories = Object.keys(this.props.stories)
     .filter(key => this.props.stories[key].published)
     .reduce((accum, el) => {
-      accum[el] = this.props.stories[el]
+      accum[el] = this.props.stories[el];
       return accum;
     },{});
     return (
       <div className="HomePage">
-        {this.renderSearch()}
+        {this.props.page.searchResults.length === 0
+          ?
+          <StoryList stories={publishedStories}/>
+          :
+          this.renderSearch()}
       </div>
     );
   }

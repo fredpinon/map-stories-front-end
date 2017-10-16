@@ -16,7 +16,7 @@ class EventCard extends Component {
   }
 
   handleExpandChange = expanded => this.setState({expanded: expanded});
-  onMouseOver = () => this.setState({ shadow: 2 });
+  onMouseOver = () => this.setState({ shadow: 3 });
   onMouseOut = () => this.setState({ shadow: 1 });
 
   renderLinks = (attachment, i) => {
@@ -63,7 +63,7 @@ class EventCard extends Component {
   render() {
     const { title } = this.props.data;
     const titleStyle = {
-      fontStyle: 'italic',
+      fontWeight: 'bold',
     };
     return (
       <Card
