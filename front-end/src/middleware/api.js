@@ -16,11 +16,7 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
     body
   })
     .then(response => response.json())
-    .then(data => {
-      return Object.assign({},
-          normalize(data, schema)
-        )
-    })
+    .then(data => schema ? normalize(data, schema) : data)
 }
 
 const editorSchema = new schema.Entity('editors', {});
