@@ -134,7 +134,7 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
           />
           {this.previewInputFile(type, index)}
-          {this.deleteAttachmentButton(type, index)}
+          {this.renderDeleteAttachmentButton(index)}
         </div>
       )
     }
@@ -245,10 +245,24 @@ class EventInfo extends Component {
     }
   }
 
-  deleteAttachmentButton = (type, index) => {
-    if (this.state.attachments[index]) {
-      console.log(this.state);
+  renderDeleteAttachmentButton = (index) => {
+    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl) {
+      return (
+        <div className='deleteAttachmentButton'>
+          <FlatButton
+            label="Delete attachment"
+            primary={true}
+            rippleColor="#673AB7"
+            onClick={() => this.deleteAttachment(index)}
+          />
+        </div>
+      )
     }
+  }
+
+  deleteAttachment = (index) => {
+    this.state.attachments.splice(index, 1);
+    this.forceUpdate();
   }
 
   render() {
