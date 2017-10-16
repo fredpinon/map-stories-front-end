@@ -4,7 +4,6 @@ import '../css/Main.css';
 
 import { connect } from 'react-redux';
 
-import { showError } from '../actions';
 import HomePage from './HomePage';
 import Viewer from './Viewer';
 import UserPage from './UserPage';
@@ -17,15 +16,7 @@ import Snackbar from 'material-ui/Snackbar';
 
 class Main extends Component {
 
-  // constructor(props) {
-  //
-  //   super(props);
-  //   this.state = {
-  //     autoHideDuration: 5000,
-  //     message: this.props.errors.errorMessage,
-  //     open: this.props.errors.error
-  //   };
-  // }
+
   render() {
     return (
       <div className="Main">
@@ -58,7 +49,7 @@ class Main extends Component {
           />
         </Switch>
         <Snackbar
-          open={this.props.errors.error}
+          open={(new Date()).getTime() <= this.props.errors.errorTime}
           message={this.props.errors.errorMessage}
           autoHideDuration={5000}
         />
