@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import { Player } from 'video-react';
 import '../css/EditorPage.css';
 import { editStory } from '../actions';
 import { connect } from 'react-redux';
 import uuid from 'uuid/v4';
+import { Player, ControlBar, ReplayControl,
+  ForwardControl, CurrentTimeDisplay,
+  TimeDivider, PlaybackRateMenuButton, VolumeMenuButton, BigPlayButton
+} from 'video-react';
+import "../../node_modules/video-react/dist/video-react.css";
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -91,9 +95,16 @@ class EventInfo extends Component {
             <div className="previewVideo">
               <Player
                 id="player"
-                poster='http://madisonlib.org/wp-content/uploads/2015/07/story-time.jpg'
-                src={this.state.attachments[index].url}
-              />
+              >
+                <source src={this.state.attachments[index].url} />
+                <BigPlayButton position="center" />
+                <ControlBar autoHide={false}r>
+                <ReplayControl  />
+                <ForwardControl  />
+                <CurrentTimeDisplay />
+                <VolumeMenuButton  />
+              </ControlBar>
+            </Player>
             </div>
           )
         } else {
