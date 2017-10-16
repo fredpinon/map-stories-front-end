@@ -14,7 +14,7 @@ class TimeLine extends Component {
 
   state = {
     play: true,
-    timeStamps: ['00:00', '02:45', '05:30', '07:45', '10:30'],
+    timeStamps: ['00:00', '02:45', '05:30', '07:45', '10:30', '15:00', '20:00'],
     timeStamp: 0
   }
 
