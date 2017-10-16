@@ -14,6 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import LinearProgress from 'material-ui/LinearProgress';
 import '../css/EditorPage.css';
 
 import AWS from 'aws-sdk';
@@ -48,9 +49,9 @@ class EventInfo extends Component {
   }
 
   state = {
-    attachments: []
+    attachments: [],
+    uploading: false
   };
-
 
   changeAttachmentProperty = (index, key, value) => {
     const attachments = this.state.attachments.slice();
@@ -76,7 +77,6 @@ class EventInfo extends Component {
     this.props.onEventSave(eventInfo);
   }
 
-
   restrictInputType = (type) => {
     switch (type) {
       case 'image':
@@ -88,53 +88,6 @@ class EventInfo extends Component {
       case 'audio':
         return "audio/*"
       break;
-    }
-  }
-
-  optionalInputOrLink = (type, index) => {
-    const styles = {
-      inputForm: {
-        cursor: 'pointer',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
-        width: '100%',
-        opacity: 0,
-      }
-    };
-
-    if (type === 'image' || type === 'video' || type === 'audio') {
-      return (
-        <div>
-          <RaisedButton
-            label={`Choose your ${type}`}
-            primary={true}
-            fullWidth={true}
-            disabled={this.toggleDisable(index)}
-          >
-            <input
-              id="files"
-              type="file"
-              ref={type}
-              style={styles.inputForm}
-              onChange={(e) => this.handleAWSPath(e, index, type)}
-              accept={this.restrictInputType(type)}
-            />
-          </RaisedButton>
-          <TextField
-            hintText="url"
-            floatingLabelText="or just paste URL"
-            fullWidth={true}
-            onKeyPress={(e) => this.handleLinkInput(e, index, type)}
-            ref={input => this.eventURLField = input}
-            disabled={this.toggleDisable(index)}
-          />
-          {this.previewInputFile(type, index)}
-          {this.renderDeleteAttachmentButton(index)}
-        </div>
-      )
     }
   }
 
@@ -159,7 +112,15 @@ class EventInfo extends Component {
         return console.error('There was an error uploading your file: ', err.message);
       }
       console.log('Successfully uploaded file.', data.Location, this.state);
+      this.setState({ uploading: false });
       this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
+    })
+    .on('httpUploadProgress', (progress) => {
+      this.setState({
+        uploading: true,
+        progressLoaded: progress.loaded,
+        progressTotal: progress.total
+      })
     });
   }
 
@@ -191,7 +152,17 @@ class EventInfo extends Component {
     }
   }
 
-  previewInputFile = (type, index) => {
+  deleteAttachment = (index) => {
+    const attachments = this.state.attachments.concat();
+    attachments.splice(index, 1)
+    this.setState({
+      attachments
+    });
+  }
+
+  // ============== RENDERING
+
+  renderPreviewInputFile = (type, index) => {
     if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
       switch (type) {
         case 'image':
@@ -265,12 +236,64 @@ class EventInfo extends Component {
     }
   }
 
-  deleteAttachment = (index) => {
-    const attachments = this.state.attachments.concat();
-    attachments.splice(index, 1)
-    this.setState({
-      attachments
-    });
+  renderProgressBar = () => {
+    if (!this.state.uploading) return null;
+
+    return (
+      <LinearProgress
+        mode="determinate"
+        value={this.state.progressLoaded}
+        max={this.state.progressTotal}
+      />
+    )
+  }
+
+  renderOptionalInputOrLink = (type, index) => {
+    const styles = {
+      inputForm: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      }
+    };
+
+    if (type === 'image' || type === 'video' || type === 'audio') {
+      return (
+        <div>
+          <RaisedButton
+            label={`Choose your ${type}`}
+            primary={true}
+            fullWidth={true}
+            disabled={this.toggleDisable(index)}
+          >
+            <input
+              id="files"
+              type="file"
+              ref={type}
+              style={styles.inputForm}
+              onChange={(e) => this.handleAWSPath(e, index, type)}
+              accept={this.restrictInputType(type)}
+            />
+          </RaisedButton>
+          <TextField
+            hintText="url"
+            floatingLabelText="or just paste URL"
+            fullWidth={true}
+            onKeyPress={(e) => this.handleLinkInput(e, index, type)}
+            ref={input => this.eventURLField = input}
+            disabled={this.toggleDisable(index)}
+          />
+          {this.renderProgressBar()}
+          {this.renderPreviewInputFile(type, index)}
+          {this.renderDeleteAttachmentButton(index)}
+        </div>
+      )
+    }
   }
 
   render() {
@@ -295,7 +318,7 @@ class EventInfo extends Component {
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          {this.optionalInputOrLink(el.type, index)}
+          {this.renderOptionalInputOrLink(el.type, index)}
           <Divider style={{
             width: '112%',
             marginLeft: -30,
