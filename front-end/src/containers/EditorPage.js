@@ -11,7 +11,7 @@ import EventInfo from '../components/EventInfo';
 class EditorPage extends Component {
 
   state = {
-    currentEventIndex: 0,
+    currentEventIndex: {},
     showPrev: false,
     showNext: false,
   }
@@ -22,7 +22,7 @@ class EditorPage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.story.events && this.props.story.events.length > 1) {
+    if (nextProps.story.events && nextProps.story.events.length > 1) {
       this.setState({ showNext:true });
     }
   }
@@ -47,7 +47,7 @@ class EditorPage extends Component {
 
   goNext = () => {
     this.setState({
-      showNext: this.props.story.events[this.state.currentEventIndex+2] !== undefined,
+      showNext: this.props.story.events[this.state.currentEventIndex+1] !== undefined,
       showPrev: true,
       currentEventIndex: this.state.currentEventIndex+1
     })
