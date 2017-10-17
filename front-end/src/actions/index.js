@@ -139,3 +139,10 @@ export const clearSearch = () => ({
 
   }
 })
+
+export const SHOW_ERROR = 'SHOW_ERROR';
+
+export const showError = (errorMessage) => ({
+  type: 'SHOW_ERROR',
+  errorMessage
+})

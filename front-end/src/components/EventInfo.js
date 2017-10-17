@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-
 import { connect } from 'react-redux';
-import { editStory } from '../actions';
+import { editStory, showError } from '../actions';
 import uuid from 'uuid/v4';
 import { Player, BigPlayButton
 } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css";
 import ReactPlayer from 'react-player';
-import '../css/EditorPage.css';
 
 import '../css/EditorPage.css';
 
@@ -42,19 +40,6 @@ const s3 = new AWS.S3({
 
 
 class EventInfo extends Component {
-
-  constructor () {
-    super()
-    this.event = {
-      startTime: '',
-      title: '',
-      dateTime: '',
-      location: '',
-      attachments: []
-    }
-  }
-
-
   state = {
     eventInfo: {
 
@@ -107,7 +92,6 @@ class EventInfo extends Component {
       }])
     })
   }
-
 
   restrictInputType = (type) => {
     switch (type) {
@@ -171,7 +155,7 @@ class EventInfo extends Component {
         if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         } else {
-          alert('put valid image link')
+          this.props.showError('put valid image link');
         }
         break;
         case 'video':
@@ -283,7 +267,7 @@ class EventInfo extends Component {
       )
     }
   }
-  
+
   renderProgressBar = () => {
     if (!this.state.uploading) return null;
 
@@ -441,4 +425,16 @@ class EventInfo extends Component {
   }
 }
 
-export default EventInfo;
+
+const mapStateToProps = (state, ownProps) => ({
+  // id: ownProps.computedMatch.params.storyId
+  // story: state.entities.stories[ownProps.computedMatch.params.storyId],
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
+  // editStory: (data) => dispatch(editStory(data))
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventInfo);

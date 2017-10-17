@@ -11,7 +11,11 @@ import EditorPage from './EditorPage';
 import NoMatch from '../components/NoMatch';
 import PrivateRoute from '../components/PrivateRoute';
 
+import Snackbar from 'material-ui/Snackbar';
+
 class Main extends Component {
+
+
   render() {
     return (
       <div className="Main">
@@ -38,6 +42,11 @@ class Main extends Component {
             component={NoMatch}
           />
         </Switch>
+        <Snackbar
+          open={(new Date()).getTime() <= this.props.errors.errorTime}
+          message={this.props.errors.errorMessage}
+          autoHideDuration={5000}
+        />
       </div>
     );
   }
@@ -45,6 +54,7 @@ class Main extends Component {
 
 const mapStateToProps = (state) => ({
   token: state.authentication.token,
+  errors: state.errors
 });
 
 const mapDispatchToProps = (dispatch) => ({});
