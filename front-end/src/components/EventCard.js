@@ -3,17 +3,18 @@ import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import TweetEmbed from 'react-tweet-embed';
 import ReactPlayer from 'react-player';
 
+import { timer } from '../actions/index'
+import { connect } from 'react-redux';
+
 class EventCard extends Component {
 
   state = {
     expanded: false,
     shadow: 1,
   }
-
   componentDidMount() {
-    if (!this.props.expanded) return;
-    else this.setState({expanded: true});
   }
+
 
   handleExpandChange = expanded => this.setState({expanded: expanded});
   onMouseOver = () => this.setState({ shadow: 3 });
@@ -60,6 +61,8 @@ class EventCard extends Component {
     });
   }
 
+  
+
   render() {
     const { title } = this.props.data;
     const titleStyle = {
@@ -68,12 +71,13 @@ class EventCard extends Component {
     return (
       <Card
         className="EventCard"
-        expanded={this.state.expanded}
+        expanded={this.props.expanded}
         onExpandChange={this.handleExpandChange}
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
         zDepth={this.state.shadow}
         >
+
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
@@ -87,4 +91,12 @@ class EventCard extends Component {
   }
 }
 
-export default EventCard;
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventCard);

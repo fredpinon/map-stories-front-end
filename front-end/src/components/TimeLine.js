@@ -15,26 +15,28 @@ class TimeLine extends Component {
 
   state = {
     play: true,
-    timeStamps: ['00:00', '02:45', '05:30', '07:45', '10:30', '15:00', '20:00'],
+    timeStamps: this.props.times,
     timeStamp: 0
   }
 
   timeLine = () => {
     const ratio = 1 / ((Math.max(...this.calcMarks(this.state.timeStamps)[1]) ) *60 / 100)
+    console.log((Math.max(...this.calcMarks(this.state.timeStamps)[1])));
 
     setInterval(
       () => {
         if (!this.state.play) {
-            console.log('hello');
+            // console.log('hello');
             let increment = this.state.timeStamp + ratio;
-            console.log(this.state.timeStamp + ratio);
+            // console.log(this.state.timeStamp + ratio);
             if (increment > 100) {
               increment = Math.floor(increment);
               this.Pause();
             }
             this.setState({timeStamp: increment})
-            console.log(this.state.timeStamp);
+            // console.log(this.state.timeStamp);
         }
+        this.handleTime();
       }, 1000)
   }
 
@@ -42,7 +44,7 @@ class TimeLine extends Component {
     if (this.state.timeStamp < 100) {
       this.setState({play: false});
     }
-    console.log(this.state.play);
+    // console.log(this.state.play);
   }
 
   Pause = () => {
@@ -95,6 +97,36 @@ class TimeLine extends Component {
     }
   }
 
+  handleTime() {
+    let eventTime
+    let allEvents = []
+    let currentTime = this.state.timeStamp/100 * Math.max(...this.calcMarks(this.state.timeStamps)[1]) * 60
+
+    //  Math.round(
+    //
+    // *10)/10
+    // console.log('Current time:', currentTime);
+
+    this.props.times.forEach(x => {
+      let z = x.split(':');
+      z.length > 2 ? allEvents.push(parseInt(z[0]) * 60 +   parseInt(z[1]) + (parseInt(z[2])/60)) : allEvents.push(parseInt(z[0]) + (parseInt(z[1])/60))
+    })
+
+    if (currentTime > 0) {
+      let passedEvents = [];
+      allEvents.forEach(x => {
+        if (x < currentTime/60) passedEvents.push(x)
+
+      })
+      if (passedEvents.length > 0) {
+        // console.log('These are the passedEvents:', Math.max(...passedEvents));
+        this.props.match(Math.max(...passedEvents))
+      }
+    }
+
+  }
+
+
   calcMarks = (marks) => {
     let arr = []
     let Marks = {}
@@ -112,8 +144,7 @@ class TimeLine extends Component {
 
   handleChange = (event) => {
     this.setState({timeStamp: event});
-    this.props.timer(this.state.timeStamp)
-    console.log(this.state.timeStamp);
+
   }
 
 
@@ -128,7 +159,6 @@ class TimeLine extends Component {
           <i id="backward" className="material-icons md-36 purple" onClick={this.Forward}>fast_forward</i>
         </div>
 
-
         <div className="Slider">
           <Slider marks={this.calcMarks(this.state.timeStamps)[0]}  value={this.state.timeStamp} onChange={this.handleChange}/>
         </div>
@@ -138,11 +168,11 @@ class TimeLine extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  time: state.timer.time
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  timer: (time) => dispatch(timer(time))
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeLine);

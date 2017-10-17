@@ -132,13 +132,6 @@ export const logOutUser = () => ({
   }
 })
 
-export const timer = (time) => ({
-  type: 'TIMER_EVENT',
-  payload: {
-    time,
-  }
-})
-
 export const clearSearch = () => ({
   type: 'CLEAR_SEARCH',
   payload: {
