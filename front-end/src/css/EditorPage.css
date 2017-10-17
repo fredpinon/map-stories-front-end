@@ -24,8 +24,15 @@
   max-width: 500px;
   flex-direction: column;
   margin: 2em 0;
-  position: relative;
-  z-index: 2;
+  max-width: 550px;
+}
+
+.previewImage img {
+  width:100%;
+}
+
+.deleteAttachmentButton {
+  float: right;
 }
 
 .EventInfoDiv {
@@ -34,8 +41,8 @@
   overflow-y: scroll;
 }
 
+
 .InputHeader {
-  max-width: 550px;
   height: 65px;
   margin-left: 2em;
   padding-left: 2em;
@@ -72,3 +79,10 @@
   top:0;
   bottom: 0;
 }
+
+.EventInfoContainer {
+  position: absolute;
+  z-index: 2;
+  padding-left: 50px;
+}
+
