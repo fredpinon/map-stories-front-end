@@ -13,21 +13,13 @@ class StoryListItem extends Component {
     openPublish: false
   };
 
- openPublishDialog = () => {
-    this.setState({openPublish: true});
-  };
+ openPublishDialog = () => this.setState({openPublish: true});
 
- closePublishDialog = () => {
-    this.setState({openPublish: false});
-  };
+ closePublishDialog = () => this.setState({openPublish: false});
 
- openDeleteDialog = () => {
-    this.setState({openDelete: true});
-  };
+ openDeleteDialog = () => this.setState({openDelete: true});
 
- closeDeleteDialog = () => {
-    this.setState({openDelete: false});
-  };
+ closeDeleteDialog = () => this.setState({openDelete: false});
 
  deleteStoryConfirm = () => {
     this.setState({openDelete: false});
@@ -145,13 +137,15 @@ class StoryListItem extends Component {
   }
 
  renderStoryAssets = () => {
-    const { title, tagLine, editor } = this.props.story;
+    const { title, tagLine, editor, _id } = this.props.story;
+    console.log(this.props.story);
+    const editorInfo = this.props.editors[editor];
     return (
       <div className="ListItemPaper">
-        <a href={`/story/${this.props.story.id}`} className="ListItemDescription">
+        <a href={`/story/${_id}`} className="ListItemDescription">
           <p>{title}</p>
           <p>{tagLine}</p>
-          {this.props.renderEditor ? <p>{editor}</p> : null }
+          {this.props.renderEditor ? <p>{editorInfo.name}</p> : null }
         </a>
         <div className='Buttons'>
           {this.renderButtons()}
@@ -176,7 +170,9 @@ class StoryListItem extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  editors: state.entities.editors,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId, data) => dispatch(updateStory(storyId, data)),

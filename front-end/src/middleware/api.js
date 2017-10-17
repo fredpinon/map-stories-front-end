@@ -7,6 +7,8 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
+  // console.log(fullUrl);
+
  return fetch(fullUrl, {
     method,
     headers,
@@ -63,6 +65,7 @@ export default store => next => action => {
 
  return callApi(endpoint, schema, method, data, accessToken)
     .then(response => {
+      console.log(response);
       store.dispatch(actionWith({
         type: successType,
         response
