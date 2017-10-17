@@ -98,7 +98,7 @@ export const updateStory = (storyId, data) => ({
   [CALL_API]: {
     method: 'PUT',
     types: [ UPDATE_STORY_REQUEST, UPDATE_STORY_SUCCESS, UPDATE_STORY_FAILURE ],
-    endpoint: `/stories/${storyId}`,
+    endpoint: `/stories/story/${storyId}`,
     schema: Schemas.STORY,
     data
     }
