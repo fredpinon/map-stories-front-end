@@ -36,8 +36,11 @@ export const deleteEvent = (storyId, eventId) => ({
   [CALL_API]: {
     types: [ DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE ],
     endpoint: `/stories/${storyId}/events/${eventId}`,
-    schema: Schemas.STORY,
     method: 'DELETE',
+  },
+  payload: {
+    storyId,
+    eventId
   }
 })
 
@@ -138,4 +141,11 @@ export const logOutUser = () => ({
 export const clearSearch = () => ({
   type: 'CLEAR_SEARCH',
   payload: {}
+})
+
+export const SHOW_ERROR = 'SHOW_ERROR';
+
+export const showError = (errorMessage) => ({
+  type: 'SHOW_ERROR',
+  errorMessage
 })

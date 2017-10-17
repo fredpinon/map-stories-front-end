@@ -42,24 +42,16 @@ class StoryListItem extends Component {
     this.props.publishStory(storyId, data);
   };
 
- editstory = () => {
-    const storyId = this.props.story._id;
-    this.props.editstory(storyId);
-  }
-
  renderEditButton = () => {
     return (
       <FlatButton
         label='EDIT'
         rippleColor="purple"
         primary={true}
-        onClick={(e) => {
-          e.preventDefault();
-          this.editstory();
-        }}
+        href={`/me/editstory/${this.props.story.id}`}
       />
     )
-  }
+  };
 
  renderDeleteButton = () => {
     const actionsDelete = [
@@ -156,11 +148,11 @@ class StoryListItem extends Component {
     const { title, tagLine, editor } = this.props.story;
     return (
       <div className="ListItemPaper">
-        <div className="ListItemDescription">
+        <a href={`/story/${this.props.story.id}`} className="ListItemDescription">
           <p>{title}</p>
           <p>{tagLine}</p>
           <p>{editor}</p>
-        </div>
+        </a>
         <div className='Buttons'>
           {this.renderButtons()}
         </div>
@@ -173,9 +165,12 @@ class StoryListItem extends Component {
       height: 80,
       width: '100%'
     };
-   return (
-     <div className="StoryListItem">
-        <Paper className="Paper" style={style} zDepth={1} children={this.renderStoryAssets()}/>
+    return (
+      <div className="StoryListItem">
+        <Paper className="Paper"
+          style={style}
+          zDepth={1}
+          children={this.renderStoryAssets()}/>
       </div>
     );
   }
@@ -186,7 +181,7 @@ const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId, data) => dispatch(updateStory(storyId, data)),
   deleteStory: (storyId) => dispatch(deleteStory(storyId)),
-  editStory: (storyId) => dispatch(fetchSingleStory(storyId))
+  getStory: (storyId) => dispatch(fetchSingleStory(storyId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);
