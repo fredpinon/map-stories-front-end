@@ -402,10 +402,16 @@ class EventInfo extends Component {
             marginLeft: -30,
             marginTop: 60,
           }} />
-          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
-          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
-          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
-          {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
+          <div className="saveButtons">
+            <div className="nextPrev">
+              {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
+              {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
+            </div>
+            <div className="saveDelete">
+              <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
+              <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+            </div>
+        </div>
         </Paper>
       </div>
     );

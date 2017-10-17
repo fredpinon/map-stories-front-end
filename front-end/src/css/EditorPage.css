@@ -66,6 +66,11 @@
   display: none;
 }
 
+.saveButtons {
+  display: flex;
+  flex-direction: column;
+}
+
 .Map {
   display: flex;
   position: relative;
