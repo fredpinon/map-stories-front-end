@@ -72,7 +72,7 @@ export const STORY_FAILURE = 'STORY_FAILURE';
 export const fetchSingleStory = (storyId) => ({
   [CALL_API]: {
     types: [ STORY_REQUEST, STORY_SUCCESS, STORY_FAILURE ],
-    endpoint: `/stories/story/${storyId}`,
+    endpoint: `/stories/${storyId}`,
     schema: Schemas.STORY
   }
 })
@@ -85,7 +85,7 @@ export const deleteStory = (storyId) => ({
   [CALL_API]: {
     method: 'DELETE',
     types: [ DELETE_STORY_REQUEST, DELETE_STORY_SUCCESS, DELETE_STORY_FAILURE ],
-    endpoint: `/stories/story/${storyId}`,
+    endpoint: `/stories/${storyId}`,
     schema: Schemas.STORY_ARRAY,
   }
 })
@@ -98,7 +98,7 @@ export const updateStory = (storyId, data) => ({
   [CALL_API]: {
     method: 'PUT',
     types: [ UPDATE_STORY_REQUEST, UPDATE_STORY_SUCCESS, UPDATE_STORY_FAILURE ],
-    endpoint: `/stories/story/${storyId}`,
+    endpoint: `/stories/${storyId}`,
     schema: Schemas.STORY,
     data
     }
