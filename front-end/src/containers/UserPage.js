@@ -17,7 +17,8 @@ class UserPage extends Component {
 
   state = {
     open: false,
-    disabled: true
+    disabled: true,
+    renderEditor: false
   };
 
   handleOpen = () => {
@@ -89,7 +90,7 @@ class UserPage extends Component {
         <TextField hintText="Story Title" floatingLabelText="Story Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.titleField = input} onKeyPress={this.toggleDisabled}/><br />
         <TextField hintText="Story Tagline" floatingLabelText="Story Tagline" fullWidth={true} ref={input => this.taglineField = input} onKeyPress={this.toggleDisabled}/><br />
         </Dialog>
-        <StoryList stories={ownStories}/>
+        <StoryList stories={ownStories} renderEditor={this.state.renderEditor}/>
       </div>
     );
   }
