@@ -38,7 +38,8 @@ class StoryListItem extends Component {
  publishStoryConfirm = () => {
     this.setState({openPublish: false});
     const storyId = this.props.story._id;
-    this.props.publishStory(storyId);
+    const data = this.props.story.published ? {published: false} : {published: true};
+    this.props.publishStory(storyId, data);
   };
 
  editstory = () => {
@@ -100,6 +101,10 @@ class StoryListItem extends Component {
   }
 
  renderPublishButton = () => {
+    const published = this.props.story.published ? 'UNPUBLISH' : 'PUBLISH';
+    const dialogTitle = this.props.story.published ?
+     'Are you sure you want to unpublish?' :
+     'Are you sure you want to publish?';
     const actionsPublish = [
       <FlatButton
         label="Cancel"
@@ -108,7 +113,7 @@ class StoryListItem extends Component {
         rippleColor="purple"
       />,
       <FlatButton
-        label="Publish"
+        label="Confirm"
         primary={true}
         onClick={this.publishStoryConfirm}
         rippleColor="purple"
@@ -116,7 +121,7 @@ class StoryListItem extends Component {
     ];
     return (
       <FlatButton
-        label='PUBLISH'
+        label={published}
         onClick={(e) => {
           e.preventDefault();
           this.setState({openPublish: true});;
@@ -125,7 +130,7 @@ class StoryListItem extends Component {
         primary={true}
         >
         <Dialog
-          title="Are you sure you want to publish?"
+          title={dialogTitle}
           actions={actionsPublish}
           modal={true}
           open={this.state.openPublish}
@@ -179,7 +184,7 @@ class StoryListItem extends Component {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),
+  publishStory: (storyId, data) => dispatch(updateStory(storyId, data)),
   deleteStory: (storyId) => dispatch(deleteStory(storyId)),
   editStory: (storyId) => dispatch(fetchSingleStory(storyId))
 });
