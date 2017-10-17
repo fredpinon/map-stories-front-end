@@ -23,7 +23,7 @@ class EventInfo extends Component {
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
-        startTime: props.event.startTime || '00:00',
+        startTime: props.event.startTime || '',
         mapLocation: props.event.mapLocation || '',
         dateAndTime: props.event.dateAndTime || '',
       }
@@ -35,7 +35,7 @@ class EventInfo extends Component {
       this.setState({
         eventInfo: {
           title: nextProps.event.title || '',
-          startTime: nextProps.event.startTime || '00:00',
+          startTime: nextProps.event.startTime || '',
           mapLocation: nextProps.event.mapLocation || '',
           dateAndTime: nextProps.event.dateAndTime || '',
         }
