@@ -53,7 +53,7 @@ class EventInfo extends Component {
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
-        startTime: props.event.startTime || '00:00',
+        startTime: props.event.startTime || '',
         mapLocation: props.event.mapLocation || '',
         dateAndTime: props.event.dateAndTime || '',
       }
@@ -65,7 +65,7 @@ class EventInfo extends Component {
       this.setState({
         eventInfo: {
           title: nextProps.event.title || '',
-          startTime: nextProps.event.startTime || '00:00',
+          startTime: nextProps.event.startTime || '',
           mapLocation: nextProps.event.mapLocation || '',
           dateAndTime: nextProps.event.dateAndTime || '',
         }
@@ -415,10 +415,16 @@ class EventInfo extends Component {
             marginLeft: -30,
             marginTop: 60,
           }} />
-          <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
-          <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
-          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
-          {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
+          <div className="saveButtons">
+            <div className="nextPrev">
+              {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
+              {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
+            </div>
+            <div className="saveDelete">
+              <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
+              <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+            </div>
+        </div>
         </Paper>
       </div>
     );

@@ -11,23 +11,19 @@ import EventInfo from '../components/EventInfo';
 class EditorPage extends Component {
 
   state = {
-    currentEventIndex: 0,
+    currentEventIndex: {},
     showPrev: false,
     showNext: false,
   }
 
   constructor (props) {
     super(props);
-    // Shall we set the current index to the last event?
-    // if(props.story.events && props.story.events.length > 0) {
-    //   this.state.currentEventIndex = 0;
-    // }
     this.props.fetchSingleStory(props.computedMatch.params.storyId);
   }
 
-  componentWillMount () {
-    if (this.props.story.events && this.props.story.events.length > 1) {
-      this.setState({ showNext: true });
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.story.events && nextProps.story.events.length > 1) {
+      this.setState({ showNext:true });
     }
   }
 
@@ -73,7 +69,6 @@ class EditorPage extends Component {
 
   render () {
     if (!this.props.story.events) return null;
-    
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
       ? this.props.story.events[this.state.currentEventIndex]
       : {};
