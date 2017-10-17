@@ -45,10 +45,10 @@ export const STORIES_HP_REQUEST = 'STORIES_HP_REQUEST';
 export const STORIES_HP_SUCCESS = 'STORIES_HP_SUCCESS';
 export const STORIES_HP_FAILURE = 'STORIES_HP_FAILURE';
 
-export const fetchStoriesHomePage = () => ({
+export const fetchStoriesHomePage = (page) => ({
   [CALL_API]: {
     types: [ STORIES_HP_REQUEST, STORIES_HP_SUCCESS, STORIES_HP_FAILURE ],
-    endpoint: '/stories/1',
+    endpoint: `/stories/?p=${page}`,
     schema: Schemas.STORY_ARRAY
   }
 })

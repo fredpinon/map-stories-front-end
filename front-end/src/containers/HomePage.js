@@ -8,7 +8,7 @@ import StoryList from '../components/StoryList';
 class HomePage extends Component {
 
   componentWillMount() {
-    this.props.loadStories();
+    this.props.loadStories(1);
   }
 
   renderSearch() {
@@ -45,7 +45,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStories: () => dispatch(fetchStoriesHomePage())
+  loadStories: (page) => dispatch(fetchStoriesHomePage(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
