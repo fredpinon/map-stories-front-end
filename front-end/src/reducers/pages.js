@@ -2,7 +2,8 @@ import * as actions from '../actions'
 
 const defaultState = {
   storiesList: {
-    searchResults: []
+    searchResults: [],
+    pageResults: []
   },
   createStory: {
     newStoryId: null
@@ -34,6 +35,14 @@ const pages = (state = defaultState, action) => {
         storiesList: {
           ...state.storiesList,
           searchResults: []
+        }
+      }
+    case 'STORIES_HP_SUCCESS':
+      return {
+        ...state,
+        storiesList: {
+          ...state.storiesList,
+          pageResults: action.response.result
         }
       }
     default:

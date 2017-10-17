@@ -3,46 +3,46 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { Link } from 'react-router-dom';
 
 import { updateStory, deleteStory, fetchSingleStory } from '../actions';
 
 class StoryListItem extends Component {
 
-  state = {
+ state = {
     openDelete: false,
     openPublish: false
   };
 
-  openPublishDialog = () => {
+ openPublishDialog = () => {
     this.setState({openPublish: true});
   };
 
-  closePublishDialog = () => {
+ closePublishDialog = () => {
     this.setState({openPublish: false});
   };
 
-  openDeleteDialog = () => {
+ openDeleteDialog = () => {
     this.setState({openDelete: true});
   };
 
-  closeDeleteDialog = () => {
+ closeDeleteDialog = () => {
     this.setState({openDelete: false});
   };
 
-  deleteStoryConfirm = () => {
+ deleteStoryConfirm = () => {
     this.setState({openDelete: false});
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
     this.props.deleteStory(storyId);
   };
 
-  publishStoryConfirm = () => {
+ publishStoryConfirm = () => {
     this.setState({openPublish: false});
-    const storyId = this.props.story.id;
-    this.props.publishStory(storyId);
+    const storyId = this.props.story._id;
+    const data = this.props.story.published ? {published: false} : {published: true};
+    this.props.publishStory(storyId, data);
   };
 
-  renderEditButton = () => {
+ renderEditButton = () => {
     return (
       <FlatButton
         label='EDIT'
@@ -51,9 +51,9 @@ class StoryListItem extends Component {
         href={`/me/editstory/${this.props.story.id}`}
       />
     )
-  }
+  };
 
-  renderDeleteButton = () => {
+ renderDeleteButton = () => {
     const actionsDelete = [
       <FlatButton
         label="Cancel"
@@ -92,7 +92,11 @@ class StoryListItem extends Component {
     )
   }
 
-  renderPublishButton = () => {
+ renderPublishButton = () => {
+    const published = this.props.story.published ? 'UNPUBLISH' : 'PUBLISH';
+    const dialogTitle = this.props.story.published ?
+     'Are you sure you want to unpublish?' :
+     'Are you sure you want to publish?';
     const actionsPublish = [
       <FlatButton
         label="Cancel"
@@ -101,7 +105,7 @@ class StoryListItem extends Component {
         rippleColor="purple"
       />,
       <FlatButton
-        label="Publish"
+        label="Confirm"
         primary={true}
         onClick={this.publishStoryConfirm}
         rippleColor="purple"
@@ -109,7 +113,7 @@ class StoryListItem extends Component {
     ];
     return (
       <FlatButton
-        label='PUBLISH'
+        label={published}
         onClick={(e) => {
           e.preventDefault();
           this.setState({openPublish: true});;
@@ -118,7 +122,7 @@ class StoryListItem extends Component {
         primary={true}
         >
         <Dialog
-          title="Are you sure you want to publish?"
+          title={dialogTitle}
           actions={actionsPublish}
           modal={true}
           open={this.state.openPublish}
@@ -128,7 +132,7 @@ class StoryListItem extends Component {
     )
   }
 
-  renderButtons = () => {
+ renderButtons = () => {
     if (window.location.href.match('me/stories') !== null) {
       return (
         <div className='ButtonsRender'>
@@ -140,7 +144,7 @@ class StoryListItem extends Component {
     }
   }
 
-  renderStoryAssets = () => {
+ renderStoryAssets = () => {
     const { title, tagLine, editor } = this.props.story;
     return (
       <div className="ListItemPaper">
@@ -156,15 +160,12 @@ class StoryListItem extends Component {
     )
   }
 
-  render() {
-
-    const style = {
+ render() {
+   const style = {
       height: 80,
       width: '100%'
     };
-
     return (
-
       <div className="StoryListItem">
         <Paper className="Paper"
           style={style}
@@ -175,12 +176,10 @@ class StoryListItem extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  publishStory: (storyId) => dispatch(updateStory(storyId, {published: true})),
+  publishStory: (storyId, data) => dispatch(updateStory(storyId, data)),
   deleteStory: (storyId) => dispatch(deleteStory(storyId)),
   getStory: (storyId) => dispatch(fetchSingleStory(storyId))
 });

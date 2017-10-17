@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '../css/EditorPage.css';
 import { editEvent, deleteEvent, fetchSingleStory } from '../actions';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
@@ -10,13 +9,13 @@ import EventInfo from '../components/EventInfo';
 
 class EditorPage extends Component {
 
-  state = {
+ state = {
     currentEventIndex: {},
     showPrev: false,
     showNext: false,
   }
 
-  constructor (props) {
+ constructor (props) {
     super(props);
     this.props.fetchSingleStory(props.computedMatch.params.storyId);
   }
@@ -40,7 +39,7 @@ class EditorPage extends Component {
     this.goNext();
   }
 
-  onEventDelete = (eventId) => {
+ onEventDelete = (eventId) => {
     const storyId = this.props.story.id;
     this.props.deleteEvent(storyId, eventId);
   }

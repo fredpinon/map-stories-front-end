@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { editStory, showError } from '../actions';
 import uuid from 'uuid/v4';
-import { Player, BigPlayButton
-} from 'video-react';
+import { Player, BigPlayButton } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css";
 import ReactPlayer from 'react-player';
 
 import '../css/EditorPage.css';
-
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -18,13 +16,11 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-import '../css/EditorPage.css';
-
 import AWS from 'aws-sdk';
+
 const albumBucketName = 'map-story';
 const bucketRegion = 'eu-west-1';
 const IdentityPoolId = 'eu-west-1:888bfed2-3d00-4100-a4d9-8011c6df4837';
-
 
 AWS.config.update({
   region: bucketRegion,
@@ -74,15 +70,12 @@ class EventInfo extends Component {
   }
 
   changeAttachmentProperty = (index, key, value) => {
-
     const attachments = this.state.attachments.slice();
     attachments.splice(index, 1, {
       ...this.state.attachments[index],
       [key]: value,
     });
-    this.setState({
-      attachments
-    });
+    this.setState({attachments});
   }
 
   addAttachment = (url) => {
@@ -187,7 +180,7 @@ class EventInfo extends Component {
     this.props.onEventEdit(eventInfo);
   }
 
-  deleteEvent = () => {
+ deleteEvent = () => {
     const eventInfo = { id: '1' };
     // this.props.goPrev(true)
     this.props.onEventDelete(eventInfo.id)
@@ -328,7 +321,7 @@ class EventInfo extends Component {
     }
   }
 
-  render() {
+ render() {
     const attachments = this.state.attachments.map((el, index) => {
     let attachmentType = '';
     let attachmentInfo = '';
