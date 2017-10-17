@@ -33,6 +33,14 @@
 
 .deleteAttachmentButton {
   float: right;
+  position: relative;
+  z-index: 2;
+}
+
+.EventInfoDiv {
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .EventInfoDiv {

@@ -42,11 +42,6 @@ class StoryListItem extends Component {
     this.props.publishStory(storyId);
   };
 
-  editStory = () => {
-    const storyId = this.props.story.id;
-    this.props.getStory(storyId);
-  }
-
   renderEditButton = () => {
     return (
       <FlatButton

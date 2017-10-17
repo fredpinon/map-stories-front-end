@@ -46,8 +46,6 @@ class EditorPage extends Component {
 
   onEventDelete = (eventId) => {
     const storyId = this.props.story.id;
-    // if (firstEvent) goNext();
-    // else goPrev();
     this.props.deleteEvent(storyId, eventId);
   }
 
@@ -68,7 +66,7 @@ class EditorPage extends Component {
       currentEventIndex: this.state.currentEventIndex-1
     })
   }
-
+  
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
