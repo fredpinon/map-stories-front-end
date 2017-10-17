@@ -42,7 +42,6 @@ class UserPage extends Component {
   }
 
   toggleDisabled = () => {
-    console.log(this.state.disabled);
     if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') {
       this.setState({ disabled: false });
     }
