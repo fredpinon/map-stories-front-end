@@ -26,7 +26,7 @@ class NavBar extends Component {
     this.props.loginUserToDb(userCredentials);
   }
 
- handleSignOut = () => this.props.logOut(this.props.user);
+ handleSignOut = () => this.props.logOut();
 
  handleSearching = query => this.search(query);
 
@@ -70,7 +70,7 @@ class NavBar extends Component {
 
  const mapDispatchToProps = (dispatch) => ({
     loginUserToDb : (userCredentials) => dispatch(loginUser(userCredentials)),
-    logOut: (userCredentials) => dispatch(logOutUser(userCredentials)),
+    logOut: () => dispatch(logOutUser()),
     searchStory: (query) => dispatch(fetchStoriesSearch(query)),
     clear: () => dispatch(clearSearch())
   });

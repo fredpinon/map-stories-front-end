@@ -5,7 +5,7 @@ const authentication = (state = {}, action) => {
         ...state,
         ...action.response.entities.editors[action.response.result],
       };
-    case 'LOGOUT_USER_SUCCESS':
+    case 'LOGOUT_USER':
       return {};
     default:
       return state;

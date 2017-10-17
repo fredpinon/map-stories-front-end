@@ -130,23 +130,12 @@ export const loginUser = (data) => ({
   }
 })
 
-export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
-export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
-export const LOGOUT_USER_FAILURE = 'LOGOUT_USER_FAILURE';
-
-export const logOutUser = (data) => ({
-  [CALL_API]: {
-    types: [ LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE ],
-    endpoint: `/sign-out`,
-    schema: Schemas.EDITOR,
-    method: 'PUT',
-    data,
-  }
+export const logOutUser = () => ({
+  type: 'LOGOUT_USER',
+  payload: {}
 })
 
 export const clearSearch = () => ({
   type: 'CLEAR_SEARCH',
-  payload: {
-
- }
+  payload: {}
 })
