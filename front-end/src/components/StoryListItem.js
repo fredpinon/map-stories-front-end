@@ -151,7 +151,7 @@ class StoryListItem extends Component {
         <a href={`/story/${this.props.story.id}`} className="ListItemDescription">
           <p>{title}</p>
           <p>{tagLine}</p>
-          <p>{editor}</p>
+          {this.props.renderEditor ? <p>{editor}</p> : null }
         </a>
         <div className='Buttons'>
           {this.renderButtons()}

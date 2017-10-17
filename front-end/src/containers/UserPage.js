@@ -16,7 +16,8 @@ class UserPage extends Component {
 
  state = {
     open: false,
-    disabled: true
+    disabled: true,
+    renderEditor: false
   };
 
  handleOpen = () => this.setState({open: true});
@@ -95,7 +96,7 @@ class UserPage extends Component {
           ref={input => this.taglineField = input}
           onKeyPress={this.toggleDisabled}/><br />
         </Dialog>
-        <StoryList stories={ownStories}/>
+        <StoryList stories={ownStories} renderEditor={this.state.renderEditor}/>
       </div>
     );
   }

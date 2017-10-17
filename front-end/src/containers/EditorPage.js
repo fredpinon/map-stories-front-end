@@ -10,8 +10,8 @@ import EventInfo from '../components/EventInfo';
 class EditorPage extends Component {
 
  state = {
-    currentEvent: {},
-    showPrevious: false,
+    currentEventIndex: {},
+    showPrev: false,
     showNext: false,
   }
 
@@ -20,9 +20,9 @@ class EditorPage extends Component {
     this.props.fetchSingleStory(props.computedMatch.params.storyId);
   }
 
-  componentWillMount () {
-    if (this.props.story.events && this.props.story.events.length > 1) {
-      this.setState({ showNext: true });
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.story.events && nextProps.story.events.length > 1) {
+      this.setState({ showNext:true });
     }
   }
 
