@@ -16,11 +16,7 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
     body
   })
     .then(response => response.json())
-    .then(data => {
-      return Object.assign({},
-          normalize(data, schema)
-        )
-    })
+    .then(data => schema ? normalize(data, schema) : data)
 }
 
 const editorSchema = new schema.Entity('editors', {});
@@ -47,7 +43,7 @@ export default store => next => action => {
 
   if (typeof endpoint !== 'string') throw new Error('Specify a string endpoint URL.');
 
-  if (!schema) throw new Error('Specify one of the exported Schemas.');
+  // if (!schema) throw new Error('Specify one of the exported Schemas.');
 
   if (!types.every(type => typeof type === 'string')) {
     throw new Error('Expected action types to be strings.')

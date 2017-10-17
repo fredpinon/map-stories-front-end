@@ -36,8 +36,11 @@ export const deleteEvent = (storyId, eventId) => ({
   [CALL_API]: {
     types: [ DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE ],
     endpoint: `/stories/${storyId}/events/${eventId}`,
-    schema: Schemas.STORY,
     method: 'DELETE',
+  },
+  payload: {
+    storyId,
+    eventId
   }
 })
 
