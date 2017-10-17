@@ -40,7 +40,7 @@ class TimeLine extends Component {
       }, 1000)
   }
 
-  Play = () => {
+  play = () => {
     if (this.state.timeStamp < 100) {
       this.setState({play: false});
     }
@@ -55,7 +55,7 @@ class TimeLine extends Component {
     if (this.state.play) {
       return (
         <div>
-          <i id="play" className="material-icons md-36 purple" onClick={this.Play}>play_circle_filled</i>
+          <i id="play" className="material-icons md-36 purple" onClick={this.play}>play_circle_filled</i>
         </div>
       )
     }
@@ -68,8 +68,8 @@ class TimeLine extends Component {
     }
   }
 
-  Rewind = () => {
-    console.log('Rewind');
+  rewind = () => {
+    console.log('rewind');
     const marks = Object.keys(this.calcMarks(this.state.timeStamps)[0])
     const points = [];
     marks.forEach(x => {
@@ -82,8 +82,8 @@ class TimeLine extends Component {
     }
   }
 
-  Forward = () => {
-    console.log('Forward');
+  forward = () => {
+    console.log('forward');
 
     const marks = Object.keys(this.calcMarks(this.state.timeStamps)[0])
     const points = [];
@@ -154,9 +154,9 @@ class TimeLine extends Component {
       <div className="TimeLine">
 
         <div className="controls">
-          <i id="forward" className="material-icons md-36 purple" onClick={this.Rewind}>fast_rewind</i>
+          <i id="forward" className="material-icons md-36 purple" onClick={this.rewind}>fast_rewind</i>
           { this.renderPlay() }
-          <i id="backward" className="material-icons md-36 purple" onClick={this.Forward}>fast_forward</i>
+          <i id="backward" className="material-icons md-36 purple" onClick={this.forward}>fast_forward</i>
         </div>
 
         <div className="Slider">
@@ -167,12 +167,5 @@ class TimeLine extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
 
-});
-
-const mapDispatchToProps = (dispatch) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimeLine);
+export default TimeLine;

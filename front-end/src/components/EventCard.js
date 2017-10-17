@@ -3,8 +3,7 @@ import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import TweetEmbed from 'react-tweet-embed';
 import ReactPlayer from 'react-player';
 
-import { timer } from '../actions/index'
-import { connect } from 'react-redux';
+
 
 class EventCard extends Component {
 
@@ -61,7 +60,7 @@ class EventCard extends Component {
     });
   }
 
-  
+
 
   render() {
     const { title } = this.props.data;
@@ -91,12 +90,5 @@ class EventCard extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
 
-});
-
-const mapDispatchToProps = (dispatch) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventCard);
+export default EventCard;

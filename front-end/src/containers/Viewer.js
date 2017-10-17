@@ -94,7 +94,7 @@ class Viewer extends Component {
               {this.renderEvents()}
             </div>
           </div>
-          <Map onMarkerAdded={this.markerAdded} editorPage={false}/>
+          <Map onMarkerAdded={this.markerAdded} editorPage={false} />
         </div>
 
         <TimeLine times={this.eventTimes()} match={this.Matched} />

@@ -32,7 +32,6 @@ class HomePage extends Component {
     },{});
     return (
       <div className="HomePage">
-        {console.log(this.props.page)}
         {this.props.page.searchResults.length === 0
           ?
           <StoryList stories={publishedStories}/>
