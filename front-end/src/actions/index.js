@@ -60,10 +60,10 @@ export const STORIES_USER_REQUEST = 'STORIES_USER_REQUEST';
 export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
 export const STORIES_USER_FAILURE = 'STORIES_USER_FAILURE';
 
-export const fetchStoriesUserPage = (editorId) => ({
+export const fetchStoriesUserPage = () => ({
   [CALL_API]: {
     types: [ STORIES_USER_REQUEST, STORIES_USER_SUCCESS, STORIES_USER_FAILURE ],
-    endpoint: `/me/stories/${editorId}`,
+    endpoint: `/me/stories`,
     schema: Schemas.STORY_ARRAY
   }
 })

@@ -7,8 +7,7 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
-  // console.log(fullUrl);
-
+ console.log(fullUrl);
  return fetch(fullUrl, {
     method,
     headers,

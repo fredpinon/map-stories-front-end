@@ -39,7 +39,7 @@ class UserPage extends Component {
   }
 
  componentWillMount() {
-    this.props.loadStories(this.props.userId);
+    this.props.loadStories(this.props.user._id);
   }
 
  toggleDisabled = () => {
