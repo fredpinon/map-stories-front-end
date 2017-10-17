@@ -7,7 +7,6 @@ const callApi = (endpoint, schema, method='GET', body, accessToken) => {
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
   if (method === 'POST' || method === 'PUT') headers['Content-Type'] = 'application/json';
 
- console.log(fullUrl);
  return fetch(fullUrl, {
     method,
     headers,
@@ -46,9 +45,9 @@ export default store => next => action => {
   };
 
  const actionWith = data => {
-    const finalAction = Object.assign({}, action, data)
-    delete finalAction[CALL_API]
-    return finalAction
+    const finalAction = Object.assign({}, action, data);
+    delete finalAction[CALL_API];
+    return finalAction;
   }
 
  const [ requestType, successType, failureType ] = types;
@@ -64,7 +63,6 @@ export default store => next => action => {
 
  return callApi(endpoint, schema, method, data, accessToken)
     .then(response => {
-      console.log(response);
       store.dispatch(actionWith({
         type: successType,
         response
