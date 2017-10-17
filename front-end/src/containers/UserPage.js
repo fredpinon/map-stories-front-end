@@ -17,7 +17,7 @@ class UserPage extends Component {
 
   state = {
     open: false,
-    disabled: false
+    disabled: true
   };
 
   handleOpen = () => {
@@ -43,7 +43,9 @@ class UserPage extends Component {
 
   toggleDisabled = () => {
     console.log(this.state.disabled);
-    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.state.disabled = false;
+    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') {
+      this.setState({ disabled: false });
+    }
   }
 
   render() {

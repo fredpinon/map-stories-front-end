@@ -40,26 +40,41 @@ const s3 = new AWS.S3({
 
 
 class EventInfo extends Component {
-
-  constructor () {
-    super()
-    this.event = {
-      startTime: '',
-      title: '',
-      dateTime: '',
-      location: '',
-      attachments: []
-    }
-  }
-
-
   state = {
+    eventInfo: {
+
+    },
     attachments: [],
     uploading: false
   };
 
+  constructor (props) {
+    super(props);
+    if (props.event) {
+      this.state.eventInfo = {
+        title: props.event.title || '',
+        startTime: props.event.startTime || '00:00',
+        mapLocation: props.event.mapLocation || '',
+        dateAndTime: props.event.dateAndTime || '',
+      }
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.event !== this.props.event) {
+      this.setState({
+        eventInfo: {
+          title: nextProps.event.title || '',
+          startTime: nextProps.event.startTime || '00:00',
+          mapLocation: nextProps.event.mapLocation || '',
+          dateAndTime: nextProps.event.dateAndTime || '',
+        }
+      })
+    }
+  }
 
   changeAttachmentProperty = (index, key, value) => {
+
     const attachments = this.state.attachments.slice();
     attachments.splice(index, 1, {
       ...this.state.attachments[index],
@@ -76,11 +91,6 @@ class EventInfo extends Component {
         type: '',
       }])
     })
-  }
-
-  saveEvent = () => {
-    const eventInfo = {};
-    this.props.onEventSave(eventInfo);
   }
 
   restrictInputType = (type) => {
@@ -166,6 +176,22 @@ class EventInfo extends Component {
     });
   }
 
+  saveEvent = () => {
+    const eventInfo = {
+      title: this.state.eventInfo.title,
+      startTime: this.state.eventInfo.startTime,
+      mapLocation: this.state.eventInfo.mapLocation,
+      dateAndTime: this.state.eventInfo.dateAndTime,
+    }
+    if (this.props.event.id) eventInfo.id = this.props.event.id
+    this.props.onEventEdit(eventInfo);
+  }
+
+  deleteEvent = () => {
+    const eventInfo = { id: '1' };
+    // this.props.goPrev(true)
+    this.props.onEventDelete(eventInfo.id)
+  }
   // ============== RENDERING
 
   renderPreviewInputFile = (type, index) => {
@@ -300,7 +326,6 @@ class EventInfo extends Component {
         </div>
       )
     }
-
   }
 
   render() {
@@ -340,21 +365,50 @@ class EventInfo extends Component {
       float: 'right'
     }
     const headerStyle={ color: "grey" }
+    const title = this.props.event.id
+      ? `EDIT EVENT ${this.props.eventIndex+1}/${this.props.totalEvents}`
+      : 'ADD EVENT';
     return (
       <div className="EventInfoContainer">
-        <Paper className="InputHeader" style={headerStyle} zDepth={5}>ADD EVENT</Paper>
+        <Paper className="InputHeader" style={headerStyle} zDepth={5}>{title}</Paper>
         <Paper className="InputInfo" zDepth={3}>
-          <TextField hintText="Event Title" floatingLabelText="Event Title" style={{ fontSize: '24px' }}  fullWidth={true} ref={input => this.titleField = input}/><br />
-          <TextField hintText="MM:SS" floatingLabelText="Time for event to start" fullWidth={true} ref={input => this.startTimeField = input}/><br />
-          <TextField hintText="Map Location" floatingLabelText="Map Location" fullWidth={true} ref={input => this.locationField = input}/><br />
-          <TextField hintText="Date & Time (optional)" floatingLabelText="Date & Time" fullWidth={true} ref={input => this.dateTimeField = input}/><br />
+          <TextField
+            hintText="Event Title"
+            floatingLabelText="Event Title"
+            style={{ fontSize: '24px' }}
+            fullWidth
+            name="title"
+            onChange={this.handleTextChange}
+            value={this.state.eventInfo.title}
+          /><br />
+          <TextField
+            hintText="MM:SS"
+            floatingLabelText="Time for event to start"
+            fullWidth
+            name="startTime"
+            onChange={this.handleTextChange}
+            value={this.state.eventInfo.startTime}
+          /><br />
+          <TextField hintText="Map Location"
+            floatingLabelText="Map Location"
+            fullWidth
+            name="mapLocation"
+            onChange={this.handleTextChange}
+            value={this.state.eventInfo.mapLocation}
+          /><br />
+          <TextField hintText="Date & Time (optional)"
+            floatingLabelText="Date & Time"
+            fullWidth
+            name="dateAndTime"
+            onChange={this.handleTextChange}
+            value={this.state.eventInfo.dateAndTime}
+          /><br />
           <Divider className="Divider" style={{
             width: '140%',
             marginLeft: -30,
             marginTop: 60,
           }} />
           {attachments}
-
           <FlatButton className="AddAttachment" label="+ Add Attachment" primary={true} style={style} onClick={this.addAttachment}/>
           <Divider style={{
             width: '140%',
@@ -363,8 +417,8 @@ class EventInfo extends Component {
           }} />
           <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
           <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
-          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} /> : null}
-          {this.props.showPrevious ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} /> : null}
+          {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
+          {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
         </Paper>
       </div>
     );
