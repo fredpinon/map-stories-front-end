@@ -379,7 +379,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   showError: (errorMessage) => dispatch(showError(errorMessage)),
-  editStory: (data) => dispatch(editStory(data))
+  // editStory: (data) => dispatch(editStory(data))
 
 });
 

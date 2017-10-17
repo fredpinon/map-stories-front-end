@@ -5,7 +5,7 @@ const defaultState = {
   errorMessage: '',
 }
 
-export default errors = (state = defaultState, action) => {
+const errors = (state = defaultState, action) => {
   switch (action.type) {
     case actions.SHOW_ERROR:
       return {
@@ -18,4 +18,4 @@ export default errors = (state = defaultState, action) => {
   }
 };
 
-// export default errors;
+export default errors;

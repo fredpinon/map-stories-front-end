@@ -37,12 +37,6 @@
   z-index: 2;
 }
 
-.EventInfoDiv {
-  position: absolute;
-  height: 100%;
-  overflow-y: scroll;
-}
-
 
 .InputHeader {
   height: 65px;
@@ -88,4 +82,3 @@
   z-index: 2;
   padding-left: 50px;
 }
-
