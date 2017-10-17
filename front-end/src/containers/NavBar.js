@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import { connect } from 'react-redux';
-import { storeCredentials, logOutUser, fetchStoriesSearch, clearSearch  } from '../actions';
+import { logOutUser, fetchStoriesSearch, clearSearch, loginUser } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
@@ -11,50 +11,49 @@ import Logged from '../components/Logged';
 import Search from '../components/Search';
 
 import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
 
 const _ = require('underscore');
 
 class NavBar extends Component {
 
-  handleLogin = (response) => {
+ handleLogin = (response) => {
     const userCredentials = {
       token: response.accessToken,
       email: response.email,
       name: response.name,
       picture: response.picture.data.url,
     };
-    this.props.logIn(userCredentials);
+    this.props.loginUserToDb(userCredentials);
   }
 
-  handleSignOut = () => this.props.logOut();
+ handleSignOut = () => this.props.logOut(this.props.user);
 
-  handleSearching = query => this.search(query);
+ handleSearching = query => this.search(query);
 
-  search = _.debounce((query) => {
+ search = _.debounce((query) => {
     if (query.length > 2) this.props.searchStory(query);
     else this.props.clear();
   }, 500);
 
-  render() {
+ render() {
     const { pathname } = this.props.location;
+    const { token, picture } = this.props.user;
     return (
       <AppBar
         className="NavBar"
         title={<Link to='/'>Map Stories</Link>}
         showMenuIconButton={false}
         iconElementRight={
-          this.props.userCredentials.token
+          token
           ? (
             <div className="LoggedInActions">
               {pathname === '/' ? <Search passQuery={this.handleSearching}/> : null}
-              <img className="ProfilePic" src={this.props.userCredentials.picture}/>
+              <img className="ProfilePic" src={picture} alt="profilePic"/>
               <Logged handleSignOut={this.handleSignOut}/>
             </div>
           ) : (
             <div className="LoggedInActions">
               {pathname === '/' ? <Search passQuery={this.handleSearching}/> : null}
-              <img className="ProfilePic" src={this.props.userCredentials.picture}/>
               <LoginButton handleLogin={this.handleLogin}/>
             </div>
           )}
@@ -63,16 +62,17 @@ class NavBar extends Component {
     }
   }
 
-  const mapStateToProps = (state) => ({
-    userCredentials: state.authentication,
-    page: state.pages.storiesList
+ const mapStateToProps = (state) => ({
+    editors: state.entities.editors,
+    page: state.pages.storiesList,
+    user: state.authentication,
   });
 
-  const mapDispatchToProps = (dispatch) => ({
-    logIn: (userCredentials) => dispatch(storeCredentials(userCredentials)),
-    logOut: () => dispatch(logOutUser()),
+ const mapDispatchToProps = (dispatch) => ({
+    loginUserToDb : (userCredentials) => dispatch(loginUser(userCredentials)),
+    logOut: (userCredentials) => dispatch(logOutUser(userCredentials)),
     searchStory: (query) => dispatch(fetchStoriesSearch(query)),
     clear: () => dispatch(clearSearch())
   });
 
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
+ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

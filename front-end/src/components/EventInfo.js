@@ -8,36 +8,28 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 
-
 class EventInfo extends Component {
 
-  state = {
+ state = {
     attachments: []
   };
 
-
-
-  selectType = (index, value) => {
+ selectType = (index, value) => {
     const attachments = this.state.attachments.slice();
     attachments.splice(index, 1, {
       ...this.state.attachments[index],
       type: value
     });
-    this.setState({
-      attachments
-    });
+    this.setState({attachments});
   }
 
-  addAttachment = () => {
+ addAttachment = () => {
     this.setState({
-      attachments: this.state.attachments.concat([{
-        type: ''
-      }])
+      attachments: this.state.attachments.concat([{type: ''}])
     })
   }
 
-
-  saveEvent = () => {
+ saveEvent = () => {
     const eventInfo = {
       title: this.titleField.input.value,
       startTime: this.startTimeField.input.value,
@@ -47,12 +39,12 @@ class EventInfo extends Component {
     this.props.onEventEdit(eventInfo)
   }
 
-  deleteEvent = () => {
+ deleteEvent = () => {
     const eventInfo = { id: '1' };
     this.props.onEventDelete(eventInfo.id)
   }
 
-  render() {
+ render() {
     const attachments = this.state.attachments.map((el, index) => {
     let attachmentType = '';
     let attachmentInfo = '';

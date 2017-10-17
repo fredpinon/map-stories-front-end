@@ -13,6 +13,7 @@ import PrivateRoute from '../components/PrivateRoute';
 
 class Main extends Component {
   render() {
+    const { token } = this.props.user;
     return (
       <div className="Main">
         <Switch>
@@ -25,12 +26,12 @@ class Main extends Component {
             component={Viewer}
           />
           <PrivateRoute
-            token={this.props.token}
+            token={token}
             path="/me/stories"
             component={UserPage}
           />
           <PrivateRoute
-            token={this.props.token}
+            token={token}
             path="/me/editstory/:storyId"
             component={EditorPage}
           />
@@ -44,7 +45,7 @@ class Main extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.authentication.token,
+  user: state.authentication,
 });
 
 const mapDispatchToProps = (dispatch) => ({});
