@@ -7,6 +7,9 @@ const defaultState = {
   },
   createStory: {
     newStoryId: null
+  },
+  editorStoriesPage: {
+    results: []
   }
 }
 
@@ -43,6 +46,20 @@ const pages = (state = defaultState, action) => {
         storiesList: {
           ...state.storiesList,
           pageResults: action.response.result
+        }
+      }
+    case actions.STORIES_USER_SUCCESS:
+      return {
+        ...state,
+        editorStoriesPage: {
+          results: action.response.result
+        }
+      }
+    case actions.DELETE_STORY_SUCCESS:
+      return {
+        ...state,
+        editorStoriesPage: {
+          results: state.editorStoriesPage.results.filter(id => id !== action.payload.storyId)
         }
       }
     default:

@@ -47,9 +47,9 @@ class UserPage extends Component {
   }
 
  render() {
-   console.log(this.props.stories);
-    const ownStories = Object.keys(this.props.stories)
-    .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
+    // const ownStories = Object.keys(this.props.stories)
+    // .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
+    const ownStories = this.props.page.results
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el]
       return accum;
@@ -105,7 +105,7 @@ class UserPage extends Component {
 
 const mapStateToProps = (state) => ({
   stories: state.entities.stories,
-  page: state.pages.createStory,
+  page: state.pages.editorStoriesPage,
   user: state.authentication
 });
 

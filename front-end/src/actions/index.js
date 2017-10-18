@@ -89,6 +89,9 @@ export const deleteStory = (storyId) => ({
     method: 'DELETE',
     types: [ DELETE_STORY_REQUEST, DELETE_STORY_SUCCESS, DELETE_STORY_FAILURE ],
     endpoint: `/stories/${storyId}`,
+  },
+  payload: {
+    storyId
   }
 })
 

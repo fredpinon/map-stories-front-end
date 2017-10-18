@@ -71,6 +71,6 @@ export default store => next => action => {
     })
     .catch(error => store.dispatch(actionWith({
         type: failureType,
-        error
+        error: error.message
       })))
 }
