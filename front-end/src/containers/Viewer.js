@@ -6,9 +6,14 @@ import { fetchSingleStory } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
+import TimeLine from '../components/TimeLine';
 
 
 class Viewer extends Component {
+
+  state = {
+    time: '',
+  }
 
   componentWillMount() {
     if (!this.props.match.params.storyId) return null;
@@ -46,8 +51,36 @@ class Viewer extends Component {
   renderEvents = () => {
     const { storyId } = this.props.match.params
     if (!this.props.stories[storyId].events) return null;
+    console.log(this.props.stories[storyId]);
     const events = this.props.stories[storyId].events;
-    return events.map((event, i) => <EventCard key={i} data={event}/>);
+    return events.map((event, i) => {
+      let mark = 0;
+      let y = event.startTime.split(':')
+      y.length > 2 ? mark = parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60) : mark = parseInt(y[0]) + (parseInt(y[1])/60)
+      if (this.state.time === mark) {
+
+
+        return <EventCard key={i} data={event} expanded={true} Markers={this.eventTimes()}/>
+      }
+      // console.log('currentTime:', parseInt(this.state.time));
+      // console.log('EventTime:', event.startTimes);
+      return <EventCard key={i} data={event} expanded={false} Markers={this.eventTimes()}/>
+    }
+    );
+
+  }
+
+  eventTimes =() => {
+    let startTimes = []
+    const { storyId } = this.props.match.params
+    this.props.stories[storyId].events.forEach(story => {
+      startTimes.push(story.startTime);
+    })
+    return startTimes;
+  }
+
+  Matched = (match) => {
+    this.setState({time: match})
   }
 
 
@@ -56,14 +89,15 @@ class Viewer extends Component {
       <div className="Viewer">
         <div className="MapViewer">
           <div className="EventsContainerWrapper">
-          <div className="EventsContainer">
-            {this.renderTitles()}
-            {this.renderEvents()}
+            <div className="EventsContainer">
+              {this.renderTitles()}
+              {this.renderEvents()}
+            </div>
           </div>
-          </div>
-          <Map onMarkerAdded={this.markerAdded} editorPage={false}/>
+          <Map onMarkerAdded={this.markerAdded} editorPage={false} />
         </div>
-        <div className="SliderContainer"></div>
+
+        <TimeLine times={this.eventTimes()} match={this.Matched} />
       </div>
     );
   }

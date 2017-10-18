@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
 import EventInfo from '../components/EventInfo';
+import TimeLine from '../components/TimeLine';
 
 class EditorPage extends Component {
 
@@ -86,7 +87,13 @@ class EditorPage extends Component {
             goPrev={this.goPrev}
           />
         </div>
-        <Map onMarkerAdded={this.markerAdded}/>
+        {console.log(this.props.story)}
+        <div className="MapTimeLine">
+          <Map onMarkerAdded={this.markerAdded}/>
+
+          <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
+
+        </div>
       </div>
     )
   }

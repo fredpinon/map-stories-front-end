@@ -1,0 +1,52 @@
+/*@import "~antd/dist/antd.less";*/
+
+.TimeLine {
+  display: flex;
+  height: 4em;
+  flex-direction: row;
+  /*margin-left: 1vw;*/
+  border-top: 2px solid #f7f6f5;
+}
+
+.controls {
+  margin-top: 0.6vh;
+  display: flex;
+  flex-direction: row;
+  margin-left: 0.4vw;
+  width: 8%;
+  justify-content: space-between;
+}
+
+#play {
+  cursor: pointer;
+}
+
+#pause {
+  cursor: pointer;
+}
+
+#forward {
+  cursor: pointer;
+}
+
+#backward {
+  cursor: pointer;
+}
+
+.Slider {
+  margin-left: 9vw;
+  width: 80%;
+  margin-top: 0.2vh;
+}
+
+.ant-slider-step {
+
+}
+
+.ant-slider-handle {
+  border: solid 2px #673AB7;
+}
+
+.Slider .ant-slider-mark-text .ant-slider-mark-text-active {
+  width: 10%;
+}

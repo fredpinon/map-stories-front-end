@@ -3,19 +3,26 @@ import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import TweetEmbed from 'react-tweet-embed';
 import ReactPlayer from 'react-player';
 
+
+
 class EventCard extends Component {
 
   state = {
-    expanded: false,
     shadow: 1,
+    textColor: 'rgba(0, 0, 0, 0.54)'
+  }
+  componentWillMount() {
+    console.log(this.props.expanded);
+    if (this.props.expanded) {
+      this.setState({
+        textColor: 'rgba(0,255,0,0.3)',
+      });
+    console.log('HELLO');
+    }
   }
 
-  componentDidMount() {
-    if (!this.props.expanded) return;
-    else this.setState({expanded: true});
-  }
 
-  handleExpandChange = expanded => this.setState({expanded: expanded});
+
   onMouseOver = () => this.setState({ shadow: 3 });
   onMouseOut = () => this.setState({ shadow: 1 });
 
@@ -60,6 +67,8 @@ class EventCard extends Component {
     });
   }
 
+
+
   render() {
     const { title } = this.props.data;
     const titleStyle = {
@@ -68,16 +77,16 @@ class EventCard extends Component {
     return (
       <Card
         className="EventCard"
-        expanded={this.state.expanded}
-        onExpandChange={this.handleExpandChange}
+        expanded={this.props.expanded}
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
         zDepth={this.state.shadow}
         >
+
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
-          titleColor='rgba(0, 0, 0, 0.54)'
+          titleColor={this.state.textColor}
           style={titleStyle}
           title={title}
         />
@@ -86,5 +95,6 @@ class EventCard extends Component {
     );
   }
 }
+
 
 export default EventCard;
