@@ -137,7 +137,7 @@ class StoryListItem extends Component {
   }
 
  renderStoryAssets = () => {
-    const { title, tagLine, editor, _id } = this.props.story;
+    const { title, tagLine, editor, _id } = this.props.story ? this.props.story : null;
     const editorInfo = this.props.editors[editor];
     return (
       <div className="ListItemPaper">
