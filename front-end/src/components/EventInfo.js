@@ -166,6 +166,9 @@ class EventInfo extends Component {
         case 'audio':
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         break;
+        case 'link':
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        break;
       }
     }
   }
@@ -296,7 +299,20 @@ class EventInfo extends Component {
         opacity: 0,
       }
     };
-
+    if (type === 'link') {
+      return (
+        <div>
+          <TextField
+            hintText="url"
+            floatingLabelText="paste URL"
+            fullWidth={true}
+            onKeyPress={(e) => this.handleLinkInput(e, index, type)}
+            ref={input => this.eventURLField = input}
+            disabled={this.toggleDisable(index)}
+          />
+        </div>
+      )
+    }
     if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
