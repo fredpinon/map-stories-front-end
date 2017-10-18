@@ -46,6 +46,7 @@ class EventInfo extends Component {
 
   constructor (props) {
     super(props);
+    console.log('inside', props.event);
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
@@ -53,18 +54,20 @@ class EventInfo extends Component {
         mapLocation: props.event.mapLocation || '',
         dateAndTime: props.event.dateAndTime || '',
       }
+      this.state.attachments = props.event.attachments;
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.event !== this.props.event) {
+    if (nextProps.event !== this.props.event && nextProps.eventIndex !== this.props.eventIndex) {
       this.setState({
         eventInfo: {
           title: nextProps.event.title || '',
           startTime: nextProps.event.startTime || '',
           mapLocation: nextProps.event.mapLocation || '',
           dateAndTime: nextProps.event.dateAndTime || '',
-        }
+        },
+        attachments: nextProps.event.attachments,
       })
     }
   }
@@ -190,28 +193,33 @@ class EventInfo extends Component {
   }
 
   saveEvent = () => {
-    const eventInfo = {
-      title: this.state.eventInfo.title,
-      startTime: this.state.eventInfo.startTime,
-      mapLocation: this.state.eventInfo.mapLocation,
-      dateAndTime: this.state.eventInfo.dateAndTime,
-      attachments: this.state.attachments,
+    if (/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/.test(this.state.eventInfo.startTime)) {
+      const eventInfo = {
+        title: this.state.eventInfo.title,
+        startTime: this.state.eventInfo.startTime,
+        mapLocation: this.state.eventInfo.mapLocation,
+        dateAndTime: this.state.eventInfo.dateAndTime,
+        attachments: this.state.attachments,
+      }
+      if (this.props.event._id) eventInfo._id = this.props.event._id
+      this.props.onEventEdit(eventInfo);
+      this.setState({
+        attachments: []
+      })
+    } else {
+      this.props.showError('Please supply a valid start time in format HH:MM:SS')
     }
-    if (this.props.event._id) eventInfo._id = this.props.event._id
-    this.props.onEventEdit(eventInfo);
-    this.setState({
-      attachments: []
-    })
   }
 
- deleteEvent = () => {
+  deleteEvent = () => {
     const eventInfo = { id: '1' };
     // this.props.goPrev(true)
     this.props.onEventDelete(eventInfo.id)
   }
   // ============== RENDERING
 
-  renderPreviewInputFile = (type, index) => {
+  renderPreviewInputFile = (attachment, index) => {
+    const { type } = attachment;
     if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
       switch (type) {
         case 'image':
@@ -297,7 +305,8 @@ class EventInfo extends Component {
     )
   }
 
-  renderOptionalInputOrLink = (type, index) => {
+  renderAttachmentContent = (attachment, index) => {
+    const { type } = attachment;
     const styles = {
       inputForm: {
         cursor: 'pointer',
@@ -311,6 +320,8 @@ class EventInfo extends Component {
       }
     };
     if (type === 'link' || type === 'tweet') {
+      const extraProps = {};
+      if(this.toggleDisable(index)) extraProps.value = attachment.url;
       return (
         <div>
           <TextField
@@ -320,11 +331,14 @@ class EventInfo extends Component {
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
             disabled={this.toggleDisable(index)}
+            {...extraProps}
           />
         </div>
       )
     }
     if (type === 'text') {
+      const extraProps = {};
+      if(this.toggleDisable(index)) extraProps.value = attachment.text;
       return (
         <div>
           <TextField
@@ -334,11 +348,17 @@ class EventInfo extends Component {
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
             disabled={this.toggleDisable(index)}
+            {...extraProps}
           />
         </div>
       )
     }
     if (type === 'image' || type === 'video' || type === 'audio') {
+      const extraProps = {};
+      if(this.toggleDisable(index)){
+        if(type === 'image') extraProps.value = attachment.imageUrl;
+        else extraProps.value = attachment.url;
+      }
       return (
         <div>
           <RaisedButton
@@ -363,19 +383,20 @@ class EventInfo extends Component {
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
             disabled={this.toggleDisable(index)}
+            {...extraProps}
           />
           {this.renderProgressBar()}
-          {this.renderPreviewInputFile(type, index)}
+          {this.renderPreviewInputFile(attachment, index)}
           {this.renderDeleteAttachmentButton(index)}
         </div>
       )
     }
   }
 
- render() {
+  render() {
     const attachments = this.state.attachments.map((el, index) => {
-    let attachmentType = '';
-    let attachmentInfo = '';
+      let attachmentType = '';
+      let attachmentInfo = '';
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
@@ -394,7 +415,7 @@ class EventInfo extends Component {
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
-          {this.renderOptionalInputOrLink(el.type, index)}
+          {this.renderAttachmentContent(el, index)}
           <Divider style={{
             width: '140%',
             marginLeft: -30,

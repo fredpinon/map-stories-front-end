@@ -11,7 +11,7 @@ import TimeLine from '../components/TimeLine';
 class EditorPage extends Component {
 
  state = {
-    currentEventIndex: {},
+    currentEventIndex: 0,
     showPrev: false,
     showNext: false,
     coordinates: {}
@@ -71,33 +71,45 @@ class EditorPage extends Component {
     })
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.coordinates) return false;
-    return true;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextState.coordinates);
+  //   if (nextState.coordinates) return false;
+  //   return true;
+  // }
 
-  render () {
+  renderEventInfo () {
+    if(!this.props.story.events || typeof this.props.story.events[0] === 'string') return null;
+
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
       ? this.props.story.events[this.state.currentEventIndex]
       : {};
+
+    console.log('currentEvent', currentEvent);
+
+    return (
+      <EventInfo
+        event={currentEvent}
+        eventIndex={this.state.currentEventIndex}
+        totalEvents={this.props.story.events.length}
+        onEventEdit={this.onEventEdit}
+        onEventDelete={this.onEventDelete}
+        showPrev={this.state.showPrev}
+        showNext={this.state.showNext}
+        goNext={this.goNext}
+        goPrev={this.goPrev}
+      />
+    )
+  }
+
+  render () {
+
     return (
       <div className="EditorPage">
         <div className="EventInfoDiv">
-          <EventInfo
-            event={currentEvent}
-            eventIndex={this.state.currentEventIndex}
-            totalEvents={this.props.story.events.length}
-            onEventEdit={this.onEventEdit}
-            onEventDelete={this.onEventDelete}
-            showPrev={this.state.showPrev}
-            showNext={this.state.showNext}
-            goNext={this.goNext}
-            goPrev={this.goPrev}
-          />
+          {this.renderEventInfo()}
         </div>
-        {console.log(this.props.story)}
         <div className="MapTimeLine">
-          <Map onMarkerAdded={this.markerAdded}/>
+          <Map onMarkerAdded={this.markerAdded} search={true}/>
 
           <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
 

@@ -59,6 +59,10 @@ class Map extends Component {
         source: 'markers',
       });
 
+      if (this.props.search) {
+        this.mapExtras();
+      }
+
       if (!this.props.markers || this.props.markers.length===0) {
         this.map.on('click', (e) => {
           const point = {
