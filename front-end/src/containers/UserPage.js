@@ -47,8 +47,6 @@ class UserPage extends Component {
   }
 
  render() {
-    // const ownStories = Object.keys(this.props.stories)
-    // .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
     const ownStories = this.props.page.results
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el]

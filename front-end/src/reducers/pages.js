@@ -16,11 +16,15 @@ const defaultState = {
 const pages = (state = defaultState, action) => {
   switch (action.type) {
     case actions.CREATE_STORY_SUCCESS:
+      const newStoryArr = [action.response.result];
       return {
         ...state,
         createStory: {
           ...state.createStory,
           newStoryId: action.response.result
+        },
+        editorStoriesPage: {
+          results: state.editorStoriesPage.results.concat(newStoryArr),
         }
       }
       break;
