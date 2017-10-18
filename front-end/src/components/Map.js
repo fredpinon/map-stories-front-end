@@ -34,20 +34,37 @@ class Map extends Component {
     }));
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (
+      this.map.getSource('markers')
+      && nextProps.markers !== this.props.markers
+    ) {
+      this.map
+      .getSource('markers')
+      .setData(this.createGeoJson(nextProps.markers));
+    }
+  }
+
   componentDidMount () {
+    const center =
+      this.props.markers
+      && this.props.markers.length > 0
+      && this.props.markers[0].lng !== undefined
+      ? [this.props.markers[0].lng, this.props.markers[0].lat]
+      : [2.15, 41.36];
+
     mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWNvbGxpbnM4NSIsImEiOiJjajhnMGZwYzMwOHBxMnhxajd0aWppbWE5In0.i6PUo_ai7q6NeIWBFPtGKA';
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/outdoors-v10',
-      center: [2.15, 41.36],
+      center,
       zoom: 9
     });
     this.map.doubleClickZoom.disable();
-    if (this.props.editorPage) this.mapExtras();
     this.map.on('load', (e) => {
       this.map.addSource('markers', {
         type: 'geojson',
-        data: this.createGeoJson()
+        data: this.createGeoJson(this.props.markers)
       });
       this.map.addLayer({
         id: 'carina',
@@ -59,7 +76,8 @@ class Map extends Component {
         source: 'markers',
       });
 
-      if (!this.props.markers || this.props.markers.length===0) {
+      if (this.props.editor) {
+        this.mapExtras();
         this.map.on('click', (e) => {
           const point = {
             lng: e.lngLat.lng,

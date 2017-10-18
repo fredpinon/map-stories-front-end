@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^2.13.6",
     "aws-sdk": "^2.134.0",
     "camelize": "^1.0.0",
     "eslint": "^4.8.0",

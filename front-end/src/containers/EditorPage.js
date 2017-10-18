@@ -11,9 +11,10 @@ import TimeLine from '../components/TimeLine';
 class EditorPage extends Component {
 
  state = {
-    currentEventIndex: {},
+    currentEventIndex: 0,
     showPrev: false,
     showNext: false,
+    coordinates: {}
   }
 
  constructor (props) {
@@ -31,12 +32,15 @@ class EditorPage extends Component {
     title: '',
     startTime: '00:00',
     mapLocation: '',
-    dateAndTime: ''
+    dateAndTime: '',
+    attachments: []
   })
 
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
+    event.coordinates = [this.state.coordinates];
     this.props.editEvent(event, storyId);
+    this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
   }
 
@@ -64,31 +68,56 @@ class EditorPage extends Component {
   }
 
   markerAdded = (coordinates) => {
-    console.log('from editorpage', coordinates);
+    this.setState({
+      coordinates
+    })
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextState.coordinates);
+  //   if (nextState.coordinates) return false;
+  //   return true;
+  // }
+
+  renderEventInfo () {
+    if(!this.props.story.events || typeof this.props.story.events[0] === 'string') return null;
+
+    const currentEvent = this.props.story.events[this.state.currentEventIndex]
+      ? this.props.story.events[this.state.currentEventIndex]
+      : this.newEvent();
+
+    console.log('currentEvent', currentEvent);
+
+    return (
+      <EventInfo
+        event={currentEvent}
+        eventIndex={this.state.currentEventIndex}
+        totalEvents={this.props.story.events.length}
+        onEventEdit={this.onEventEdit}
+        onEventDelete={this.onEventDelete}
+        showPrev={this.state.showPrev}
+        showNext={this.state.showNext}
+        goNext={this.goNext}
+        goPrev={this.goPrev}
+      />
+    )
   }
 
   render () {
-    const currentEvent = this.props.story.events[this.state.currentEventIndex]
-      ? this.props.story.events[this.state.currentEventIndex]
-      : {};
+    const event = this.props.story.events[this.state.currentEventIndex];
+    const markersProps = {}
+    if (event && event.coordinates && event.coordinates.length > 0) {
+      markersProps.markers = event.coordinates;
+    }
+    console.log('COORDS', markersProps);
+
     return (
       <div className="EditorPage">
         <div className="EventInfoDiv">
-          <EventInfo
-            event={currentEvent}
-            eventIndex={this.state.currentEventIndex}
-            totalEvents={this.props.story.events.length}
-            onEventEdit={this.onEventEdit}
-            onEventDelete={this.onEventDelete}
-            showPrev={this.state.showPrev}
-            showNext={this.state.showNext}
-            goNext={this.goNext}
-            goPrev={this.goPrev}
-          />
+          {this.renderEventInfo()}
         </div>
-        {console.log(this.props.story)}
         <div className="MapTimeLine">
-          <Map onMarkerAdded={this.markerAdded}/>
+          <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
 
           <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
 

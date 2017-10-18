@@ -11,6 +11,9 @@ const muiTheme = getMuiTheme({
   palette: {
     primary1Color: '#673AB7',
   },
+  menuItem: {
+    selectedTextColor: '#673AB7',
+  },
 });
 
 class App extends Component {
