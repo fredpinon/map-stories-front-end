@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editEvent, deleteEvent } from '../actions';
+import { editEvent, deleteEvent, fetchSingleStory } from '../actions';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
@@ -11,50 +10,81 @@ import TimeLine from '../components/TimeLine';
 
 class EditorPage extends Component {
 
-  state = {
-    currentEvent: {},
-    showPrevious: true,
-    showNext: true,
+ state = {
+    currentEventIndex: {},
+    showPrev: false,
+    showNext: false,
   }
 
-  constructor (props) {
+ constructor (props) {
     super(props);
-    if(props.story.events.length > 0) {
-      this.state.currentEvent = props.story.events[props.story.events.length-1]
+    this.props.fetchSingleStory(props.computedMatch.params.storyId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.story.events && nextProps.story.events.length > 1) {
+      this.setState({ showNext:true });
     }
   }
 
-  componentWillMount () {
-    console.log(this.state.currentEvent, this.props.story.events);
-    if (this.props.story.events.length === 0) this.setState({showPrevious: false, showNext: false});
-    if (this.state.currentEvent === this.props.story.events[0]) this.setState({showPrevious: false});
-    if (this.state.currentEvent === this.props.story.events[this.props.story.events.length-1]) this.setState({showNext: false});
-  }
+  newEvent = () => ({
+    title: '',
+    startTime: '00:00',
+    mapLocation: '',
+    dateAndTime: ''
+  })
 
-  onEventEdit = (event, method=undefined) => {
+  onEventEdit = (event) => {
     const storyId = this.props.story.id;
-    method !== undefined ? this.props.editEvent(event, storyId, method) : this.props.editEvent(event, storyId);
+    this.props.editEvent(event, storyId);
+    this.goNext();
   }
 
-  onEventDelete = (eventId) => {
+ onEventDelete = (eventId) => {
     const storyId = this.props.story.id;
     this.props.deleteEvent(storyId, eventId);
   }
 
+  goNext = () => {
+    this.setState({
+      showNext: this.props.story.events[this.state.currentEventIndex+1] !== undefined,
+      showPrev: true,
+      currentEventIndex: this.state.currentEventIndex+1
+    })
+  }
+
+  goPrev = () => {
+    if(this.state.currentEventIndex === 0) return;
+
+    this.setState({
+      showNext: true,
+      showPrev: this.state.currentEventIndex > 1,
+      currentEventIndex: this.state.currentEventIndex-1
+    })
+  }
+  
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
 
   render () {
+    if (!this.props.story.events) return null;
+    const currentEvent = this.props.story.events[this.state.currentEventIndex]
+      ? this.props.story.events[this.state.currentEventIndex]
+      : {};
     return (
       <div className="EditorPage">
         <div className="EventInfoDiv">
           <EventInfo
-            event={this.state.currentEvent}
+            event={currentEvent}
+            eventIndex={this.state.currentEventIndex}
+            totalEvents={this.props.story.events.length}
             onEventEdit={this.onEventEdit}
             onEventDelete={this.onEventDelete}
-            showPrevious={this.state.showPrevious}
+            showPrev={this.state.showPrev}
             showNext={this.state.showNext}
+            goNext={this.goNext}
+            goPrev={this.goPrev}
           />
         </div>
         {console.log(this.props.story)}
@@ -74,6 +104,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  fetchSingleStory: (storyId) => dispatch(fetchSingleStory(storyId)),
   editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method)),
   deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
 });

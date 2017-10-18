@@ -1,14 +1,11 @@
 const authentication = (state = {}, action) => {
   switch (action.type) {
-    case 'USER_CREDENTIALS':
+    case 'LOGIN_USER_SUCCESS':
       return {
         ...state,
-        token: action.payload.userCredentials.token,
-        email: action.payload.userCredentials.email,
-        name: action.payload.userCredentials.name,
-        picture: action.payload.userCredentials.picture,
+        ...action.response.entities.editors[action.response.result],
       };
-    case 'USER_LOGGED_OUT':
+    case 'LOGOUT_USER':
       return {};
     default:
       return state;

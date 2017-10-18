@@ -9,14 +9,7 @@ class StoryList extends Component {
   renderListItem = () => {
     if (!this.props.stories) return null;
     return Object.keys(this.props.stories)
-    .map(id => {
-      const location = {pathname: `/story/${id}`}
-      return (
-        <Link key={id} to={location}>
-          <StoryListItem story={this.props.stories[id]}/>
-        </Link>
-      )
-    })
+    .map(id => <StoryListItem key={id} story={this.props.stories[id]} renderEditor={this.props.renderEditor === false ? false : true}/>)
   }
 
   render() {

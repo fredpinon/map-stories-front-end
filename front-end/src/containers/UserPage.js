@@ -2,37 +2,101 @@ import React, {Component} from 'react';
 import '../css/UserPage.css';
 
 import { connect } from 'react-redux';
-import { fetchStoriesUserPage } from '../actions';
-import { Link } from 'react-router-dom';
+import { fetchStoriesUserPage, createStory } from '../actions';
 
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+
 import StoryList from '../components/StoryList';
 
 class UserPage extends Component {
 
-  componentWillMount() {
-    this.props.loadStories();
+ state = {
+    open: false,
+    disabled: true,
+    renderEditor: false
+  };
+
+ handleOpen = () => this.setState({open: true});
+
+ handleClose = () => {
+    this.setState({
+      open: false,
+      disabled: true,
+    });
+  };
+
+ createStory = () => {
+    this.props.createStory({
+      title: this.titleField.input.value,
+      tagline: this.taglineField.input.value,
+      email: this.props.user.email,
+    });
+    this.setState({open: false});
   }
 
-  render() {
-    const style = {
-      margin: 20,
-    }
+ componentWillMount() {
+    this.props.loadStories(this.props.userId);
+  }
+
+ toggleDisabled = () => {
+    if (this.titleField.input.value !== '' && this.taglineField.input.value !== '') this.setState({disabled: false});
+  }
+
+ render() {
     const ownStories = Object.keys(this.props.stories)
-    .filter(key => this.props.stories[key].editor === 'E-A')
+    .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el]
       return accum;
     },{});
+    const disabled = (this.titleField !== undefined && this.taglineField !== undefined) ? false : true;
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+      <FlatButton
+        label="Create"
+        primary={true}
+        disabled={this.state.disabled}
+        onClick={this.createStory}
+      />,
+    ];
+    const style = {
+      margin: 20,
+    }
     return (
       <div className="UserPage">
-      <Link to={'/me/createstory'}>
-          <FloatingActionButton className="AddStoryButton" style={style}>
-            <ContentAdd />
-          </FloatingActionButton>
-        </Link>
-        <StoryList stories={ownStories}/>
+        <FloatingActionButton className="AddStoryButton" style={style} onClick={this.handleOpen}>
+          <ContentAdd />
+        </FloatingActionButton>
+        <Dialog
+        title="CREATE NEW STORY"
+        actions={actions}
+        modal={true}
+        open={this.state.open}
+        >
+        Add a title and tagline for your new story
+        <TextField
+          hintText="Story Title"
+          floatingLabelText="Story Title"
+          style={{ fontSize: '24px' }}
+          fullWidth={true}
+          ref={input => this.titleField = input}
+          onKeyPress={this.toggleDisabled}/><br />
+        <TextField
+          hintText="Story Tagline"
+          floatingLabelText="Story Tagline"
+          fullWidth={true}
+          ref={input => this.taglineField = input}
+          onKeyPress={this.toggleDisabled}/><br />
+        </Dialog>
+        <StoryList stories={ownStories} renderEditor={this.state.renderEditor}/>
       </div>
     );
   }
@@ -40,10 +104,13 @@ class UserPage extends Component {
 
 const mapStateToProps = (state) => ({
   stories: state.entities.stories,
+  page: state.pages.createStory,
+  user: state.authentication
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStories: () => dispatch(fetchStoriesUserPage())
+  loadStories: (userId) => dispatch(fetchStoriesUserPage(userId)),
+  createStory: (data) => dispatch(createStory(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

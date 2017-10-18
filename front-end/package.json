@@ -17,14 +17,15 @@
     "react-dom": "^16.0.0",
     "react-facebook-login": "^3.6.2",
     "react-icons": "^2.2.7",
-    "react-player": "^0.25.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "react-tweet-embed": "^1.0.8",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "uuid": "^3.1.0",
+    "video-react": "^0.8.8"
   },
   "scripts": {
     "start": "react-scripts start",

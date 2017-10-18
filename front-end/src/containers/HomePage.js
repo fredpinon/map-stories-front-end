@@ -10,7 +10,7 @@ import Slider from 'material-ui/Slider';
 class HomePage extends Component {
 
   componentWillMount() {
-    this.props.loadStories();
+    this.props.loadStories(1);
   }
 
   renderSearch() {
@@ -24,8 +24,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const publishedStories = Object.keys(this.props.stories)
-    .filter(key => this.props.stories[key].published)
+    const publishedStories = this.props.page.pageResults
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el];
       return accum;
@@ -48,7 +47,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStories: () => dispatch(fetchStoriesHomePage())
+  loadStories: (page) => dispatch(fetchStoriesHomePage(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

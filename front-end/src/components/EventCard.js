@@ -29,26 +29,26 @@ class EventCard extends Component {
   renderLinks = (attachment, i) => {
     const children = (
       <div className="LinkChildren">
-        <a href={attachment.link}>{attachment.title}</a>
-        <img src={attachment.imageURL} alt={i}/>
+        <a href={attachment.url}>{attachment.title}</a>
+        <img src={attachment.urlImg} alt={i}/>
       </div>
     );
     return <CardText className="Link" key={i} expandable={true} children={children}></CardText>;
   }
 
   renderVideos = (attachment, i) => {
-    const children = <ReactPlayer className="Video" url={attachment.videoURL}/>;
+    const children = <ReactPlayer className="Video" url={attachment.url}/>;
     return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
   }
 
   renderImages = (attachment, i) => (
     <CardMedia key={i} expandable={true}>
-      <img src={attachment.imageURL} alt={i}/>
+      <img src={attachment.url} alt={i}/>
     </CardMedia>
   )
 
   renderTweets = (attachment, i) => {
-    let tweetID = attachment.tweetURL.split('/');
+    let tweetID = attachment.url.split('/');
     tweetID = tweetID.pop();
     const children = <TweetEmbed id={tweetID} />;
     return <CardMedia key={i} expandable={true} children={children}></CardMedia>;

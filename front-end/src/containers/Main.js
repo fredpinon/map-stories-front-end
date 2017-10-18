@@ -8,12 +8,16 @@ import HomePage from './HomePage';
 import Viewer from './Viewer';
 import UserPage from './UserPage';
 import EditorPage from './EditorPage';
-import CreatePage from './CreatePage';
 import NoMatch from '../components/NoMatch';
 import PrivateRoute from '../components/PrivateRoute';
 
+import Snackbar from 'material-ui/Snackbar';
+
 class Main extends Component {
+
+
   render() {
+    const { token } = this.props.user;
     return (
       <div className="Main">
         <Switch>
@@ -26,17 +30,12 @@ class Main extends Component {
             component={Viewer}
           />
           <PrivateRoute
-            token={this.props.token}
+            token={token}
             path="/me/stories"
             component={UserPage}
           />
           <PrivateRoute
-            token={this.props.token}
-            path="/me/createstory"
-            component={CreatePage}
-          />
-          <PrivateRoute
-            token={this.props.token}
+            token={token}
             path="/me/editstory/:storyId"
             component={EditorPage}
           />
@@ -44,13 +43,19 @@ class Main extends Component {
             component={NoMatch}
           />
         </Switch>
+        <Snackbar
+          open={(new Date()).getTime() <= this.props.errors.errorTime}
+          message={this.props.errors.errorMessage}
+          autoHideDuration={5000}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  token: state.authentication.token,
+  user: state.authentication,
+  errors: state.errors
 });
 
 const mapDispatchToProps = (dispatch) => ({});
