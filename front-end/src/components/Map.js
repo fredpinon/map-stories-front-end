@@ -46,7 +46,10 @@ class Map extends Component {
   }
 
   componentDidMount () {
-    const center = this.props.markers && this.props.markers.length > 0
+    const center =
+      this.props.markers
+      && this.props.markers.length > 0
+      && this.props.markers[0].lng !== undefined
       ? [this.props.markers[0].lng, this.props.markers[0].lat]
       : [2.15, 41.36];
 
