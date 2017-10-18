@@ -34,6 +34,11 @@
   overflow-y: scroll;
 }
 
+.MapTimeLine {
+  display: flex;
+  flex-direction: column;
+  width:100%;
+}
 .InputHeader {
   max-width: 550px;
   height: 65px;

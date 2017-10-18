@@ -8,14 +8,21 @@ import ReactPlayer from 'react-player';
 class EventCard extends Component {
 
   state = {
-    expanded: false,
     shadow: 1,
+    textColor: 'rgba(0, 0, 0, 0.54)'
   }
-  componentDidMount() {
+  componentWillMount() {
+    console.log(this.props.expanded);
+    if (this.props.expanded) {
+      this.setState({
+        textColor: 'rgba(0,255,0,0.3)',
+      });
+    console.log('HELLO');
+    }
   }
 
 
-  handleExpandChange = expanded => this.setState({expanded: expanded});
+
   onMouseOver = () => this.setState({ shadow: 3 });
   onMouseOut = () => this.setState({ shadow: 1 });
 
@@ -71,7 +78,6 @@ class EventCard extends Component {
       <Card
         className="EventCard"
         expanded={this.props.expanded}
-        onExpandChange={this.handleExpandChange}
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
         zDepth={this.state.shadow}
@@ -80,7 +86,7 @@ class EventCard extends Component {
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
-          titleColor='rgba(0, 0, 0, 0.54)'
+          titleColor={this.state.textColor}
           style={titleStyle}
           title={title}
         />
