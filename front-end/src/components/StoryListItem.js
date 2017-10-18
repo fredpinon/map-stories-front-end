@@ -40,7 +40,7 @@ class StoryListItem extends Component {
         label='EDIT'
         rippleColor="purple"
         primary={true}
-        href={`/me/editstory/${this.props.story.id}`}
+        href={`/me/editstory/${this.props.story._id}`}
       />
     )
   };

@@ -61,13 +61,12 @@ class EditorPage extends Component {
       currentEventIndex: this.state.currentEventIndex-1
     })
   }
-  
+
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
 
   render () {
-    if (!this.props.story.events) return null;
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
       ? this.props.story.events[this.state.currentEventIndex]
       : {};
