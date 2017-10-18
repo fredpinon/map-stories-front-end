@@ -14,6 +14,7 @@ class EditorPage extends Component {
     currentEventIndex: {},
     showPrev: false,
     showNext: false,
+    coordinates: {}
   }
 
  constructor (props) {
@@ -36,6 +37,7 @@ class EditorPage extends Component {
 
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
+    event.coordinates = this.state.coordinates;
     this.props.editEvent(event, storyId);
     this.goNext();
   }
@@ -64,7 +66,14 @@ class EditorPage extends Component {
   }
 
   markerAdded = (coordinates) => {
-    console.log('from editorpage', coordinates);
+    this.setState({
+      coordinates
+    })
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.coordinates) return false;
+    return true;
   }
 
   render () {
