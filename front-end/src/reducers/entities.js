@@ -32,6 +32,10 @@ const entities = (state = defaultState, action) => {
             }
           }
         }
+      case actions.DELETE_STORY_SUCCESS:
+        const copy = Object.assign({}, state);
+        delete copy.stories[action.response._id];
+        return copy;
         break;
       default:
 

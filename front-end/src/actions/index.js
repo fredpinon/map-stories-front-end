@@ -18,12 +18,12 @@ export const EDIT_EVENT_REQUEST = 'EDIT_EVENT_REQUEST';
 export const EDIT_EVENT_SUCCESS = 'EDIT_EVENT_SUCCESS';
 export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
 
-export const editEvent = (data, storyId, method=undefined) => ({
+export const editEvent = (data, storyId) => ({
   [CALL_API]: {
     types: [ EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE ],
-    endpoint: data.id !== undefined ? `/stories/${storyId}/events/${data.id}`: `/stories/${storyId}/events`,
+    endpoint: data._id !== undefined ? `/stories/${storyId}/event/${data._id}`: `/stories/${storyId}/event`,
     schema: Schemas.STORY,
-    method: data.id !== undefined ? 'PUT' : 'POST',
+    method: data._id !== undefined ? 'PUT' : 'POST',
     data: data,
   }
 })
@@ -60,10 +60,10 @@ export const STORIES_USER_REQUEST = 'STORIES_USER_REQUEST';
 export const STORIES_USER_SUCCESS = 'STORIES_USER_SUCCESS';
 export const STORIES_USER_FAILURE = 'STORIES_USER_FAILURE';
 
-export const fetchStoriesUserPage = (editorId) => ({
+export const fetchStoriesUserPage = () => ({
   [CALL_API]: {
     types: [ STORIES_USER_REQUEST, STORIES_USER_SUCCESS, STORIES_USER_FAILURE ],
-    endpoint: `/me/stories/${editorId}`,
+    endpoint: `/me/stories`,
     schema: Schemas.STORY_ARRAY
   }
 })
@@ -89,7 +89,9 @@ export const deleteStory = (storyId) => ({
     method: 'DELETE',
     types: [ DELETE_STORY_REQUEST, DELETE_STORY_SUCCESS, DELETE_STORY_FAILURE ],
     endpoint: `/stories/${storyId}`,
-    schema: Schemas.STORY_ARRAY,
+  },
+  payload: {
+    storyId
   }
 })
 

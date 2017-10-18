@@ -35,7 +35,7 @@ class EditorPage extends Component {
   })
 
   onEventEdit = (event) => {
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
     this.props.editEvent(event, storyId);
     this.goNext();
   }
@@ -62,13 +62,12 @@ class EditorPage extends Component {
       currentEventIndex: this.state.currentEventIndex-1
     })
   }
-  
+
   markerAdded = (coordinates) => {
     console.log('from editorpage', coordinates);
   }
 
   render () {
-    if (!this.props.story.events) return null;
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
       ? this.props.story.events[this.state.currentEventIndex]
       : {};
@@ -105,7 +104,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleStory: (storyId) => dispatch(fetchSingleStory(storyId)),
-  editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method)),
+  editEvent: (data, storyId) => dispatch(editEvent(data, storyId)),
   deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
 });
 

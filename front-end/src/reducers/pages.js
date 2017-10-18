@@ -7,17 +7,24 @@ const defaultState = {
   },
   createStory: {
     newStoryId: null
+  },
+  editorStoriesPage: {
+    results: []
   }
 }
 
 const pages = (state = defaultState, action) => {
   switch (action.type) {
     case actions.CREATE_STORY_SUCCESS:
+      const newStoryArr = [action.response.result];
       return {
         ...state,
         createStory: {
           ...state.createStory,
           newStoryId: action.response.result
+        },
+        editorStoriesPage: {
+          results: state.editorStoriesPage.results.concat(newStoryArr),
         }
       }
       break;
@@ -43,6 +50,20 @@ const pages = (state = defaultState, action) => {
         storiesList: {
           ...state.storiesList,
           pageResults: action.response.result
+        }
+      }
+    case actions.STORIES_USER_SUCCESS:
+      return {
+        ...state,
+        editorStoriesPage: {
+          results: action.response.result
+        }
+      }
+    case actions.DELETE_STORY_SUCCESS:
+      return {
+        ...state,
+        editorStoriesPage: {
+          results: state.editorStoriesPage.results.filter(id => id !== action.payload.storyId)
         }
       }
     default:

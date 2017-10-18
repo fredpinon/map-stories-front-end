@@ -39,7 +39,7 @@ class UserPage extends Component {
   }
 
  componentWillMount() {
-    this.props.loadStories(this.props.userId);
+    this.props.loadStories();
   }
 
  toggleDisabled = () => {
@@ -47,8 +47,7 @@ class UserPage extends Component {
   }
 
  render() {
-    const ownStories = Object.keys(this.props.stories)
-    .filter(key => this.props.stories[key].editor && this.props.stories[key].editor === this.props.user._id)
+    const ownStories = this.props.page.results
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el]
       return accum;
@@ -104,12 +103,12 @@ class UserPage extends Component {
 
 const mapStateToProps = (state) => ({
   stories: state.entities.stories,
-  page: state.pages.createStory,
+  page: state.pages.editorStoriesPage,
   user: state.authentication
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStories: (userId) => dispatch(fetchStoriesUserPage(userId)),
+  loadStories: () => dispatch(fetchStoriesUserPage()),
   createStory: (data) => dispatch(createStory(data))
 });
 
