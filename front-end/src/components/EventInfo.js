@@ -145,8 +145,10 @@ class EventInfo extends Component {
   toggleDisable = (index) => {
     if (this.state.attachments[index].imageUrl) {
       return this.state.attachments[index].imageUrl ? true : false;
-    } else {
+    } else if (this.state.attachments[index].url) {
       return this.state.attachments[index].url ? true : false;
+    } else if (this.state.attachments[index].text) {
+      return this.state.attachments[index].text ? true : false;
     }
   }
 
@@ -171,6 +173,9 @@ class EventInfo extends Component {
         break;
         case 'tweet':
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        break;
+        case 'text':
+          this.changeAttachmentProperty(index, type = 'text', this.eventURLField.input.value);
         break;
       }
     }
@@ -316,6 +321,20 @@ class EventInfo extends Component {
         </div>
       )
     }
+    if (type === 'text') {
+      return (
+        <div>
+          <TextField
+            hintText="url"
+            floatingLabelText="Type text"
+            fullWidth={true}
+            onKeyPress={(e) => this.handleLinkInput(e, index, type)}
+            ref={input => this.eventURLField = input}
+            disabled={this.toggleDisable(index)}
+          />
+        </div>
+      )
+    }
     if (type === 'image' || type === 'video' || type === 'audio') {
       return (
         <div>
@@ -404,7 +423,7 @@ class EventInfo extends Component {
             value={this.state.eventInfo.title}
           /><br />
           <TextField
-            hintText="MM:SS"
+            hintText="HH:MM:SS"
             floatingLabelText="Time for event to start"
             fullWidth
             name="startTime"
