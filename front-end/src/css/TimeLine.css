@@ -6,6 +6,8 @@
   flex-direction: row;
   /*margin-left: 1vw;*/
   border-top: 2px solid #f7f6f5;
+  z-index: 10;
+  background-color: white;
 }
 
 .controls {
