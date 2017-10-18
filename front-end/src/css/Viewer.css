@@ -1,3 +1,5 @@
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.purple { color: #673AB7 ; }
 .Viewer {
   display: flex;
   flex: 1;
@@ -10,9 +12,15 @@
   position: absolute;
   flex:1;
 }
+.btn {
+  background: white;
+  border: none;
+}
 
 
 .MapViewer {
+  flex: 1;
+
   display: flex;
   flex: 1;
   position: relative;
@@ -46,7 +54,11 @@
 .EventCard {
   margin-bottom: 0.3em;
 }
-
+.Slider {
+  margin-left: 4.5vw;
+  width: 85%;
+  margin-top: -2vh;
+}
 .SliderContainer {
   flex: 1;
   max-height: 50px;

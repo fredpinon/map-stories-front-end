@@ -37,6 +37,12 @@
   z-index: 2;
 }
 
+.MapTimeLine {
+  display: flex;
+  flex-direction: column;
+  width:100%;
+}
+
 .InputHeader {
   height: 65px;
   margin-left: 2em;
