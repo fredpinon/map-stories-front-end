@@ -199,6 +199,9 @@ class EventInfo extends Component {
     }
     if (this.props.event._id) eventInfo._id = this.props.event._id
     this.props.onEventEdit(eventInfo);
+    this.setState({
+      attachments: []
+    })
   }
 
  deleteEvent = () => {
@@ -311,8 +314,8 @@ class EventInfo extends Component {
       return (
         <div>
           <TextField
-            hintText="url"
-            floatingLabelText="paste URL"
+            hintText="link"
+            floatingLabelText="Paste URL"
             fullWidth={true}
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
@@ -325,7 +328,7 @@ class EventInfo extends Component {
       return (
         <div>
           <TextField
-            hintText="url"
+            hintText="text"
             floatingLabelText="Type text"
             fullWidth={true}
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
