@@ -32,13 +32,15 @@ class EditorPage extends Component {
     title: '',
     startTime: '00:00',
     mapLocation: '',
-    dateAndTime: ''
+    dateAndTime: '',
+    attachments: []
   })
 
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
-    event.coordinates = this.state.coordinates;
+    event.coordinates = [this.state.coordinates];
     this.props.editEvent(event, storyId);
+    this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
   }
 
@@ -82,7 +84,7 @@ class EditorPage extends Component {
 
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
       ? this.props.story.events[this.state.currentEventIndex]
-      : {};
+      : this.newEvent();
 
     console.log('currentEvent', currentEvent);
 
@@ -102,6 +104,12 @@ class EditorPage extends Component {
   }
 
   render () {
+    const event = this.props.story.events[this.state.currentEventIndex];
+    const markersProps = {}
+    if (event && event.coordinates && event.coordinates.length > 0) {
+      markersProps.markers = event.coordinates;
+    }
+    console.log('COORDS', markersProps);
 
     return (
       <div className="EditorPage">
@@ -109,7 +117,7 @@ class EditorPage extends Component {
           {this.renderEventInfo()}
         </div>
         <div className="MapTimeLine">
-          <Map onMarkerAdded={this.markerAdded} search={true}/>
+          <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
 
           <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
 

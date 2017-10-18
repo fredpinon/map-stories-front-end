@@ -394,6 +394,8 @@ class EventInfo extends Component {
   }
 
   render() {
+    if(!this.state.attachments) return null;
+    
     const attachments = this.state.attachments.map((el, index) => {
       let attachmentType = '';
       let attachmentInfo = '';
