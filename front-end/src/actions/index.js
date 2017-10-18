@@ -21,7 +21,7 @@ export const EDIT_EVENT_FAILURE = 'EDIT_EVENT_FAILURE';
 export const editEvent = (data, storyId) => ({
   [CALL_API]: {
     types: [ EDIT_EVENT_REQUEST, EDIT_EVENT_SUCCESS, EDIT_EVENT_FAILURE ],
-    endpoint: data._id !== undefined ? `/stories/${storyId}/events/${data._id}`: `/stories/${storyId}/events`,
+    endpoint: data._id !== undefined ? `/stories/${storyId}/event/${data._id}`: `/stories/${storyId}/event`,
     schema: Schemas.STORY,
     method: data._id !== undefined ? 'PUT' : 'POST',
     data: data,

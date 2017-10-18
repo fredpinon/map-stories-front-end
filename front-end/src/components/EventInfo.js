@@ -184,6 +184,7 @@ class EventInfo extends Component {
       startTime: this.state.eventInfo.startTime,
       mapLocation: this.state.eventInfo.mapLocation,
       dateAndTime: this.state.eventInfo.dateAndTime,
+      attachments: [],
     }
     if (this.props.event._id) eventInfo._id = this.props.event._id
     this.props.onEventEdit(eventInfo);
