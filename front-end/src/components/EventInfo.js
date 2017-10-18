@@ -169,6 +169,9 @@ class EventInfo extends Component {
         case 'link':
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         break;
+        case 'tweet':
+          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
+        break;
       }
     }
   }
@@ -299,7 +302,7 @@ class EventInfo extends Component {
         opacity: 0,
       }
     };
-    if (type === 'link') {
+    if (type === 'link' || type === 'tweet') {
       return (
         <div>
           <TextField
