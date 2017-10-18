@@ -34,7 +34,7 @@ class EditorPage extends Component {
   })
 
   onEventEdit = (event) => {
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
     this.props.editEvent(event, storyId);
     this.goNext();
   }
@@ -97,7 +97,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleStory: (storyId) => dispatch(fetchSingleStory(storyId)),
-  editEvent: (data, storyId, method) => dispatch(editEvent(data, storyId, method)),
+  editEvent: (data, storyId) => dispatch(editEvent(data, storyId)),
   deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
 });
 

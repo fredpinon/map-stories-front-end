@@ -69,6 +69,15 @@ class EventInfo extends Component {
     }
   }
 
+  handleTextChange = (e) => {
+    this.setState({
+      eventInfo: {
+        ...this.state.eventInfo,
+        [e.target.name]: e.target.value
+      }
+    });
+  }
+
   changeAttachmentProperty = (index, key, value) => {
     const attachments = this.state.attachments.slice();
     attachments.splice(index, 1, {
@@ -176,7 +185,7 @@ class EventInfo extends Component {
       mapLocation: this.state.eventInfo.mapLocation,
       dateAndTime: this.state.eventInfo.dateAndTime,
     }
-    if (this.props.event.id) eventInfo.id = this.props.event.id
+    if (this.props.event._id) eventInfo._id = this.props.event._id
     this.props.onEventEdit(eventInfo);
   }
 
