@@ -35,23 +35,45 @@
   font-size: 1.3rem;
   padding-top:0px;
 }
+
 .ListItemDescription p {
   color: grey;
   padding-top: 4px;
   margin-left: 20px;
 }
 
-
 .Paper {
   display: flex;
   align-items: center;
 }
 
-.ButtonsRender {
-  display: flex;
-}
-
 .Buttons {
   display: flex;
   align-self: center;
+}
+
+.Buttons > * {
+  padding : 0 5px;
+}
+
+@media (max-width: 1380px) {
+  .StoryList {
+    margin-top: 6.5em;
+  }
+}
+
+@media (max-width: 1288px) {
+  .StoryListItem {
+    margin: 0 3em;
+  }
+}
+
+@media (max-width: 480px) {
+  .ListItemPaper {
+    flex-direction: column;
+  }
+  .Buttons {
+    justify-content: space-between;
+  }
+
 }

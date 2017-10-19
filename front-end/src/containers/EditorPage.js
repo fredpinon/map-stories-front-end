@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editEvent, deleteEvent, fetchSingleStory } from '../actions';
+import { editEvent, deleteEvent, fetchSingleStory, showError } from '../actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -48,13 +48,21 @@ class EditorPage extends Component {
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
     event.coordinates = [this.state.coordinates];
+    if (event.title === '') {
+      this.props.showError('Please provide a title for your event');
+      return;
+    }
+    if (!event.coordinates[0].lng) {
+      this.props.showError('Please provide geo coordinates for your event (click on map)');
+      return;
+    }
     this.props.editEvent(event, storyId);
     this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
     // this.getTimes();
   }
 
-  onEventDelete = (eventId) => {
+ onEventDelete = (eventId) => {
     const storyId = this.props.story._id;
     this.props.deleteEvent(storyId, eventId);
   }
@@ -69,7 +77,6 @@ class EditorPage extends Component {
 
   goPrev = () => {
     if(this.state.currentEventIndex === 0) return;
-
     this.setState({
       showNext: true,
       showPrev: this.state.currentEventIndex > 1,
@@ -82,20 +89,6 @@ class EditorPage extends Component {
       coordinates
     })
   }
-
-  // getTimes = () => {
-  //   const times = [];
-  //   this.props.story.events.map(event => {
-  //     times.push(event.startTime)
-  //   })
-  //   this.setState({times})
-  // }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(nextState.coordinates);
-  //   if (nextState.coordinates) return false;
-  //   return true;
-  // }
 
   renderEventInfo () {
     if(!this.props.story.events || typeof this.props.story.events[0] === 'string') return null;
@@ -154,7 +147,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleStory: (storyId) => dispatch(fetchSingleStory(storyId)),
   editEvent: (data, storyId) => dispatch(editEvent(data, storyId)),
-  deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
+  deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId)),
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditorPage));

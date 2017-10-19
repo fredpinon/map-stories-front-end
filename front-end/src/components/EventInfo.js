@@ -227,8 +227,6 @@ class EventInfo extends Component {
     this.props.onEventDelete(this.props.event._id);
   }
 
-  // ============== RENDERING
-
   renderPreviewInputFile = (attachment, index) => {
     const { type } = attachment;
     if (this.state.attachments[index].url || this.state.attachments[index].imageUrl ) {
