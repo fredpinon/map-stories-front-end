@@ -293,6 +293,19 @@ class EventInfo extends Component {
     }
   }
 
+  renderValidateAttachmentButton = (index, type) => {
+    return (
+      <div className='validateAttachmentButton'>
+        <FlatButton
+          label="Submit"
+          primary={true}
+          rippleColor="#673AB7"
+          onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+        />
+      </div>
+    )
+  }
+
   renderProgressBar = () => {
     if (!this.state.uploading) return null;
 
@@ -333,7 +346,9 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          {this.renderValidateAttachmentButton(index, type)}
           {this.renderDeleteAttachmentButton(index)}
+
         </div>
       )
     }
@@ -351,6 +366,7 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          {this.renderValidateAttachmentButton(index, type)}
           {this.renderDeleteAttachmentButton(index)}
         </div>
       )
@@ -389,6 +405,7 @@ class EventInfo extends Component {
           />
           {this.renderProgressBar()}
           {this.renderPreviewInputFile(attachment, index)}
+          {this.renderValidateAttachmentButton(index, type)}
           {this.renderDeleteAttachmentButton(index)}
         </div>
       )
