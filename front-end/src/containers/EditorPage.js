@@ -53,7 +53,8 @@ class EditorPage extends Component {
   }
 
  onEventDelete = (eventId) => {
-    const storyId = this.props.story.id;
+    const storyId = this.props.story._id;
+    console.log(eventId, storyId);
     this.props.deleteEvent(storyId, eventId);
   }
 
@@ -67,7 +68,6 @@ class EditorPage extends Component {
 
   goPrev = () => {
     if(this.state.currentEventIndex === 0) return;
-
     this.setState({
       showNext: true,
       showPrev: this.state.currentEventIndex > 1,

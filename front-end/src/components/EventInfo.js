@@ -212,11 +212,10 @@ class EventInfo extends Component {
   }
 
   deleteEvent = () => {
-    const eventInfo = { id: '1' };
     // this.props.goPrev(true)
-    this.props.onEventDelete(eventInfo.id)
+    console.log(this.props.event._id);
+    this.props.onEventDelete(this.props.event._id)
   }
-  // ============== RENDERING
 
   renderPreviewInputFile = (attachment, index) => {
     const { type } = attachment;
@@ -395,7 +394,7 @@ class EventInfo extends Component {
 
   render() {
     if(!this.state.attachments) return null;
-    
+
     const attachments = this.state.attachments.map((el, index) => {
       let attachmentType = '';
       let attachmentInfo = '';

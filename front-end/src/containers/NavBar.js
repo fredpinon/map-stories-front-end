@@ -26,7 +26,13 @@ class NavBar extends Component {
     this.props.loginUserToDb(userCredentials);
   }
 
- handleSignOut = () => this.props.logOut();
+ handleSignOut = () => {
+  // localStorage.clear();
+  // localStorage.removeItem('state');
+  // localStorage.setItem('state', {});
+  // console.log(localStorage.getItem('state'));
+   this.props.logOut();
+ }
 
  handleSearching = query => this.search(query);
 
