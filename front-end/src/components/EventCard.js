@@ -12,13 +12,13 @@ class EventCard extends Component {
     textColor: 'rgba(0, 0, 0, 0.54)'
   }
   componentWillMount() {
-    console.log(this.props.expanded);
-    if (this.props.expanded) {
-      this.setState({
-        textColor: 'rgba(0,255,0,0.3)',
-      });
-    console.log('HELLO');
-    }
+    // console.log(this.props.expanded);
+    // if (this.props.expanded) {
+    //   this.setState({
+    //     textColor: 'rgba(0,255,0,0.3)',
+    //   });
+    // console.log('HELLO');
+    // }
   }
 
 
@@ -78,6 +78,7 @@ class EventCard extends Component {
       <Card
         className="EventCard"
         expanded={this.props.expanded}
+
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
         zDepth={this.state.shadow}

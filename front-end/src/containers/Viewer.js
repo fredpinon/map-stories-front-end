@@ -51,6 +51,7 @@ class Viewer extends Component {
     const events = this.props.stories[storyId].events;
     return events.map((event, i) => {
       let mark = 0;
+      console.log(event);
       let y = event.startTime.split(':')
       y.length > 2 ? mark = parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60) : mark = parseInt(y[0]) + (parseInt(y[1])/60)
       if (this.state.time === mark) {
@@ -58,12 +59,9 @@ class Viewer extends Component {
 
         return <EventCard key={i} data={event} expanded={true} Markers={this.eventTimes()}/>
       }
-      // console.log('currentTime:', parseInt(this.state.time));
-      // console.log('EventTime:', event.startTimes);
       return <EventCard key={i} data={event} expanded={false} Markers={this.eventTimes()}/>
     }
     );
-
   }
 
   eventTimes =() => {
