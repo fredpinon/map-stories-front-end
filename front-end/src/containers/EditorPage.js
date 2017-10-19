@@ -13,7 +13,7 @@ class EditorPage extends Component {
  state = {
     currentEventIndex: 0,
     showPrev: false,
-    showNext: false,
+    showNext: true,
     coordinates: {},
     times: []
   }
@@ -54,8 +54,8 @@ class EditorPage extends Component {
     // this.getTimes();
   }
 
- onEventDelete = (eventId) => {
-    const storyId = this.props.story.id;
+  onEventDelete = (eventId) => {
+    const storyId = this.props.story._id;
     this.props.deleteEvent(storyId, eventId);
   }
 

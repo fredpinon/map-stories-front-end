@@ -224,10 +224,9 @@ class EventInfo extends Component {
   }
 
   deleteEvent = () => {
-    const eventInfo = { id: '1' };
-    // this.props.goPrev(true)
-    this.props.onEventDelete(eventInfo.id)
+    this.props.onEventDelete(this.props.event._id);
   }
+
   // ============== RENDERING
 
   renderPreviewInputFile = (attachment, index) => {
@@ -315,7 +314,18 @@ class EventInfo extends Component {
                 label="Submit"
                 primary={true}
                 rippleColor="#673AB7"
-                onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+                onClick={() => {
+                  return this.changeAttachmentProperty(
+                  index,
+                  type === 'text'
+                  ? 'text'
+                  : (type === 'image'
+                    ? 'imageUrl'
+                    : 'url'),
+                  type === 'text'
+                  ? this.eventURLField.input.refs.input.value
+                  : this.eventURLField.input.value)
+                }}
               />
             </div>
           )

@@ -15,16 +15,27 @@ class TimeLine extends Component {
 
   constructor(props) {
     super(props);
-    const times = props.events.map(event => event.startTime);
-    const calcMarks = this.calcMarks(times);
-    const maxValue = Math.max(...Object.keys(calcMarks))
 
-    this.state = {
-      play: true,
-      timeStamp: 0,
-      calcMarks,
-      maxValue
-    };
+    if(props.events && props.events.length > 0 && typeof props.events[0] === 'object') {
+      const times = props.events.map(event => event.startTime);
+      const calcMarks = this.calcMarks(times);
+      const maxValue = Math.max(...Object.keys(calcMarks))
+
+      this.state = {
+        play: this.props.autoplay,
+        timeStamp: 0,
+        calcMarks,
+        maxValue
+      };
+    }
+    else {
+      this.state = {
+        play: this.props.autoplay,
+        timeStamp: 0,
+        calcMarks: {},
+        maxValue: 0,
+      };
+    }
 
     this.passedEvents = []
   }
@@ -44,11 +55,12 @@ class TimeLine extends Component {
   calcMarks = (timestamps) => {
     if (!timestamps) return {};
 
+    console.log(timestamps);
     const arr = timestamps.map(x => {
       let y = x.split(':');
       return y.length > 2
-        ? parseInt(y[0]) * 3600 + parseInt(y[1]) * 60 + parseInt(y[2]) * 1000
-        : parseInt(y[0]) * 60 + parseInt(y[1]) * 1000;
+        ? (parseInt(y[0]) * 3600 + parseInt(y[1]) * 60 + parseInt(y[2])) * 1000
+        : (parseInt(y[0]) * 60 + parseInt(y[1])) * 1000;
     });
 
     return arr.reduce((accum, el, i) => {

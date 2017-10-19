@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Card, CardHeader, CardText, CardMedia} from 'material-ui/Card';
 import TweetEmbed from 'react-tweet-embed';
 import ReactPlayer from 'react-player';
-
+import { Player, BigPlayButton } from 'video-react';
+import "../../node_modules/video-react/dist/video-react.css";
 
 
 class EventCard extends Component {
@@ -33,17 +34,39 @@ class EventCard extends Component {
         <img src={attachment.urlImg} alt={i}/>
       </div>
     );
-    return <CardText className="Link" key={i} expandable={true} children={children}></CardText>;
+    return <CardText className="Link" key={i} expandable={false} children={children}></CardText>;
   }
 
   renderVideos = (attachment, i) => {
-    const children = <ReactPlayer className="Video" url={attachment.url}/>;
-    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
+    let children = null;
+    if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)/i).test(attachment.url)) {
+      children = (
+        <div className="previewVideo">
+          <Player
+            id="player"
+          >
+            <source src={attachment.url} />
+            <BigPlayButton position="center" />
+        </Player>
+        </div>
+      )
+    } else {
+      children = (
+        <div className="previewVideo">
+          <ReactPlayer
+            width={400}
+            height={225}
+            url={attachment.url}
+          />
+        </div>
+      )
+    }
+    return <CardMedia key={i} expandable={false} children={children}></CardMedia>;
   }
 
   renderImages = (attachment, i) => (
-    <CardMedia key={i} expandable={true}>
-      <img src={attachment.url} alt={i}/>
+    <CardMedia key={i} expandable={false}>
+      <img src={attachment.imageUrl} alt={i}/>
     </CardMedia>
   )
 
@@ -51,18 +74,18 @@ class EventCard extends Component {
     let tweetID = attachment.url.split('/');
     tweetID = tweetID.pop();
     const children = <TweetEmbed id={tweetID} />;
-    return <CardMedia key={i} expandable={true} children={children}></CardMedia>;
+    return <CardMedia key={i} expandable={false} children={children}></CardMedia>;
   }
 
   renderAttachments = () => {
     if (!this.props.data.attachments) return null;
     const { attachments } = this.props.data;
     return attachments.map((attachment, i) => {
-      if (attachment.type === 'Text') return <CardText key={i} expandable={true}>{attachment.text}</CardText>;
-      if (attachment.type === 'Image') return this.renderImages(attachment, i);
-      if (attachment.type === 'Link') return this.renderLinks(attachment, i);
-      if (attachment.type === 'Video') return this.renderVideos(attachment, i);
-      if (attachment.type === 'Tweet') return this.renderTweets(attachment, i);
+      if (attachment.type === 'text') return <CardText key={i} expandable={false}>{attachment.text}</CardText>;
+      if (attachment.type === 'image') return this.renderImages(attachment, i);
+      if (attachment.type === 'link') return this.renderLinks(attachment, i);
+      if (attachment.type === 'video') return this.renderVideos(attachment, i);
+      if (attachment.type === 'tweet') return this.renderTweets(attachment, i);
       else return null;
     });
   }
@@ -89,7 +112,7 @@ class EventCard extends Component {
           showExpandableButton={true}
           titleColor={this.state.textColor}
           style={titleStyle}
-          title={title}
+          title={this.props.data.attachments[0].type}
         />
         {this.renderAttachments()}
       </Card>

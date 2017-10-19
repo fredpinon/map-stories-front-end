@@ -42,6 +42,10 @@ class Map extends Component {
       this.map
       .getSource('markers')
       .setData(this.createGeoJson(nextProps.markers));
+      if(nextProps.markers && nextProps.markers[0] && nextProps.markers[0].lng) {
+        console.log(nextProps.markers[0]);
+        this.flyToCoordinates(nextProps.markers[0]);
+      }
     }
   }
 

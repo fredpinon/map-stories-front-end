@@ -12,7 +12,8 @@ import TimeLine from '../components/TimeLine';
 class Viewer extends Component {
 
   state = {
-    time: ''
+    time: '',
+    currentEventIndex: 0,
   }
 
   componentWillMount() {
@@ -20,9 +21,8 @@ class Viewer extends Component {
     this.props.loadStory(this.props.match.params.storyId);
   }
 
-  renderTitles = () => {
-    const story = this.props.stories[this.props.match.params.storyId];
-    const { title, tagLine } = story;
+  renderEvent = (event) => {
+    const { title, dateAndTime } = event;
     const styles = {
       title: {
         fontWeight: 'bold',
@@ -37,31 +37,20 @@ class Viewer extends Component {
         <CardHeader
           title={title}
           titleStyle={styles.title}
-          subtitle={tagLine}
+          subtitle={dateAndTime}
           subtitleStyle={styles.subtitle}
         />
       </Card>
     )
   }
 
-  renderEvents = () => {
-    const { storyId } = this.props.match.params
-    if (!this.props.stories[storyId].events) return null;
-    console.log(this.props.stories[storyId]);
-    const events = this.props.stories[storyId].events;
-    return events.map((event, i) => {
-      let mark = 0;
-      console.log(event);
-      let y = event.startTime.split(':')
-      y.length > 2 ? mark = parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60) : mark = parseInt(y[0]) + (parseInt(y[1])/60)
-      if (this.state.time === mark) {
+  renderAttachments = (attachments) => {
+    if(!attachments) return null;
 
+    return attachments.map((attachment, i) => {
+      return <EventCard key={i} data={{attachments: [attachment]}} expanded />
+    });
 
-        return <EventCard key={i} data={event} expanded={true} Markers={this.eventTimes()}/>
-      }
-      return <EventCard key={i} data={event} expanded={false} Markers={this.eventTimes()}/>
-    }
-    );
   }
 
   eventTimes =() => {
@@ -73,27 +62,39 @@ class Viewer extends Component {
     return startTimes;
   }
 
-  Matched = (match) => {
-    this.setState({time: match})
+  currentStory = () => {
+    return this.props.stories[this.props.match.params.storyId];
   }
 
+  onTimelineChangeEvent = (match) => {
+    this.setState({
+      currentEventIndex: this.currentStory().events
+        .indexOf(this.currentStory().events.find(event => match === event.startTime))
+    })
+  }
 
   render() {
-    const story = this.props.stories[this.props.match.params.storyId];
-    const coords = story.events.map(event => event.coordinates[0])
+    const story = this.currentStory();
+    if(!story.events) return null;
+    const event = story.events[this.state.currentEventIndex];
+    const markersProps = {};
+    if (event && event.coordinates && event.coordinates.length > 0) {
+      markersProps.markers = event.coordinates;
+    }
+
     return (
       <div className="Viewer">
         <div className="MapViewer">
           <div className="EventsContainerWrapper">
             <div className="EventsContainer">
-              {this.renderTitles()}
-              {this.renderEvents()}
+              {this.renderEvent(event)}
+              {this.renderAttachments(event.attachments)}
             </div>
           </div>
-          <Map onMarkerAdded={this.markerAdded} coords={coords} editorPage={false} />
+          <Map {...markersProps} />
         </div>
 
-        <TimeLine times={this.eventTimes()} match={this.Matched} />
+        <TimeLine events={story.events} match={this.onTimelineChangeEvent} autoplay />
       </div>
     );
   }
