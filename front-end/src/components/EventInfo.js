@@ -346,9 +346,10 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
-          {this.renderValidateAttachmentButton(index, type)}
-          {this.renderDeleteAttachmentButton(index)}
-
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderValidateAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }
@@ -366,8 +367,10 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
-          {this.renderValidateAttachmentButton(index, type)}
-          {this.renderDeleteAttachmentButton(index)}
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderValidateAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }
@@ -405,8 +408,10 @@ class EventInfo extends Component {
           />
           {this.renderProgressBar()}
           {this.renderPreviewInputFile(attachment, index)}
-          {this.renderValidateAttachmentButton(index, type)}
-          {this.renderDeleteAttachmentButton(index)}
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderValidateAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }

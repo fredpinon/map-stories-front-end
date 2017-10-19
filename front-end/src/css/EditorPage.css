@@ -31,10 +31,9 @@
   width:100%;
 }
 
-.deleteAttachmentButton {
-  float: right;
-  position: relative;
-  z-index: 2;
+.deleteValidateButtons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .MapTimeLine {
