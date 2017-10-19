@@ -279,7 +279,7 @@ class EventInfo extends Component {
   }
 
   renderDeleteAttachmentButton = (index) => {
-    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl) {
+    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl || this.state.attachments[index].text) {
       return (
         <div className='deleteAttachmentButton'>
           <FlatButton
@@ -333,6 +333,7 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          {this.renderDeleteAttachmentButton(index)}
         </div>
       )
     }
@@ -350,6 +351,7 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          {this.renderDeleteAttachmentButton(index)}
         </div>
       )
     }
@@ -395,7 +397,7 @@ class EventInfo extends Component {
 
   render() {
     if(!this.state.attachments) return null;
-    
+
     const attachments = this.state.attachments.map((el, index) => {
       let attachmentType = '';
       let attachmentInfo = '';
