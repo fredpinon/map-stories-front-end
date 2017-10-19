@@ -41,7 +41,10 @@ class EventInfo extends Component {
 
     },
     attachments: [],
-    uploading: false
+    uploadState: {
+      uploading: false,
+      index: null
+    }
   };
 
   constructor (props) {
@@ -130,15 +133,24 @@ class EventInfo extends Component {
       ACL: 'public-read'
     }, (err, data) => {
       if (err) {
+        this.props.showError('There was an error uploading your file');
         return console.error('There was an error uploading your file: ', err.message);
       }
       console.log('Successfully uploaded file.', data.Location, this.state);
-      this.setState({ uploading: false });
+      this.setState({
+        uploadState: {
+          uploading: false,
+          index
+        }
+      });
       this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
     })
     .on('httpUploadProgress', (progress) => {
       this.setState({
+        uploadState: {
         uploading: true,
+        index
+        },
         progressLoaded: progress.loaded,
         progressTotal: progress.total
       })
@@ -339,16 +351,19 @@ class EventInfo extends Component {
     }
   }
 
-  renderProgressBar = () => {
-    if (!this.state.uploading) return null;
-
-    return (
-      <LinearProgress
-        mode="determinate"
-        value={this.state.progressLoaded}
-        max={this.state.progressTotal}
-      />
-    )
+  renderProgressBar = (index) => {
+    if (this.state.attachments[index]) {
+      if (!this.state.uploadState.uploading) return null;
+      if (this.state.uploadState.index === index) {
+        return (
+          <LinearProgress
+            mode="determinate"
+            value={this.state.progressLoaded}
+            max={this.state.progressTotal}
+          />
+        )
+      }
+    }
   }
 
   renderAttachmentContent = (attachment, index) => {
@@ -439,7 +454,7 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
-          {this.renderProgressBar()}
+          {this.renderProgressBar(index)}
           {this.renderPreviewInputFile(attachment, index)}
           <div className="deleteValidateButtons">
             {this.renderDeleteAttachmentButton(index)}
@@ -489,7 +504,7 @@ class EventInfo extends Component {
       float: 'right'
     }
     const headerStyle={ color: "grey" }
-    const title = this.props.event.id
+    const title = this.props.event._id
       ? `EDIT EVENT ${this.props.eventIndex+1}/${this.props.totalEvents}`
       : 'ADD EVENT';
     return (
