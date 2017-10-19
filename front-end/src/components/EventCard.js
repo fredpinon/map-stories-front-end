@@ -11,17 +11,6 @@ class EventCard extends Component {
     shadow: 1,
     textColor: 'rgba(0, 0, 0, 0.54)'
   }
-  componentWillMount() {
-    // console.log(this.props.expanded);
-    // if (this.props.expanded) {
-    //   this.setState({
-    //     textColor: 'rgba(0,255,0,0.3)',
-    //   });
-    // console.log('HELLO');
-    // }
-  }
-
-
 
   onMouseOver = () => this.setState({ shadow: 3 });
   onMouseOut = () => this.setState({ shadow: 1 });

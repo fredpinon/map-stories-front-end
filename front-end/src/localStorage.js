@@ -9,11 +9,6 @@ export const loadState = () => {
 }
 
 export const saveState = (state) => {
-  const clear = JSON.parse(localStorage.getItem('clear')) || false;
-  if (clear) {
-    localStorage.clear();
-    return;
-  }
   try {
     const serializedState = JSON.stringify({
       entities: state.entities,

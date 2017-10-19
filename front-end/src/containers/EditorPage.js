@@ -64,7 +64,6 @@ class EditorPage extends Component {
 
  onEventDelete = (eventId) => {
     const storyId = this.props.story._id;
-    console.log(eventId, storyId);
     this.props.deleteEvent(storyId, eventId);
   }
 
@@ -90,20 +89,6 @@ class EditorPage extends Component {
       coordinates
     })
   }
-
-  // getTimes = () => {
-  //   const times = [];
-  //   this.props.story.events.map(event => {
-  //     times.push(event.startTime)
-  //   })
-  //   this.setState({times})
-  // }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log(nextState.coordinates);
-  //   if (nextState.coordinates) return false;
-  //   return true;
-  // }
 
   renderEventInfo () {
     if(!this.props.story.events || typeof this.props.story.events[0] === 'string') return null;
