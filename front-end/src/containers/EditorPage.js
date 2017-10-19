@@ -140,9 +140,7 @@ class EditorPage extends Component {
         </div>
         <div className="MapTimeLine">
           <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
-
           <TimeLine events={this.props.story.events} match={this.matched} />
-
         </div>
       </div>
     )
