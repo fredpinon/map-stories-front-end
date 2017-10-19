@@ -21,8 +21,8 @@ class TimeLine extends Component {
 
   timeLine = () => {
     const ratio = 1 / ((Math.max(...this.calcMarks(this.state.timeStamps)[1]) ) *60 / 100)
-    console.log((Math.max(...this.calcMarks(this.state.timeStamps)[1])));
-
+    // console.log('THIS IS THE TIMELINE ADDITION:', (Math.max(...this.calcMarks(this.state.timeStamps)[1])));
+    console.log('timeStamps:', this.state.timeStamps);
     setInterval(
       () => {
         if (!this.state.play) {

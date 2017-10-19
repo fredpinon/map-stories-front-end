@@ -14,7 +14,8 @@ class EditorPage extends Component {
     currentEventIndex: 0,
     showPrev: false,
     showNext: false,
-    coordinates: {}
+    coordinates: {},
+    times: []
   }
 
  constructor (props) {
@@ -26,6 +27,14 @@ class EditorPage extends Component {
     if (nextProps.story.events && nextProps.story.events.length > 1) {
       this.setState({ showNext:true });
     }
+  }
+
+  componentWillMount = () => {
+    const times = [];
+    this.props.story.events.map(event => {
+      times.push(event.startTime)
+    })
+    this.setState({times})
   }
 
   newEvent = () => ({
@@ -42,6 +51,7 @@ class EditorPage extends Component {
     this.props.editEvent(event, storyId);
     this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
+    // this.getTimes();
   }
 
  onEventDelete = (eventId) => {
@@ -73,6 +83,14 @@ class EditorPage extends Component {
     })
   }
 
+  // getTimes = () => {
+  //   const times = [];
+  //   this.props.story.events.map(event => {
+  //     times.push(event.startTime)
+  //   })
+  //   this.setState({times})
+  // }
+
   // shouldComponentUpdate(nextProps, nextState) {
   //   console.log(nextState.coordinates);
   //   if (nextState.coordinates) return false;
@@ -103,13 +121,31 @@ class EditorPage extends Component {
     )
   }
 
+  matched = (match) => {
+    console.log('STORY', this.props.story.events);
+    console.log('THIS IS THE CURRENT EVENT TIME:', match);
+    // this.setState({time: match})
+    this.props.story.events.map((event, i) => {
+      let mark = 0;
+      let y = event.startTime.split(':')
+      y.length > 2 ? mark = parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60) : mark = parseInt(y[0]) + (parseInt(y[1])/60)
+      if (match === mark) {
+        this.setState({currentEventIndex: i})
+        console.log('matched:', i);
+
+      }
+      console.log('this is this:', match, mark);
+      // return <EventCard key={i} data={event} expanded={false} Markers={this.eventTimes()}/>
+    }
+    )
+  }
+
   render () {
     const event = this.props.story.events[this.state.currentEventIndex];
     const markersProps = {}
     if (event && event.coordinates && event.coordinates.length > 0) {
       markersProps.markers = event.coordinates;
     }
-    console.log('COORDS', markersProps);
 
     return (
       <div className="EditorPage">
@@ -119,7 +155,7 @@ class EditorPage extends Component {
         <div className="MapTimeLine">
           <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
 
-          <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
+          <TimeLine times={this.state.times} match={this.matched} />
 
         </div>
       </div>
