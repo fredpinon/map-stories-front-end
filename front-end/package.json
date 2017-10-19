@@ -11,6 +11,7 @@
     "less": "^3.0.0-alpha.3",
     "mapbox-gl": "^0.40.1",
     "mapbox-gl-geocoder": "^2.0.1",
+    "material-design-icons": "^3.0.1",
     "material-ui": "^0.19.4",
     "material-ui-slider-label": "git+https://github.com/tariqwest/material-ui-slider-label.git",
     "normalizr": "^3.2.3",
