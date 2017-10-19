@@ -135,8 +135,6 @@ export const loginUser = (data) => ({
   }
 })
 
-
-
 export const logOutUser = () => ({
   type: 'LOGOUT_USER',
   payload: {}

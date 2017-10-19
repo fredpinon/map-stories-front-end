@@ -19,9 +19,7 @@ class LoginButton extends Component {
         fields="name,email,picture.type(large)"
         scope="public_profile, email"
         callback={this.responseFacebook}
-        textButton="LOG IN WITH FACEBOOK"
-        style={{ 'text-align': 'center'}}
-        // icon="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png"
+        textButton="Login with Facebook"
       />
     );
   }

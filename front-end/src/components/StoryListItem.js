@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import { updateStory, deleteStory, fetchSingleStory } from '../actions';
+import { updateStory, deleteStory, fetchSingleStory, showError } from '../actions';
 
 class StoryListItem extends Component {
 
@@ -31,6 +31,10 @@ class StoryListItem extends Component {
     this.setState({openPublish: false});
     const storyId = this.props.story._id;
     const data = this.props.story.published ? {published: false} : {published: true};
+    if (this.props.story.events.length === 0) {
+      this.props.showError('This story has not events yet (add one to publish)');
+      return;
+    }
     this.props.publishStory(storyId, data);
   };
 
@@ -144,7 +148,7 @@ class StoryListItem extends Component {
         <a href={`/story/${_id}`} className="ListItemDescription">
           <p>{title}</p>
           <p>{tagLine}</p>
-          {this.props.renderEditor ? <p>{editorInfo.name}</p> : null }
+          {this.props.renderEditor ? <p>by {editorInfo.name}</p> : null }
         </a>
         <div className='Buttons'>
           {this.renderButtons()}
@@ -176,7 +180,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   publishStory: (storyId, data) => dispatch(updateStory(storyId, data)),
   deleteStory: (storyId) => dispatch(deleteStory(storyId)),
-  getStory: (storyId) => dispatch(fetchSingleStory(storyId))
+  getStory: (storyId) => dispatch(fetchSingleStory(storyId)),
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoryListItem);
