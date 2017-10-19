@@ -104,8 +104,6 @@ class EditorPage extends Component {
       ? this.props.story.events[this.state.currentEventIndex]
       : this.newEvent();
 
-    console.log('currentEvent', currentEvent);
-
     return (
       <EventInfo
         event={currentEvent}
@@ -122,22 +120,10 @@ class EditorPage extends Component {
   }
 
   matched = (match) => {
-    console.log('STORY', this.props.story.events);
-    console.log('THIS IS THE CURRENT EVENT TIME:', match);
-    // this.setState({time: match})
-    this.props.story.events.map((event, i) => {
-      let mark = 0;
-      let y = event.startTime.split(':')
-      y.length > 2 ? mark = parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60) : mark = parseInt(y[0]) + (parseInt(y[1])/60)
-      if (match === mark) {
-        this.setState({currentEventIndex: i})
-        console.log('matched:', i);
-
-      }
-      console.log('this is this:', match, mark);
-      // return <EventCard key={i} data={event} expanded={false} Markers={this.eventTimes()}/>
-    }
-    )
+    this.setState({
+      currentEventIndex: this.props.story.events
+        .indexOf(this.props.story.events.find(event => match === event.startTime))
+    })
   }
 
   render () {
@@ -155,7 +141,7 @@ class EditorPage extends Component {
         <div className="MapTimeLine">
           <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
 
-          <TimeLine times={this.state.times} match={this.matched} />
+          <TimeLine events={this.props.story.events} match={this.matched} />
 
         </div>
       </div>

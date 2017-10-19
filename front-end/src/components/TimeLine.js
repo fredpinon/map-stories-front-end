@@ -13,46 +13,78 @@ class TimeLine extends Component {
     this.timeLine();
   }
 
-  state = {
-    play: true,
-    timeStamps: this.props.times,
-    timeStamp: 0
+  constructor(props) {
+    super(props);
+    const times = props.events.map(event => event.startTime);
+    const calcMarks = this.calcMarks(times);
+    const maxValue = Math.max(...Object.keys(calcMarks))
+
+    this.state = {
+      play: true,
+      timeStamp: 0,
+      calcMarks,
+      maxValue
+    };
+
+    this.passedEvents = []
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.events !== this.props.events) {
+      const times = nextProps.events.map(event => event.startTime);
+      const calcMarks = this.calcMarks(times);
+      const maxValue = Math.max(...Object.keys(calcMarks))
+      this.setState({
+        calcMarks,
+        maxValue
+      });
+    }
+  }
+
+  calcMarks = (timestamps) => {
+    if (!timestamps) return {};
+
+    const arr = timestamps.map(x => {
+      let y = x.split(':');
+      return y.length > 2
+        ? parseInt(y[0]) * 3600 + parseInt(y[1]) * 60 + parseInt(y[2]) * 1000
+        : parseInt(y[0]) * 60 + parseInt(y[1]) * 1000;
+    });
+
+    return arr.reduce((accum, el, i) => {
+      accum[el] = timestamps[i];
+      return accum;
+    }, {});
   }
 
   timeLine = () => {
-    const ratio = 1 / ((Math.max(...this.calcMarks(this.state.timeStamps)[1]) ) *60 / 100)
-    // console.log('THIS IS THE TIMELINE ADDITION:', (Math.max(...this.calcMarks(this.state.timeStamps)[1])));
-    console.log('timeStamps:', this.state.timeStamps);
+    const intervalTime = 10;
     setInterval(
       () => {
-        if (!this.state.play) {
-            // console.log('hello');
-            let increment = this.state.timeStamp + ratio;
-            // console.log(this.state.timeStamp + ratio);
-            if (increment > 100) {
-              increment = Math.floor(increment);
-              this.Pause();
+        if (this.state.play && this.state.maxValue) {
+            let increment = this.state.timeStamp + intervalTime;
+            if (increment > this.state.maxValue) {
+              increment = this.state.maxValue;
+              this.pause();
             }
             this.setState({timeStamp: increment})
-            // console.log(this.state.timeStamp);
+            this.handleTime();
         }
-        this.handleTime();
-      }, 1000)
+      }, intervalTime);
   }
 
   play = () => {
-    if (this.state.timeStamp < 100) {
-      this.setState({play: false});
+    if (this.state.timeStamp < this.state.maxValue) {
+      this.setState({play: true});
     }
-    // console.log(this.state.play);
   }
 
-  Pause = () => {
-    this.setState({play: true});
+  pause = () => {
+    this.setState({play: false});
   }
 
   renderPlay() {
-    if (this.state.play) {
+    if (!this.state.play) {
       return (
         <div>
           <i id="play" className="material-icons md-36 purple" onClick={this.play}>play_circle_filled</i>
@@ -62,15 +94,14 @@ class TimeLine extends Component {
     else {
       return (
         <div>
-          <i id="pause" className="material-icons md-36 purple" onClick={this.Pause}>pause_circle_filled</i>
+          <i id="pause" className="material-icons md-36 purple" onClick={this.pause}>pause_circle_filled</i>
         </div>
       )
     }
   }
 
   rewind = () => {
-    console.log('rewind');
-    const marks = Object.keys(this.calcMarks(this.state.timeStamps)[0])
+    const marks = Object.keys(this.state.calcMarks[0])
     const points = [];
     marks.forEach(x => {
       if (x < this.state.timeStamp) {
@@ -83,9 +114,7 @@ class TimeLine extends Component {
   }
 
   forward = () => {
-    console.log('forward');
-
-    const marks = Object.keys(this.calcMarks(this.state.timeStamps)[0])
+    const marks = Object.keys(this.state.calcMarks[0])
     const points = [];
     marks.forEach(x => {
       if (x > this.state.timeStamp + 1) {
@@ -98,48 +127,15 @@ class TimeLine extends Component {
   }
 
   handleTime() {
-    let eventTime
-    let allEvents = []
-    let currentTime = this.state.timeStamp/100 * Math.max(...this.calcMarks(this.state.timeStamps)[1]) * 60
-
-    //  Math.round(
-    //
-    // *10)/10
-    // console.log('Current time:', currentTime);
-
-    this.props.times.forEach(x => {
-      let z = x.split(':');
-      z.length > 2 ? allEvents.push(parseInt(z[0]) * 60 +   parseInt(z[1]) + (parseInt(z[2])/60)) : allEvents.push(parseInt(z[0]) + (parseInt(z[1])/60))
-    })
-
-    if (currentTime > 0) {
-      let passedEvents = [];
-      allEvents.forEach(x => {
-        if (x < currentTime/60) passedEvents.push(x)
-
-      })
-      if (passedEvents.length > 0) {
-        // console.log('These are the passedEvents:', Math.max(...passedEvents));
-        this.props.match(Math.max(...passedEvents))
-      }
+    let eventTime = []
+    const currentTime = this.state.timeStamp;
+    const passedEvents = Object.keys(this.state.calcMarks)
+    .map(mark => parseInt(mark))
+    .filter(mark => mark <= currentTime);
+    if (passedEvents.length !== this.passedEvents.length) {
+      this.passedEvents = passedEvents.sort((a,b) => b-a);
+      this.props.match(this.state.calcMarks[this.passedEvents[0]]);
     }
-
-  }
-
-
-  calcMarks = (marks) => {
-    let arr = []
-    let Marks = {}
-    marks.forEach(x => {
-      let y = x.split(':');
-      y.length > 2 ? arr.push(parseInt(y[0]) * 60 +   parseInt(y[1]) + (parseInt(y[2])/60)) : arr.push(parseInt(y[0]) + (parseInt(y[1])/60))
-    })
-    const ratio = 100 / Math.max(...arr);
-
-      for (let i = 0; i < arr.length; i++) {
-        Marks[arr[i] * ratio] = marks[i]
-      }
-    return [Marks, arr];
   }
 
   handleChange = (event) => {
@@ -147,9 +143,9 @@ class TimeLine extends Component {
 
   }
 
-
-
   render() {
+    if (!this.state.calcMarks) return null;
+
     return (
       <div className="TimeLine">
 
@@ -160,7 +156,12 @@ class TimeLine extends Component {
         </div>
 
         <div className="Slider">
-          <Slider marks={this.calcMarks(this.state.timeStamps)[0]}  value={this.state.timeStamp} onChange={this.handleChange}/>
+          <Slider
+            marks={this.state.calcMarks}
+            value={this.state.timeStamp}
+            onChange={this.handleChange}
+            max={this.state.maxValue}
+          />
         </div>
       </div>
       );
