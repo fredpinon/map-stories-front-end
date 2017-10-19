@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../css/EditorPage.css';
-import { editEvent, deleteEvent, fetchSingleStory } from '../actions';
+import { editEvent, deleteEvent, fetchSingleStory, showError } from '../actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
@@ -39,6 +39,14 @@ class EditorPage extends Component {
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
     event.coordinates = [this.state.coordinates];
+    if (event.title === '') {
+      this.props.showError('Please provide a title for your event');
+      return;
+    }
+    if (!event.coordinates[0].lng) {
+      this.props.showError('Please provide geo coordinates for your event (click on map)');
+      return;
+    }
     this.props.editEvent(event, storyId);
     this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
@@ -118,9 +126,7 @@ class EditorPage extends Component {
         </div>
         <div className="MapTimeLine">
           <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
-
           <TimeLine times={['00:00:00', '00:01:30', '00:02:45', '00:05:00', '00:08:00', '00:10:00']} match={this.Matched} />
-
         </div>
       </div>
     )
@@ -134,7 +140,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchSingleStory: (storyId) => dispatch(fetchSingleStory(storyId)),
   editEvent: (data, storyId) => dispatch(editEvent(data, storyId)),
-  deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId))
+  deleteEvent: (storyId, eventId) => dispatch(deleteEvent(storyId, eventId)),
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditorPage));
