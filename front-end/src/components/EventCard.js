@@ -101,15 +101,12 @@ class EventCard extends Component {
       <Card
         className="EventCard"
         expanded={this.props.expanded}
-
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
         zDepth={this.state.shadow}
         >
 
         <CardHeader
-          actAsExpander={true}
-          showExpandableButton={true}
           titleColor={this.state.textColor}
           style={titleStyle}
           title={this.props.data.attachments[0].type}
