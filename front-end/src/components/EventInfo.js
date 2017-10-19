@@ -293,17 +293,50 @@ class EventInfo extends Component {
     }
   }
 
-  renderValidateAttachmentButton = (index, type) => {
-    return (
-      <div className='validateAttachmentButton'>
-        <FlatButton
-          label="Submit"
-          primary={true}
-          rippleColor="#673AB7"
-          onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
-        />
-      </div>
-    )
+  renderSubmitAttachmentButton = (index, type) => {
+    switch (type) {
+      case 'text':
+        if (!this.state.attachments[index].text) {
+          return (
+            <div className='submitAttachmentButton'>
+              <FlatButton
+                label="Submit"
+                primary={true}
+                rippleColor="#673AB7"
+                onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+              />
+            </div>
+          )
+        }
+        break;
+        case 'image':
+          if (!this.state.attachments[index].imageUrl) {
+            return (
+              <div className='submitAttachmentButton'>
+                <FlatButton
+                  label="Submit"
+                  primary={true}
+                  rippleColor="#673AB7"
+                  onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+                />
+              </div>
+            )
+          }
+          break;
+      default:
+      if (!this.state.attachments[index].url) {
+        return (
+          <div className='submitAttachmentButton'>
+            <FlatButton
+              label="Submit"
+              primary={true}
+              rippleColor="#673AB7"
+              onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+            />
+          </div>
+        )
+      }
+    }
   }
 
   renderProgressBar = () => {
@@ -348,7 +381,7 @@ class EventInfo extends Component {
           />
           <div className="deleteValidateButtons">
             {this.renderDeleteAttachmentButton(index)}
-            {this.renderValidateAttachmentButton(index, type)}
+            {this.renderSubmitAttachmentButton(index, type)}
           </div>
         </div>
       )
@@ -369,7 +402,7 @@ class EventInfo extends Component {
           />
           <div className="deleteValidateButtons">
             {this.renderDeleteAttachmentButton(index)}
-            {this.renderValidateAttachmentButton(index, type)}
+            {this.renderSubmitAttachmentButton(index, type)}
           </div>
         </div>
       )
@@ -410,7 +443,7 @@ class EventInfo extends Component {
           {this.renderPreviewInputFile(attachment, index)}
           <div className="deleteValidateButtons">
             {this.renderDeleteAttachmentButton(index)}
-            {this.renderValidateAttachmentButton(index, type)}
+            {this.renderSubmitAttachmentButton(index, type)}
           </div>
         </div>
       )
