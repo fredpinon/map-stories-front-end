@@ -511,6 +511,26 @@ class EventInfo extends Component {
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>{title}</Paper>
         <Paper className="InputInfo" zDepth={3}>
+          <div className="nextPrev">
+            <FlatButton
+              className="Next"
+              label="Next"
+              primary={true}
+              style={style2}
+              rippleColor="#673AB7"
+              disabled={!this.props.showNext}
+              onClick={this.props.goNext}
+            />
+            <FlatButton
+              className="Prev"
+              label="Prev"
+              primary={true}
+              style={style2}
+              rippleColor="#673AB7"
+              disabled={!this.props.showPrev}
+              onClick={this.props.goPrev}
+             />
+          </div>
           <TextField
             hintText="Event Title"
             floatingLabelText="Event Title"
@@ -555,15 +575,11 @@ class EventInfo extends Component {
             marginTop: 60,
           }} />
           <div className="saveButtons">
-            <div className="nextPrev">
-              {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
-              {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
-            </div>
             <div className="saveDelete">
-              <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
-              <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+              <FlatButton className="Delete" label="Delete" primary={true} style={style2} rippleColor="#673AB7" onClick={this.deleteEvent}/>
+              <FlatButton className="Save" label="Save" primary={true} style={style2} rippleColor="#673AB7" onClick={this.saveEvent}/>
             </div>
-        </div>
+          </div>
         </Paper>
       </div>
     );
