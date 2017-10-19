@@ -13,7 +13,7 @@ class EditorPage extends Component {
  state = {
     currentEventIndex: 0,
     showPrev: false,
-    showNext: false,
+    showNext: true,
     coordinates: {},
     times: []
   }

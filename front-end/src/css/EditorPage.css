@@ -19,6 +19,10 @@
   float: right;
 }
 
+.nextPrev {
+  margin-top: 0px;
+}
+
 .EventInfoContainer {
   display: flex;
   max-width: 500px;
@@ -31,10 +35,9 @@
   width:100%;
 }
 
-.deleteAttachmentButton {
-  float: right;
-  position: relative;
-  z-index: 2;
+.deleteValidateButtons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .MapTimeLine {
@@ -54,6 +57,7 @@
 .InputInfo {
   flex-basis: 100%;
   padding: 2em;
+  padding-top: 0em;
   margin-left: 2em;
   textAlign: center;
   overflow: scroll;

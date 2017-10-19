@@ -41,7 +41,10 @@ class EventInfo extends Component {
 
     },
     attachments: [],
-    uploading: false
+    uploadState: {
+      uploading: false,
+      index: null
+    }
   };
 
   constructor (props) {
@@ -130,15 +133,24 @@ class EventInfo extends Component {
       ACL: 'public-read'
     }, (err, data) => {
       if (err) {
+        this.props.showError('There was an error uploading your file');
         return console.error('There was an error uploading your file: ', err.message);
       }
       console.log('Successfully uploaded file.', data.Location, this.state);
-      this.setState({ uploading: false });
+      this.setState({
+        uploadState: {
+          uploading: false,
+          index
+        }
+      });
       this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
     })
     .on('httpUploadProgress', (progress) => {
       this.setState({
+        uploadState: {
         uploading: true,
+        index
+        },
         progressLoaded: progress.loaded,
         progressTotal: progress.total
       })
@@ -212,9 +224,7 @@ class EventInfo extends Component {
   }
 
   deleteEvent = () => {
-    // this.props.goPrev(true)
-    console.log(this.props.event._id);
-    this.props.onEventDelete(this.props.event._id)
+    this.props.onEventDelete(this.props.event._id);
   }
 
   renderPreviewInputFile = (attachment, index) => {
@@ -278,7 +288,7 @@ class EventInfo extends Component {
   }
 
   renderDeleteAttachmentButton = (index) => {
-    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl) {
+    if (this.state.attachments[index].url || this.state.attachments[index].imageUrl || this.state.attachments[index].text) {
       return (
         <div className='deleteAttachmentButton'>
           <FlatButton
@@ -292,16 +302,76 @@ class EventInfo extends Component {
     }
   }
 
-  renderProgressBar = () => {
-    if (!this.state.uploading) return null;
+  renderSubmitAttachmentButton = (index, type) => {
+    switch (type) {
+      case 'text':
+        if (!this.state.attachments[index].text) {
+          return (
+            <div className='submitAttachmentButton'>
+              <FlatButton
+                label="Submit"
+                primary={true}
+                rippleColor="#673AB7"
+                onClick={() => {
+                  return this.changeAttachmentProperty(
+                  index,
+                  type === 'text'
+                  ? 'text'
+                  : (type === 'image'
+                    ? 'imageUrl'
+                    : 'url'),
+                  type === 'text'
+                  ? this.eventURLField.input.refs.input.value
+                  : this.eventURLField.input.value)
+                }}
+              />
+            </div>
+          )
+        }
+        break;
+        case 'image':
+          if (!this.state.attachments[index].imageUrl) {
+            return (
+              <div className='submitAttachmentButton'>
+                <FlatButton
+                  label="Submit"
+                  primary={true}
+                  rippleColor="#673AB7"
+                  onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+                />
+              </div>
+            )
+          }
+          break;
+      default:
+      if (!this.state.attachments[index].url) {
+        return (
+          <div className='submitAttachmentButton'>
+            <FlatButton
+              label="Submit"
+              primary={true}
+              rippleColor="#673AB7"
+              onClick={() => this.changeAttachmentProperty(index, type === 'text' ? 'text' : (type === 'image' ? 'imageUrl' : 'url') , this.eventURLField.input.value)}
+            />
+          </div>
+        )
+      }
+    }
+  }
 
-    return (
-      <LinearProgress
-        mode="determinate"
-        value={this.state.progressLoaded}
-        max={this.state.progressTotal}
-      />
-    )
+  renderProgressBar = (index) => {
+    if (this.state.attachments[index]) {
+      if (!this.state.uploadState.uploading) return null;
+      if (this.state.uploadState.index === index) {
+        return (
+          <LinearProgress
+            mode="determinate"
+            value={this.state.progressLoaded}
+            max={this.state.progressTotal}
+          />
+        )
+      }
+    }
   }
 
   renderAttachmentContent = (attachment, index) => {
@@ -332,6 +402,10 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderSubmitAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }
@@ -344,11 +418,18 @@ class EventInfo extends Component {
             hintText="text"
             floatingLabelText="Type text"
             fullWidth={true}
+            multiLine={true}
+            rows={2}
+            rowsMax={4}
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderSubmitAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }
@@ -384,9 +465,12 @@ class EventInfo extends Component {
             disabled={this.toggleDisable(index)}
             {...extraProps}
           />
-          {this.renderProgressBar()}
+          {this.renderProgressBar(index)}
           {this.renderPreviewInputFile(attachment, index)}
-          {this.renderDeleteAttachmentButton(index)}
+          <div className="deleteValidateButtons">
+            {this.renderDeleteAttachmentButton(index)}
+            {this.renderSubmitAttachmentButton(index, type)}
+          </div>
         </div>
       )
     }
@@ -427,17 +511,37 @@ class EventInfo extends Component {
     })
     const style = {marginTop: 50}
     const style2 = {
-      marginTop: 50,
+      marginTop: 30,
       float: 'right'
     }
     const headerStyle={ color: "grey" }
-    const title = this.props.event.id
+    const title = this.props.event._id
       ? `EDIT EVENT ${this.props.eventIndex+1}/${this.props.totalEvents}`
       : 'ADD EVENT';
     return (
       <div className="EventInfoContainer">
         <Paper className="InputHeader" style={headerStyle} zDepth={5}>{title}</Paper>
         <Paper className="InputInfo" zDepth={3}>
+          <div className="nextPrev">
+            <FlatButton
+              className="Next"
+              label="Next"
+              primary={true}
+              style={style2}
+              rippleColor="#673AB7"
+              disabled={!this.props.showNext}
+              onClick={this.props.goNext}
+            />
+            <FlatButton
+              className="Prev"
+              label="Prev"
+              primary={true}
+              style={style2}
+              rippleColor="#673AB7"
+              disabled={!this.props.showPrev}
+              onClick={this.props.goPrev}
+             />
+          </div>
           <TextField
             hintText="Event Title"
             floatingLabelText="Event Title"
@@ -482,15 +586,11 @@ class EventInfo extends Component {
             marginTop: 60,
           }} />
           <div className="saveButtons">
-            <div className="nextPrev">
-              {this.props.showNext ? <FlatButton className="Next" label="Next" primary={true} style={style2} onClick={this.props.goNext}/> : null}
-              {this.props.showPrev ? <FlatButton className="Prev" label="Prev" primary={true} style={style2} onClick={this.props.goPrev} /> : null }
-            </div>
             <div className="saveDelete">
-              <FlatButton className="Delete" label="Delete" primary={true} style={style2} onClick={this.deleteEvent}/>
-              <FlatButton className="Save" label="Save" primary={true} style={style2} onClick={this.saveEvent}/>
+              <FlatButton className="Delete" label="Delete" primary={true} style={style2} rippleColor="#673AB7" onClick={this.deleteEvent}/>
+              <FlatButton className="Save" label="Save" primary={true} style={style2} rippleColor="#673AB7" onClick={this.saveEvent}/>
             </div>
-        </div>
+          </div>
         </Paper>
       </div>
     );
