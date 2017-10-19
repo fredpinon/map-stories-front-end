@@ -27,10 +27,7 @@ class NavBar extends Component {
   }
 
  handleSignOut = () => {
-  // localStorage.clear();
-  // localStorage.removeItem('state');
-  // localStorage.setItem('state', {});
-  // console.log(localStorage.getItem('state'));
+   localStorage.setItem('clear', 'true');
    this.props.logOut();
  }
 
