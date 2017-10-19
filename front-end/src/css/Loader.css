@@ -4,3 +4,7 @@
   flex-direction: column;
   align-items: center;
 }
+
+.Loader p {
+  margin-top: 1em;
+}

@@ -5,12 +5,26 @@ import { connect } from 'react-redux';
 import { fetchStoriesHomePage } from '../actions';
 import StoryList from '../components/StoryList';
 import Slider from 'material-ui/Slider';
-
+import Loader from '../components/Loader';
 
 class HomePage extends Component {
 
+  state = {
+    loading: true,
+  };
+
   componentWillMount() {
     this.props.loadStories(1);
+  }
+
+  componentDidMount() {
+    const timeStamps = [1000, 2000];
+    const wait = timeStamps[Math.floor(Math.random()*timeStamps.length)];
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      })
+    }, wait)
   }
 
   renderSearch() {
@@ -23,19 +37,29 @@ class HomePage extends Component {
     } else return null;
   }
 
-  render() {
+  renderComponent = () => {
+    const searchResultsLength = this.props.page.searchResults.length;
     const publishedStories = this.props.page.pageResults
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el];
       return accum;
     },{});
+    return this.state.loading ? (
+      <Loader text="loading..."/>
+    ) : (
+      searchResultsLength === 0
+      ?
+        <StoryList stories={publishedStories}/>
+      :
+        this.renderSearch()
+    )
+  }
+
+  render() {
+
     return (
       <div className="HomePage">
-        {this.props.page.searchResults.length === 0
-          ?
-          <StoryList stories={publishedStories}/>
-          :
-          this.renderSearch()}
+        {this.renderComponent()}
       </div>
     );
   }
