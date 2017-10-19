@@ -410,6 +410,9 @@ class EventInfo extends Component {
             hintText="text"
             floatingLabelText="Type text"
             fullWidth={true}
+            multiLine={true}
+            rows={2}
+            rowsMax={4}
             onKeyPress={(e) => this.handleLinkInput(e, index, type)}
             ref={input => this.eventURLField = input}
             disabled={this.toggleDisable(index)}
@@ -500,7 +503,7 @@ class EventInfo extends Component {
     })
     const style = {marginTop: 50}
     const style2 = {
-      marginTop: 50,
+      marginTop: 30,
       float: 'right'
     }
     const headerStyle={ color: "grey" }

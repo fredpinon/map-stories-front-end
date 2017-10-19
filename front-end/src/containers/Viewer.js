@@ -12,7 +12,7 @@ import TimeLine from '../components/TimeLine';
 class Viewer extends Component {
 
   state = {
-    time: '',
+    time: ''
   }
 
   componentWillMount() {
@@ -42,10 +42,6 @@ class Viewer extends Component {
         />
       </Card>
     )
-  }
-
-  markerAdded = (coordinates) => {
-    console.log('from editorpage', coordinates);
   }
 
   renderEvents = () => {
@@ -85,6 +81,8 @@ class Viewer extends Component {
 
 
   render() {
+    const story = this.props.stories[this.props.match.params.storyId];
+    const coords = story.events.map(event => event.coordinates[0])
     return (
       <div className="Viewer">
         <div className="MapViewer">
@@ -94,7 +92,7 @@ class Viewer extends Component {
               {this.renderEvents()}
             </div>
           </div>
-          <Map onMarkerAdded={this.markerAdded} editorPage={false} />
+          <Map onMarkerAdded={this.markerAdded} coords={coords} editorPage={false} />
         </div>
 
         <TimeLine times={this.eventTimes()} match={this.Matched} />

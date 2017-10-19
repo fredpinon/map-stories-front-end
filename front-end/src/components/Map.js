@@ -94,6 +94,15 @@ class Map extends Component {
     });
   }
 
+  flyToCoordinates = (coords) => {
+    this.map.flyTo({
+      center: [
+        coords.lng,
+        coords.lat
+      ]
+    })
+  }
+
   render () {
     return (
       <div className="Map">
