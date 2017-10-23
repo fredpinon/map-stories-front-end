@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../css/Viewer.css';
 
 import { connect } from 'react-redux';
-import { fetchSingleStory } from '../actions';
+import { fetchSingleStory, showError } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
@@ -22,6 +22,7 @@ class Viewer extends Component {
   }
 
   renderEvent = (event) => {
+    if(!event) return null;
     const { title, dateAndTime } = event;
     const styles = {
       title: {
@@ -46,11 +47,7 @@ class Viewer extends Component {
 
   renderAttachments = (attachments) => {
     if(!attachments) return null;
-
-    return attachments.map((attachment, i) => {
-      return <EventCard key={i} data={{attachments: [attachment]}} expanded />
-    });
-
+    return attachments.map((attachment, i) => <EventCard key={i} data={{attachments: [attachment]}} expanded />);
   }
 
   eventTimes =() => {
@@ -62,9 +59,7 @@ class Viewer extends Component {
     return startTimes;
   }
 
-  currentStory = () => {
-    return this.props.stories[this.props.match.params.storyId];
-  }
+  currentStory = () => (this.props.stories[this.props.match.params.storyId]);
 
   onTimelineChangeEvent = (match) => {
     this.setState({
@@ -75,25 +70,20 @@ class Viewer extends Component {
 
   render() {
     const story = this.currentStory();
-    if(!story.events) return null;
     const event = story.events[this.state.currentEventIndex];
     const markersProps = {};
-    if (event && event.coordinates && event.coordinates.length > 0) {
-      markersProps.markers = event.coordinates;
-    }
-
+    if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
     return (
       <div className="Viewer">
         <div className="MapViewer">
           <div className="EventsContainerWrapper">
             <div className="EventsContainer">
               {this.renderEvent(event)}
-              {this.renderAttachments(event.attachments)}
+              {event !== undefined ? this.renderAttachments(event.attachments) : null}
             </div>
           </div>
           <Map {...markersProps} />
         </div>
-
         <TimeLine events={story.events} match={this.onTimelineChangeEvent} autoplay />
       </div>
     );
@@ -105,7 +95,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadStory: (storyId) => dispatch(fetchSingleStory(storyId))
+  loadStory: (storyId) => dispatch(fetchSingleStory(storyId)),
+  showError: (errorMessage) => dispatch(showError(errorMessage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Viewer);
