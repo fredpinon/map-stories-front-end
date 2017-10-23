@@ -49,7 +49,6 @@ class EventInfo extends Component {
 
   constructor (props) {
     super(props);
-    console.log('inside', props.event);
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
@@ -131,9 +130,8 @@ class EventInfo extends Component {
     }, (err, data) => {
       if (err) {
         this.props.showError('There was an error uploading your file');
-        return console.error('There was an error uploading your file: ', err.message);
+        return;
       }
-      console.log('Successfully uploaded file.', data.Location, this.state);
       this.setState({
         uploadState: {
           uploading: false,

@@ -43,7 +43,6 @@ class Map extends Component {
       .getSource('markers')
       .setData(this.createGeoJson(nextProps.markers));
       if(nextProps.markers && nextProps.markers[0] && nextProps.markers[0].lng) {
-        console.log(nextProps.markers[0]);
         this.flyToCoordinates(nextProps.markers[0]);
       }
     }
@@ -88,13 +87,9 @@ class Map extends Component {
             lat: e.lngLat.lat
           };
           this.map.getSource('markers').setData(this.createGeoJson([point]));
-          console.log('we show marker editor puts on map with coords ->', point);
           this.props.onMarkerAdded(point);
         })
-      } else {
-        this.map.getSource('markers').setData(this.createGeoJson(this.props.markers));
-        console.log('we show from EditorPage markers with coords ->', this.props.markers);
-      }
+      } else this.map.getSource('markers').setData(this.createGeoJson(this.props.markers));
     });
   }
 

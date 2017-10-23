@@ -51,8 +51,6 @@ class TimeLine extends Component {
 
   calcMarks = (timestamps) => {
     if (!timestamps) return {};
-
-    console.log(timestamps);
     const arr = timestamps.map(x => {
       let y = x.split(':');
       return y.length > 2
