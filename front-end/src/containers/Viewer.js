@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import '../css/Viewer.css';
-
 import { connect } from 'react-redux';
 import { fetchSingleStory, showError } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
 import Map from '../components/Map';
 import TimeLine from '../components/TimeLine';
-
 
 class Viewer extends Component {
 

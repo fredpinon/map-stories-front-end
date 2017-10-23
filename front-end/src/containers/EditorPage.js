@@ -24,9 +24,7 @@ class EditorPage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.story.events && nextProps.story.events.length > 1) {
-      this.setState({ showNext:true });
-    }
+    if (nextProps.story.events && nextProps.story.events.length > 1) this.setState({ showNext:true });
   }
 
   componentWillMount = () => {
@@ -59,7 +57,6 @@ class EditorPage extends Component {
     this.props.editEvent(event, storyId);
     this.props.story.events[this.state.currentEventIndex] = event;
     this.goNext();
-    // this.getTimes();
   }
 
  onEventDelete = (eventId) => {
@@ -133,7 +130,6 @@ class EditorPage extends Component {
         </div>
         <div className="MapTimeLine">
           <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
-          <TimeLine events={this.props.story.events} match={this.matched} />
         </div>
       </div>
     )

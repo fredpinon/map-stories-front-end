@@ -35,7 +35,7 @@ export const DELETE_EVENT_FAILURE = 'DELETE_EVENT_FAILURE';
 export const deleteEvent = (storyId, eventId) => ({
   [CALL_API]: {
     types: [ DELETE_EVENT_REQUEST, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAILURE ],
-    endpoint: `/stories/${storyId}/events/${eventId}`,
+    endpoint: `/stories/${storyId}/event/${eventId}`,
     method: 'DELETE',
   },
   payload: {
