@@ -27,7 +27,6 @@ const pages = (state = defaultState, action) => {
           results: state.editorStoriesPage.results.concat(newStoryArr),
         }
       }
-      break;
     case actions.STORIES_SEARCH_SUCCESS:
       return {
         ...state,

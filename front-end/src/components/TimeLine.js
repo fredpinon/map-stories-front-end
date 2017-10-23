@@ -4,9 +4,6 @@ import '../css/TimeLine.css';
 import { Slider } from 'antd';
 import 'antd/dist/antd.css';
 
-import { connect } from 'react-redux';
-import { timer } from '../actions';
-
 class TimeLine extends Component {
 
   componentDidMount() {
@@ -59,8 +56,8 @@ class TimeLine extends Component {
     const arr = timestamps.map(x => {
       let y = x.split(':');
       return y.length > 2
-        ? (parseInt(y[0]) * 3600 + parseInt(y[1]) * 60 + parseInt(y[2])) * 1000
-        : (parseInt(y[0]) * 60 + parseInt(y[1])) * 1000;
+        ? (parseInt(y[0],10) * 3600 + parseInt(y[1],10) * 60 + parseInt(y[2],10)) * 1000
+        : (parseInt(y[0],10) * 60 + parseInt(y[1],10)) * 1000;
     });
 
     return arr.reduce((accum, el, i) => {
@@ -117,7 +114,7 @@ class TimeLine extends Component {
     const points = [];
     marks.forEach(x => {
       if (x < this.state.timeStamp) {
-        points.push(parseInt(x))
+        points.push(parseInt(x,10))
       }
     })
     if (this.state.timeStamp > 1) {
@@ -130,7 +127,7 @@ class TimeLine extends Component {
     const points = [];
     marks.forEach(x => {
       if (x > this.state.timeStamp + 1) {
-        points.push(parseInt(x))
+        points.push(parseInt(x,10))
       }
     })
     if (this.state.timeStamp < 99) {
@@ -139,10 +136,9 @@ class TimeLine extends Component {
   }
 
   handleTime() {
-    let eventTime = []
     const currentTime = this.state.timeStamp;
     const passedEvents = Object.keys(this.state.calcMarks)
-    .map(mark => parseInt(mark))
+    .map(mark => parseInt(mark,10))
     .filter(mark => mark <= currentTime);
     if (passedEvents.length !== this.passedEvents.length) {
       this.passedEvents = passedEvents.sort((a,b) => b-a);
