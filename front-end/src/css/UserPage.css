@@ -13,3 +13,13 @@
 .AddStoryButton {
   position: fixed;
 }
+
+.NoUserStories {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-family: 'Roboto', sans-serif;
+  color: gray;
+  font-size: 18px;
+  background-color: #f7f7f7;
+}

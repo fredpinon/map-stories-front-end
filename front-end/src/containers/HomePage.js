@@ -49,7 +49,9 @@ class HomePage extends Component {
     ) : (
       searchResultsLength === 0
       ?
-        <StoryList stories={publishedStories}/>
+        <div className="NoStories">
+          No Stories have been published yet.
+        </div>
       :
         this.renderSearch()
     )

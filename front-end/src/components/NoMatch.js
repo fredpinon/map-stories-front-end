@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
+import '../css/Main.css';
 
 class NoMatch extends Component {
   render() {
     return (
       <div className="NoMatch">
-        no match component
+        Sorry, page not found.
       </div>
     );
   }
