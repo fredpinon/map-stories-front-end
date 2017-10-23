@@ -109,12 +109,20 @@ class UserPage extends Component {
             ref={input => this.taglineField = input}
             onKeyPress={this.toggleDisabled}/><br />
         </Dialog>
+        {this.props.page.results.length === 0
+        ?
+        <div className="NoUserStories">
+          You have no stories yet. Create a new story.
+        </div>
+        :
         <StoryList stories={ownStories} renderEditor={this.state.renderEditor}/>
+        }
       </div>
     )
   }
 
   render() {
+    console.log(this.props.page);
     return (
       <div className="UserPage">
         {this.renderComponent()}
