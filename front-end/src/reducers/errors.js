@@ -12,7 +12,6 @@ const errors = (state = defaultState, action) => {
         errorTime: (new Date()).getTime() + 5000,
         errorMessage: action.errorMessage,
       }
-      break;
     default:
       return state;
   }

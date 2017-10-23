@@ -82,7 +82,6 @@ class EventCard extends Component {
 
 
   render() {
-    const { title } = this.props.data;
     const titleStyle = {
       fontWeight: 'bold',
     };

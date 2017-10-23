@@ -38,7 +38,6 @@ const entities = (state = defaultState, action) => {
         const copy = Object.assign({}, state);
         delete copy.stories[action.response._id];
         return copy;
-        break;
       default:
     }
   }

@@ -64,7 +64,7 @@ class UserPage extends Component {
       accum[el] = this.props.stories[el]
       return accum;
     },{});
-    const disabled = (this.titleField !== undefined && this.taglineField !== undefined) ? false : true;
+    // const disabled = (this.titleField !== undefined && this.taglineField !== undefined) ? false : true;
     const actions = [
       <FlatButton
         label="Cancel"

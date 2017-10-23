@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { editStory, showError } from '../actions';
+import { showError } from '../actions';
 import uuid from 'uuid/v4';
 import { Player, BigPlayButton } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css";
@@ -49,7 +49,6 @@ class EventInfo extends Component {
 
   constructor (props) {
     super(props);
-    console.log('inside', props.event);
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
@@ -104,19 +103,16 @@ class EventInfo extends Component {
   restrictInputType = (type) => {
     switch (type) {
       case 'image':
-        return "image/*"
-      break;
+        return "image/*";
       case 'video':
-        return "video/*"
-      break;
+        return "video/*";
       case 'audio':
-        return "audio/*"
-      break;
+        return "audio/*";
+      default: return;
     }
   }
 
   handleAWSPath = (event, index, type) => {
-    let location;
     const files = event.target.files;
     if (!files.length) {
       return alert('Please choose a file to upload first.');
@@ -134,9 +130,8 @@ class EventInfo extends Component {
     }, (err, data) => {
       if (err) {
         this.props.showError('There was an error uploading your file');
-        return console.error('There was an error uploading your file: ', err.message);
+        return;
       }
-      console.log('Successfully uploaded file.', data.Location, this.state);
       this.setState({
         uploadState: {
           uploading: false,
@@ -192,6 +187,7 @@ class EventInfo extends Component {
         case 'text':
           this.changeAttachmentProperty(index, type = 'text', this.eventURLField.input.value);
         break;
+        default: return;
       }
     }
   }
@@ -234,10 +230,9 @@ class EventInfo extends Component {
         case 'image':
           return (
             <div className="previewImage">
-              <img src={this.state.attachments[index].imageUrl} />
+              <img src={this.state.attachments[index].imageUrl} alt="previewImage" />
             </div>
           )
-        break;
         case 'video':
         if ((/\.(avi|AVI|wmv|WMV|flv|FLV|mpg|MPG|mp4|MP4)/i).test(this.state.attachments[index].url)) {
           return (
@@ -261,7 +256,6 @@ class EventInfo extends Component {
             </div>
           )
         }
-        break;
         case 'audio':
         if ((/\.(wav|mp3|mp4)$/i).test(this.state.attachments[index].url)) {
           return (
@@ -283,6 +277,7 @@ class EventInfo extends Component {
           )
         }
         break;
+        default: return;
       }
     }
   }
@@ -481,7 +476,6 @@ class EventInfo extends Component {
 
     const attachments = this.state.attachments.map((el, index) => {
       let attachmentType = '';
-      let attachmentInfo = '';
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
