@@ -70,6 +70,7 @@ class Viewer extends Component {
 
   render() {
     const story = this.currentStory();
+    if (!story.events) return null;
     const event = story.events[this.state.currentEventIndex];
     const markersProps = {};
     if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
