@@ -49,12 +49,14 @@ class Map extends Component {
   }
 
   componentDidMount () {
+    const lng = this.props.lng ? this.props.lng : 2.15;
+    const lat = this.props.lat ? this.props.lat : 41.36;
     const center =
       this.props.markers
       && this.props.markers.length > 0
       && this.props.markers[0].lng !== undefined
       ? [this.props.markers[0].lng, this.props.markers[0].lat]
-      : [2.15, 41.36];
+      : [lng, lat];
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWNvbGxpbnM4NSIsImEiOiJjajhnMGZwYzMwOHBxMnhxajd0aWppbWE5In0.i6PUo_ai7q6NeIWBFPtGKA';
     this.map = new mapboxgl.Map({

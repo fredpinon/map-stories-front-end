@@ -72,6 +72,8 @@ class Viewer extends Component {
     const event = story.events[this.state.currentEventIndex];
     const markersProps = {};
     if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
+    let coordinates = story.events[0].coordinates ? story.events[0].coordinates : null;
+    coordinates !== null ? coordinates = coordinates[0] : null;
     return (
       <div className="Viewer">
         <div className="MapViewer">
@@ -81,7 +83,7 @@ class Viewer extends Component {
               {event !== undefined ? this.renderAttachments(event.attachments) : null}
             </div>
           </div>
-          <Map {...markersProps} />
+          <Map {...markersProps} lng={coordinates !== null ? coordinates.lng : false} lat={coordinates !== null ? coordinates.lat : false}/>
         </div>
         <TimeLine events={story.events} match={this.onTimelineChangeEvent} autoplay />
       </div>
