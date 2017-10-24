@@ -14,6 +14,7 @@ class HomePage extends Component {
 
   componentWillMount() {
     this.props.loadStories(1);
+    this.props.page.searchResults.length = 0;
   }
 
   componentDidMount() {
@@ -26,10 +27,10 @@ class HomePage extends Component {
     }, wait)
   }
 
-  renderSearch = () => {
+  renderSearch = (publishedStories) => {
     const searchedStories = this.props.page.searchResults
     .reduce((accum, el) => {
-      accum[el] = this.props.stories[el];
+      if (publishedStories[el]) accum[el] = this.props.stories[el];
       return accum;
     },{});
     return <StoryList className="Searched" stories={searchedStories}/>;
@@ -45,7 +46,7 @@ class HomePage extends Component {
     return searchResultsLength === 0 ? (
       <StoryList className="Searched" stories={publishedStories}/>
     ) : (
-      this.renderSearch()
+      this.renderSearch(publishedStories)
     )
   }
 
@@ -64,7 +65,6 @@ class HomePage extends Component {
   }
 
   render() {
-
     return (
       <div className="HomePage">
         {this.renderComponent()}

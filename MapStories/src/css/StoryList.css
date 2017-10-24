@@ -10,6 +10,7 @@
   margin: 0.5em 0;
   cursor: pointer;
   display: flex;
+  min-width: 1000px;
 }
 
 .ListItemPaper {
@@ -60,12 +61,6 @@
 @media (max-width: 1380px) {
   .StoryList {
     margin-top: 6.5em;
-  }
-}
-
-@media (max-width: 1288px) {
-  .StoryListItem {
-    margin: 0 3em;
   }
 }
 
