@@ -26,6 +26,7 @@
   align-items: center;
   align-self: stretch;
   padding-left: 20px;
+  padding-right: 20px;
 }
 
 .ListItemDescription p:first-child {

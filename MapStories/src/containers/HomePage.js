@@ -26,7 +26,7 @@ class HomePage extends Component {
     }, wait)
   }
 
-  renderSearch() {
+  renderSearch = () => {
     const storiesRes = this.props.page.searchResults;
     const stories = this.props.stories;
     if (this.props.page.searchResults.length > 0) {
@@ -36,23 +36,31 @@ class HomePage extends Component {
     } else return null;
   }
 
-  renderComponent = () => {
+  renderList = () => {
     const searchResultsLength = this.props.page.searchResults.length;
     const publishedStories = this.props.page.pageResults
     .reduce((accum, el) => {
       accum[el] = this.props.stories[el];
       return accum;
     },{});
+    return searchResultsLength === 0 ? (
+      <StoryList className="Searched" stories={publishedStories}/>
+    ) : (
+      this.renderSearch()
+    )
+  }
+
+  renderComponent = () => {
     return this.state.loading ? (
       <Loader text="loading..."/>
     ) : (
-      searchResultsLength === 0
+      this.props.page.pageResults.length === 0
       ?
         <div className="NoStories">
           No Stories have been published yet.
         </div>
       :
-        this.renderSearch()
+        this.renderList()
     )
   }
 
