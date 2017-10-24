@@ -13,6 +13,9 @@ class Search extends Component {
       },
       hintText: {
         color: '#F4F4F6',
+      },
+      textColor: {
+        color: '#F4F4F6',
       }
     };
     return (
@@ -22,6 +25,7 @@ class Search extends Component {
         hintStyle={styles.hintText}
         underlineFocusStyle={styles.underlineStyle}
         onChange= {this.captureQuery}
+        inputStyle={styles.textColor}
       />
     )
   }

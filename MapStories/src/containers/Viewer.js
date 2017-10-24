@@ -72,6 +72,7 @@ class Viewer extends Component {
     const event = story.events[this.state.currentEventIndex];
     const markersProps = {};
     if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
+    else return null;
     return (
       <div className="Viewer">
         <div className="MapViewer">
@@ -89,7 +90,7 @@ class Viewer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
   stories: state.entities.stories,
 });
 

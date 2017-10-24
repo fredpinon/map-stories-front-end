@@ -32,7 +32,7 @@ const pages = (state = defaultState, action) => {
         ...state,
         storiesList: {
           ...state.storiesList,
-          searchResults: action.response.result
+          searchResults: [...action.response.result]
         },
       };
     case 'CLEAR_SEARCH':
