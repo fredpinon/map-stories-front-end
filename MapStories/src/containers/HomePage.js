@@ -27,13 +27,12 @@ class HomePage extends Component {
   }
 
   renderSearch = () => {
-    const storiesRes = this.props.page.searchResults;
-    const stories = this.props.stories;
-    if (this.props.page.searchResults.length > 0) {
-      let searched = {};
-      storiesRes.forEach((el, i) => searched[i] = stories[el]);
-      return <StoryList className="Searched" stories={searched}/>;
-    } else return null;
+    const searchedStories = this.props.page.searchResults
+    .reduce((accum, el) => {
+      accum[el] = this.props.stories[el];
+      return accum;
+    },{});
+    return <StoryList className="Searched" stories={searchedStories}/>;
   }
 
   renderList = () => {

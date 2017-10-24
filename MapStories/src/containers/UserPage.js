@@ -122,7 +122,6 @@ class UserPage extends Component {
   }
 
   render() {
-    console.log(this.props.page);
     return (
       <div className="UserPage">
         {this.renderComponent()}
