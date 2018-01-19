@@ -43,7 +43,7 @@ class NavBar extends Component {
     return (
       <AppBar
         className="NavBar"
-        title={<Link to='/'>Map Stories</Link>}
+        title={<Link style={{textDecoration:'none'}} to='/'>Map Stories</Link>}
         showMenuIconButton={false}
         iconElementRight={
           token
