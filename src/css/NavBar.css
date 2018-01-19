@@ -3,6 +3,10 @@
   justify-content: space-between;
 }
 
+.Navbar > Link {
+  text-decoration: none;
+}
+
 .LoginButton {
   display: flex;
   background-color: #4c69ba;
