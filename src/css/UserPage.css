@@ -1,0 +1,25 @@
+.UserPage {
+  flex: 1;
+}
+
+.UserPage div {
+  display: flex;
+}
+
+.UserPage div > * {
+  flex: 1;
+}
+
+.AddStoryButton {
+  position: fixed;
+}
+
+.NoUserStories {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-family: 'Roboto', sans-serif;
+  color: gray;
+  font-size: 18px;
+  background-color: #f7f7f7;
+}

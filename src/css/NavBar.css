@@ -1,0 +1,36 @@
+.NavBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.LoginButton {
+  display: flex;
+  background-color: #4c69ba;
+  border: none;
+  border-radius: 3px;
+  font-size: 3em;
+  cursor: pointer;
+  transition: background 0.5s linear;
+}
+
+.LoginButton:hover {
+  background-color: #3b5998;
+}
+
+.LoggedInActions {
+  display: flex;
+  align-items: center;
+}
+
+.LoggedInActions > * {
+  margin: 0 0.5em;
+}
+
+.ProfilePic {
+  max-height: 30px;
+  border-radius: 10px;
+}
+
+.Search {
+  margin-right: 2em;
+}

@@ -1,0 +1,91 @@
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.purple { color: #673AB7 ; }
+.Viewer {
+  display: flex;
+  flex: 1;
+  position: relative;
+  flex-direction: column;
+}
+
+.Map {
+  display: flex;
+  position: absolute;
+  flex:1;
+}
+.btn {
+  background: white;
+  border: none;
+}
+
+
+.MapViewer {
+  flex: 1;
+
+  display: flex;
+  flex: 1;
+  position: relative;
+  z-index: 0;
+}
+
+.Titles {
+  width: 400px;
+  margin-bottom: 0.6em;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.EventsContainerWrapper {
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.EventsContainer {
+  display: flex;
+  max-width: 400px;
+  flex-direction: column;
+  margin: 2em 2em;
+  position: relative;
+  z-index: 2;
+}
+
+.EventCard {
+  margin-bottom: 0.3em;
+}
+.Slider {
+  margin-left: 4.5vw;
+  width: 85%;
+  margin-top: -2vh;
+}
+.SliderContainer {
+  flex: 1;
+  max-height: 50px;
+  background-color: #f4f7fc;
+}
+
+.Link {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.LinkChildren {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.LinkChildren a {
+  word-break: break-all;
+  text-decoration: underline;
+  margin-right: 1em;
+}
+
+.LinkChildren img {
+  max-width: 25%;
+}
+
+.Video {
+  margin-top: 0.5em;
+}
