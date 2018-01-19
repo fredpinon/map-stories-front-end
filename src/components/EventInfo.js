@@ -106,8 +106,6 @@ class EventInfo extends Component {
         return "image/*";
       case 'video':
         return "video/*";
-      case 'audio':
-        return "audio/*";
       default: return;
     }
   }
@@ -173,9 +171,6 @@ class EventInfo extends Component {
         }
         break;
         case 'video':
-          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        break;
-        case 'audio':
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         break;
         case 'link':
@@ -256,27 +251,6 @@ class EventInfo extends Component {
             </div>
           )
         }
-        case 'audio':
-        if ((/\.(wav|mp3|mp4)$/i).test(this.state.attachments[index].url)) {
-          return (
-            <div className="previewAudio">
-              <audio controls>
-                <source src={this.state.attachments[index].url}  />
-              </audio>
-            </div>
-          )
-        } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
-          return (
-            <div className="previewAudio">
-              <ReactPlayer
-                width={400}
-                height={225}
-                url={this.state.attachments[index].url}
-              />
-            </div>
-          )
-        }
-        break;
         default: return;
       }
     }
@@ -428,7 +402,7 @@ class EventInfo extends Component {
         </div>
       )
     }
-    if (type === 'image' || type === 'video' || type === 'audio') {
+    if (type === 'image' || type === 'video') {
       const extraProps = {};
       if(this.toggleDisable(index)){
         if(type === 'image') extraProps.value = attachment.imageUrl;
@@ -490,7 +464,6 @@ class EventInfo extends Component {
             <MenuItem value={'link'} primaryText="Link" />
             <MenuItem value={'image'} primaryText="Image" />
             <MenuItem value={'video'} primaryText="Video" />
-            <MenuItem value={'audio'} primaryText="Audio" />
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
