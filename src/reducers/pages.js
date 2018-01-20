@@ -1,6 +1,7 @@
 import * as actions from '../actions'
 
 const defaultState = {
+  activateSearch:false,
   storiesList: {
     searchResults: [],
     pageResults: []
@@ -15,6 +16,16 @@ const defaultState = {
 
 const pages = (state = defaultState, action) => {
   switch (action.type) {
+    case ("ACTIVATE_SEARCH"):
+      return {
+        ...state,
+        activateSearch:true
+      }
+    case ("DEACTIVATE_SEARCH"):
+      return {
+        ...state,
+        activateSearch:false
+      }
     case actions.CREATE_STORY_SUCCESS:
       const newStoryArr = [action.response.result];
       return {

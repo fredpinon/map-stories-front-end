@@ -56,7 +56,7 @@ class Map extends Component {
       ? [this.props.markers[0].lng, this.props.markers[0].lat]
       : [2.15, 41.36];
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWNvbGxpbnM4NSIsImEiOiJjajhnMGZwYzMwOHBxMnhxajd0aWppbWE5In0.i6PUo_ai7q6NeIWBFPtGKA';
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2Fyc3RlbjY5IiwiYSI6ImNqY2x4b2s5dTBidWsyem4wazkyejF3ZW4ifQ.8S-nsS9Dwl0kbL1y1zcOzw';
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/outdoors-v10',
