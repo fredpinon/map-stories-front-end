@@ -145,6 +145,14 @@ export const clearSearch = () => ({
   payload: {}
 })
 
+export const activateSearch = () => ({
+  type:'ACTIVATE_SEARCH'
+})
+
+export const deactivateSearch = () => ({
+  type:'DEACTIVATE_SEARCH'
+})
+
 export const SHOW_ERROR = 'SHOW_ERROR';
 
 export const showError = (errorMessage) => ({
