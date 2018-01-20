@@ -32,8 +32,6 @@ const entities = (state = defaultState, action) => {
             }
           }
         }
-      case 'LOGOUT_USER':
-        return defaultState;
       case actions.DELETE_STORY_SUCCESS:
         const copy = Object.assign({}, state);
         delete copy.stories[action.response._id];
