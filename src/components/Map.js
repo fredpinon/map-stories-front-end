@@ -4,10 +4,10 @@ import MapboxGeocoder from 'mapbox-gl-geocoder';
 
 class Map extends Component {
 
-  createGeoJson (points = []) {
+  createGeoJson (point = {}) {
     return {
       type: "FeatureCollection",
-      features: points.map(point => ({
+      features: [{
         type: "Feature",
         properties: {},
         geometry: {
@@ -17,7 +17,7 @@ class Map extends Component {
             point.lat,
           ]
         }
-      }))
+      }]
     }
   }
 
@@ -36,47 +36,51 @@ class Map extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (
-      this.map.getSource('markers')
-      && nextProps.markers !== this.props.markers
+      this.map.getSource('marker')
+      && nextProps.marker !== this.props.marker
     ) {
       this.map
-      .getSource('markers')
-      .setData(this.createGeoJson(nextProps.markers));
-      if(nextProps.markers && nextProps.markers[0] && nextProps.markers[0].lng) {
-        this.flyToCoordinates(nextProps.markers[0]);
+      .getSource('marker')
+      .setData(this.createGeoJson(nextProps.marker));
+      if (nextProps.marker && nextProps.marker.lng && nextProps.marker.lat) {
+        this.flyToCoordinates(nextProps.marker);
       }
     }
   }
 
   componentDidMount () {
     const center =
-      this.props.markers
-      && this.props.markers.length > 0
-      && this.props.markers[0].lng !== undefined
-      ? [this.props.markers[0].lng, this.props.markers[0].lat]
+      this.props.marker
+      && this.props.marker.lng !== undefined
+      && this.props.marker.lat !== undefined
+      ? [this.props.marker.lng, this.props.marker.lat]
       : [2.15, 41.36];
 
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2Fyc3RlbjY5IiwiYSI6ImNqY2x4b2s5dTBidWsyem4wazkyejF3ZW4ifQ.8S-nsS9Dwl0kbL1y1zcOzw';
+
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/outdoors-v10',
-      center,
-      zoom: 9
+      center: center,
+      zoom: 10
     });
+
     this.map.doubleClickZoom.disable();
+
     this.map.on('load', (e) => {
-      this.map.addSource('markers', {
+      this.map.addSource('marker', {
         type: 'geojson',
-        data: this.createGeoJson(this.props.markers)
+        data: this.createGeoJson(this.props.marker)
       });
+
       this.map.addLayer({
-        id: 'carina',
+        id: 'purpleCircle',
         type: 'circle',
         paint: {
           'circle-radius': 8,
           'circle-color': 'purple'
         },
-        source: 'markers',
+        source: 'marker',
       });
 
       if (this.props.editor) {
@@ -86,11 +90,12 @@ class Map extends Component {
             lng: e.lngLat.lng,
             lat: e.lngLat.lat
           };
-          this.map.getSource('markers').setData(this.createGeoJson([point]));
+          this.map.getSource('marker').setData(this.createGeoJson(point));
           this.props.onMarkerAdded(point);
         })
-      } else this.map.getSource('markers').setData(this.createGeoJson(this.props.markers));
-    });
+      } else this.map.getSource('marker').setData(this.createGeoJson(this.props.marker));
+    }
+  );
   }
 
   flyToCoordinates = (coords) => {
@@ -98,7 +103,8 @@ class Map extends Component {
       center: [
         coords.lng,
         coords.lat
-      ]
+      ],
+      curve: 1.42,
     })
   }
 
