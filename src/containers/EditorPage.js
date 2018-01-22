@@ -119,7 +119,7 @@ class EditorPage extends Component {
   render () {
 
     const event = this.props.story.events[this.state.currentEventIndex];
-    let marker = {};
+    let marker = undefined;
     if (event && event.location) marker = event.location;
 
     return (
