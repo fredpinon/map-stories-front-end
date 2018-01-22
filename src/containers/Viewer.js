@@ -71,7 +71,7 @@ class Viewer extends Component {
     if (!story.events) return null;
     const event = story.events[this.state.currentEventIndex];
     const markersProps = {};
-    if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
+    if (event && event.location && event.location.length > 0) markersProps.markers = event.location;
     else return null;
     return (
       <div className="Viewer">

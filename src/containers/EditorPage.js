@@ -45,12 +45,12 @@ class EditorPage extends Component {
 
   onEventEdit = (event) => {
     const storyId = this.props.story._id;
-    event.coordinates = [this.state.coordinates];
+    event.location = this.state.coordinates;
     if (event.title === '') {
       this.props.showError('Please provide a title for your event');
       return;
     }
-    if (!event.coordinates[0].lng) {
+    if (!event.location.lng || !event.location.lat) {
       this.props.showError('Please provide geo coordinates for your event (click on map)');
       return;
     }
@@ -117,11 +117,10 @@ class EditorPage extends Component {
   }
 
   render () {
+
     const event = this.props.story.events[this.state.currentEventIndex];
-    const markersProps = {}
-    if (event && event.coordinates && event.coordinates.length > 0) {
-      markersProps.markers = event.coordinates;
-    }
+    let marker = {};
+    if (event && event.location) marker = event.location;
 
     return (
       <div className="EditorPage">
@@ -129,7 +128,7 @@ class EditorPage extends Component {
           {this.renderEventInfo()}
         </div>
         <div className="MapTimeLine">
-          <Map {...markersProps} onMarkerAdded={this.markerAdded} editor />
+          <Map marker={marker} onMarkerAdded={this.markerAdded} editor />
         </div>
       </div>
     )
