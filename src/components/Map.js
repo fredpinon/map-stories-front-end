@@ -35,6 +35,7 @@ class Map extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps);
     if (
       this.map.getSource('marker')
       && nextProps.marker !== this.props.marker

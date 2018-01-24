@@ -31,6 +31,7 @@ class Viewer extends Component {
         fontStyle: 'italic',
       }
     }
+    console.log(title, dateAndTime);
     return (
       <Card className="Titles">
         <CardHeader

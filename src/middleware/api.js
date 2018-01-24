@@ -29,12 +29,13 @@ export const Schemas = {
 export const CALL_API = 'Call API';
 
 export default store => next => action => {
+  console.log("IM EDITING NOW", action);
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') return next(action);
 
 
  const { endpoint, schema, types, method, onSuccess } = callAPI;
-
+ console.log(endpoint);
  let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 

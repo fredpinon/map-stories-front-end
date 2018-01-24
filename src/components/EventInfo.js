@@ -16,24 +16,67 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 
-const albumBucketName = 'map-story';
-const bucketRegion = 'eu-west-1';
-const IdentityPoolId = 'eu-west-1:888bfed2-3d00-4100-a4d9-8011c6df4837';
+// import Credentials from '../credentials';
 
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
+// const albumBucketName = 'map-story-photos';
+// const bucketRegion = 'eu-west-2';
+// const IdentityPoolId = 'eu-west-2_BdiEgKqXz';
 
-const s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: {Bucket: albumBucketName}
-});
+// AWS.config.update({
+//   region: bucketRegion,
+//   accessKeyId: Credentials.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: Credentials.AWS_ACCESS_KEY_SECRET,
+// });
+//
+// const s3 = new AWS.S3();
 
+// s3.createBucket({Bucket:albumBucketName}, (err,data)=> {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     const params = {Bucket: albumBucketName, Key:'5', Body: 'Hello!'};
+//
+//     s3.putObject(params, (err, data) => {
+//       if (err) {
+//         console.log(err)
+//       } else {
+//         console.log("Successfully uploaded data to myBucket/myKey");
+//       }
+//     })
+//   }
+// })
+//
+// s3.listBuckets({}, (err, data) => {
+//   if (err) console.error(err);
+//   else console.log(data);
+// })
+
+// var myCredentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:IdentityPoolId});
+// var myConfig = new AWS.Config({
+//   credentials: myCredentials,
+//   region: 'eu-west-2'
+// });
+//
+// const s3 = new AWS.S3({
+//   apiVersion: '2006-03-01',
+//   params: {Bucket: albumBucketName}
+// });
+//
+// const params = {Bucket:albumBucketName, Body:'Hello', Key:'1'};
+// s3.putObject(params, (err, data) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Succesful upload");
+//   }
+// })
+
+// console.log(s3.listObjects());
+// const obj = s3.bucket(albumBucketName).object("hi")
+// console.log("onj", obj);
+// console.log("where am i?", s3.getBucketLocation());
 
 class EventInfo extends Component {
   state = {
@@ -121,33 +164,98 @@ class EventInfo extends Component {
     const fileName = uuid() + '.' + fileFormat;
     const albumFileKey = 'event-file/';
     const fileKey = albumFileKey + fileName;
-    s3.upload({
-      Key: fileKey,
-      Body: file,
-      ACL: 'public-read'
-    }, (err, data) => {
-      if (err) {
-        this.props.showError('There was an error uploading your file');
-        return;
-      }
-      this.setState({
-        uploadState: {
-          uploading: false,
-          index
-        }
-      });
-      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
-    })
-    .on('httpUploadProgress', (progress) => {
-      this.setState({
-        uploadState: {
-        uploading: true,
-        index
-        },
-        progressLoaded: progress.loaded,
-        progressTotal: progress.total
-      })
+    fetch("https://pokeapi.co/api/v2/evolution-chain", (data) => {
+        console.log("data1", data);
     });
+
+    fetch(`http://localhost:4000/token/event/${this.props.event._id}`)
+    .then(data => data.json())
+    .then(data => {
+
+      console.log("data", data);
+      const params = {
+        method:'POST',
+        // headers:{
+        //   'Content-Type':'application/x-www-form-urlencoded',
+        //   'Access-Control-Allow-Methods':'*',
+        //   'Access-Control-Allow-Headers':'*',
+        //   'Access-Control-Allow-Origin':'*',
+        // },
+        body: {
+          'bucket': data.fields.bucket,
+          'Policy': data.fields.Policy,
+          'X-Amz-Algorithm': data.fields['X-Amz-Algorithm'],
+          'X-Amz-Credential': data.fields['X-Amz-Credential'],
+          'X-Amz-Date': data.fields['X-Amz-Date'],
+          'X-Amz-Signature': data.fields['X-Amz-Signature'],
+          'key':`event-${this.props.event._id}/testfile.jpg`,
+          'file':"hello"
+      }}
+      return params
+
+      })
+      .then(params => {
+            fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (data) => {
+                console.log("datatest", data);
+          })
+      //
+    })
+    console.log("Event id", this.props.event._id, typeof this.props.event._id);
+
+    // const params = {
+    //   method:'POST',
+    //   // headers:{
+    //   //   'Content-Type':'application/x-www-form-urlencoded',
+    //   //   'Access-Control-Allow-Methods':'*',
+    //   //   'Access-Control-Allow-Headers':'*',
+    //   //   'Access-Control-Allow-Origin':'*',
+    //   // },
+    //   body: {
+    //     'bucket': 'map-story-photos',
+    //     'Policy': 'eyJleHBpcmF0aW9uIjoiMjAxOC0wMS0yM1QyMToyOTowM1oiLCJjb25kaXRpb25zIjpbWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJldmVudC0xMDAvIl0seyJidWNrZXQiOiJtYXAtc3RvcnktcGhvdG9zIn0seyJYLUFtei1BbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJYLUFtei1DcmVkZW50aWFsIjoiQUtJQUpUR0c0NkpYVjNWS0VYTkEvMjAxODAxMjMvZXUtd2VzdC0yL3MzL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotRGF0ZSI6IjIwMTgwMTIzVDIwMjkwM1oifV19', //data.fields.Policy,
+    //     'X-Amz-Algorithm':"AWS4-HMAC-SHA256",
+    //     'X-Amz-Credential': 'AKIAJTGG46JXV3VKEXNA/20180123/eu-west-2/s3/aws4_request',//data.fields['X-Amz-Credential'],
+    //     'X-Amz-Date': '20180123T202903Z',//data.fields['X-Amz-Date'],
+    //     'X-Amz-Signature': '9e976f802cf87b908b6ed2c8b6ca1492969b7ecb1c8f0ae1cb7931a112366c58',
+    //     'key':`event-${this.props.event._id}/testfile.jpg`,
+    //     'file':file
+    // }}
+    //
+    //
+    //
+    // fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (data) => {
+    //     console.log("datatest", data);
+    // })
+
+
+
+    // s3.upload({
+    //   Key: fileKey,
+    //   Body: file,
+    //   ACL: 'public-read'
+    // }, (err, data) => {
+    //   if (err) {
+    //     this.props.showError('There was an error uploading your file');
+    //     return;
+    //   }
+    //   this.setState({
+    //     uploadState: {
+    //       uploading: false,
+    //       index
+    //     }
+    //   });
+    //   this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
+    // })
+    // .on('httpUploadProgress', (progress) => {
+    //   this.setState({
+    //     uploadState: {
+    //     uploading: true,
+    //     index
+    //     },
+    //     progressLoaded: progress.loaded,
+    //     progressTotal: progress.total
+    //   })
+    // });
   }
 
   toggleDisable = (index) => {
@@ -206,6 +314,7 @@ class EventInfo extends Component {
       }
       if (this.props.event._id) eventInfo._id = this.props.event._id
       this.props.onEventEdit(eventInfo);
+      console.log(this.props.onEventEdit);
       this.setState({
         attachments: []
       })
@@ -566,12 +675,13 @@ class EventInfo extends Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  // id: ownProps.computedMatch.params.storyId
+  // id: ownProps.computedMatch.params.storyId,
   // story: state.entities.stories[ownProps.computedMatch.params.storyId],
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showError: (errorMessage) => dispatch(showError(errorMessage)),
+  // getToken: () => dispatch(getToken())
   // editStory: (data) => dispatch(editStory(data))
 
 });
