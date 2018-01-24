@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import { connect } from 'react-redux';
-import { logOutUser, fetchStoriesSearch, clearSearch, loginUser } from '../actions';
+import { logOutUser, fetchStoriesSearch, clearSearch, loginUser, activateSearch, deactivateSearch } from '../actions';
 
 import '../css/NavBar.css';
 import LoginButton from '../components/LoginButton';
@@ -33,8 +33,15 @@ class NavBar extends Component {
  handleSearching = query => this.search(query);
 
  search = _.debounce((query) => {
-    if (query.length > 2) this.props.searchStory(query);
-    else this.props.clear();
+
+    if (query.length > 2) {
+      this.props.activateSearch();
+      this.props.searchStory(query);
+    }
+    else {
+      this.props.deactivateSearch();
+      this.props.clear();
+    }
   }, 500);
 
  render() {
@@ -43,7 +50,7 @@ class NavBar extends Component {
     return (
       <AppBar
         className="NavBar"
-        title={<Link to='/'>Map Stories</Link>}
+        title={<Link style={{textDecoration:'none'}} to='/'>Map Stories</Link>}
         showMenuIconButton={false}
         iconElementRight={
           token
@@ -74,7 +81,9 @@ class NavBar extends Component {
     loginUserToDb : (userCredentials) => dispatch(loginUser(userCredentials)),
     logOut: () => dispatch(logOutUser()),
     searchStory: (query) => dispatch(fetchStoriesSearch(query)),
-    clear: () => dispatch(clearSearch())
+    clear: () => dispatch(clearSearch()),
+    activateSearch:()=>dispatch(activateSearch()),
+    deactivateSearch:()=>dispatch(deactivateSearch())
   });
 
  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

@@ -31,6 +31,7 @@ class Viewer extends Component {
         fontStyle: 'italic',
       }
     }
+    console.log(title, dateAndTime);
     return (
       <Card className="Titles">
         <CardHeader
@@ -70,8 +71,8 @@ class Viewer extends Component {
     const story = this.currentStory();
     if (!story.events) return null;
     const event = story.events[this.state.currentEventIndex];
-    const markersProps = {};
-    if (event && event.coordinates && event.coordinates.length > 0) markersProps.markers = event.coordinates;
+    let marker = {};
+    if (event && event.location && event.location.lng && event.location.lat) marker = event.location;
     else return null;
     return (
       <div className="Viewer">
@@ -82,7 +83,7 @@ class Viewer extends Component {
               {event !== undefined ? this.renderAttachments(event.attachments) : null}
             </div>
           </div>
-          <Map {...markersProps}/>
+          <Map marker={marker}/>
         </div>
         <TimeLine events={story.events} match={this.onTimelineChangeEvent} autoplay />
       </div>

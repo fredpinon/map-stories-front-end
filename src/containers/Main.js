@@ -15,7 +15,6 @@ import Snackbar from 'material-ui/Snackbar';
 
 class Main extends Component {
 
-
   render() {
     const { token } = this.props.user;
     return (

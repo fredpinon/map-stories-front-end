@@ -43,11 +43,20 @@ class HomePage extends Component {
       accum[el] = this.props.stories[el];
       return accum;
     },{});
-    return searchResultsLength === 0 ? (
-      <StoryList className="Searched" stories={publishedStories}/>
+    return (searchResultsLength === 0 & this.props.shouldSearch) ? (
+      <div className="NoStories">No stories match your search.</div>
     ) : (
-      this.renderSearch(publishedStories)
-    )
+      this.props.shouldSearch
+      ?
+        this.renderSearch(publishedStories)
+      :
+        <StoryList className="Searched" stories={publishedStories}/>
+)
+
+
+
+
+
   }
 
   renderComponent = () => {
@@ -75,7 +84,8 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => ({
   stories: state.entities.stories,
-  page: state.pages.storiesList
+  page: state.pages.storiesList,
+  shouldSearch: state.pages.activateSearch
 });
 
 const mapDispatchToProps = (dispatch) => ({

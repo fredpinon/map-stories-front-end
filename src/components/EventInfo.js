@@ -16,24 +16,67 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 
-const albumBucketName = 'map-story';
-const bucketRegion = 'eu-west-1';
-const IdentityPoolId = 'eu-west-1:888bfed2-3d00-4100-a4d9-8011c6df4837';
+// import Credentials from '../credentials';
 
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
+// const albumBucketName = 'map-story-photos';
+// const bucketRegion = 'eu-west-2';
+// const IdentityPoolId = 'eu-west-2_BdiEgKqXz';
 
-const s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: {Bucket: albumBucketName}
-});
+// AWS.config.update({
+//   region: bucketRegion,
+//   accessKeyId: Credentials.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: Credentials.AWS_ACCESS_KEY_SECRET,
+// });
+//
+// const s3 = new AWS.S3();
 
+// s3.createBucket({Bucket:albumBucketName}, (err,data)=> {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     const params = {Bucket: albumBucketName, Key:'5', Body: 'Hello!'};
+//
+//     s3.putObject(params, (err, data) => {
+//       if (err) {
+//         console.log(err)
+//       } else {
+//         console.log("Successfully uploaded data to myBucket/myKey");
+//       }
+//     })
+//   }
+// })
+//
+// s3.listBuckets({}, (err, data) => {
+//   if (err) console.error(err);
+//   else console.log(data);
+// })
+
+// var myCredentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:IdentityPoolId});
+// var myConfig = new AWS.Config({
+//   credentials: myCredentials,
+//   region: 'eu-west-2'
+// });
+//
+// const s3 = new AWS.S3({
+//   apiVersion: '2006-03-01',
+//   params: {Bucket: albumBucketName}
+// });
+//
+// const params = {Bucket:albumBucketName, Body:'Hello', Key:'1'};
+// s3.putObject(params, (err, data) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Succesful upload");
+//   }
+// })
+
+// console.log(s3.listObjects());
+// const obj = s3.bucket(albumBucketName).object("hi")
+// console.log("onj", obj);
+// console.log("where am i?", s3.getBucketLocation());
 
 class EventInfo extends Component {
   state = {
@@ -106,8 +149,6 @@ class EventInfo extends Component {
         return "image/*";
       case 'video':
         return "video/*";
-      case 'audio':
-        return "audio/*";
       default: return;
     }
   }
@@ -123,33 +164,39 @@ class EventInfo extends Component {
     const fileName = uuid() + '.' + fileFormat;
     const albumFileKey = 'event-file/';
     const fileKey = albumFileKey + fileName;
-    s3.upload({
-      Key: fileKey,
-      Body: file,
-      ACL: 'public-read'
-    }, (err, data) => {
-      if (err) {
-        this.props.showError('There was an error uploading your file');
-        return;
+
+    fetch(`http://localhost:4000/token/event/${this.props.event._id}`)
+    .then(data => data.json())
+    .then(data => {
+
+      const body = {
+        'bucket': data.fields.bucket,
+        'Policy': data.fields.Policy,
+        'X-Amz-Algorithm': data.fields['X-Amz-Algorithm'],
+        'X-Amz-Credential': data.fields['X-Amz-Credential'],
+        'X-Amz-Date': data.fields['X-Amz-Date'],
+        'X-Amz-Signature': data.fields['X-Amz-Signature'],
+        'key':`event-${this.props.event._id}/testfile.jpg`,
+        'file':file
       }
-      this.setState({
-        uploadState: {
-          uploading: false,
-          index
-        }
-      });
-      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
-    })
-    .on('httpUploadProgress', (progress) => {
-      this.setState({
-        uploadState: {
-        uploading: true,
-        index
-        },
-        progressLoaded: progress.loaded,
-        progressTotal: progress.total
+
+      const formBody = new FormData();
+
+      Object.keys(body).forEach(elem => {
+        formBody.append(elem, body[elem])
       })
-    });
+      const params = {
+        method:'POST',
+        body:formBody
+      }
+      return params
+      })
+      .then(params => {
+        fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (error) => {
+          if (error) throw error;
+      })
+    })
+
   }
 
   toggleDisable = (index) => {
@@ -173,9 +220,6 @@ class EventInfo extends Component {
         }
         break;
         case 'video':
-          this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
-        break;
-        case 'audio':
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         break;
         case 'link':
@@ -211,6 +255,7 @@ class EventInfo extends Component {
       }
       if (this.props.event._id) eventInfo._id = this.props.event._id
       this.props.onEventEdit(eventInfo);
+      console.log(this.props.onEventEdit);
       this.setState({
         attachments: []
       })
@@ -256,27 +301,6 @@ class EventInfo extends Component {
             </div>
           )
         }
-        case 'audio':
-        if ((/\.(wav|mp3|mp4)$/i).test(this.state.attachments[index].url)) {
-          return (
-            <div className="previewAudio">
-              <audio controls>
-                <source src={this.state.attachments[index].url}  />
-              </audio>
-            </div>
-          )
-        } else if ((/soundcloud/i).test(this.state.attachments[index].url)){
-          return (
-            <div className="previewAudio">
-              <ReactPlayer
-                width={400}
-                height={225}
-                url={this.state.attachments[index].url}
-              />
-            </div>
-          )
-        }
-        break;
         default: return;
       }
     }
@@ -428,7 +452,7 @@ class EventInfo extends Component {
         </div>
       )
     }
-    if (type === 'image' || type === 'video' || type === 'audio') {
+    if (type === 'image' || type === 'video') {
       const extraProps = {};
       if(this.toggleDisable(index)){
         if(type === 'image') extraProps.value = attachment.imageUrl;
@@ -490,7 +514,6 @@ class EventInfo extends Component {
             <MenuItem value={'link'} primaryText="Link" />
             <MenuItem value={'image'} primaryText="Image" />
             <MenuItem value={'video'} primaryText="Video" />
-            <MenuItem value={'audio'} primaryText="Audio" />
             <MenuItem value={'tweet'} primaryText="Tweet" />
           </SelectField>
           <br />
@@ -593,12 +616,13 @@ class EventInfo extends Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  // id: ownProps.computedMatch.params.storyId
+  // id: ownProps.computedMatch.params.storyId,
   // story: state.entities.stories[ownProps.computedMatch.params.storyId],
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showError: (errorMessage) => dispatch(showError(errorMessage)),
+  // getToken: () => dispatch(getToken())
   // editStory: (data) => dispatch(editStory(data))
 
 });
