@@ -164,98 +164,39 @@ class EventInfo extends Component {
     const fileName = uuid() + '.' + fileFormat;
     const albumFileKey = 'event-file/';
     const fileKey = albumFileKey + fileName;
-    fetch("https://pokeapi.co/api/v2/evolution-chain", (data) => {
-        console.log("data1", data);
-    });
 
     fetch(`http://localhost:4000/token/event/${this.props.event._id}`)
     .then(data => data.json())
     .then(data => {
 
-      console.log("data", data);
+      const body = {
+        'bucket': data.fields.bucket,
+        'Policy': data.fields.Policy,
+        'X-Amz-Algorithm': data.fields['X-Amz-Algorithm'],
+        'X-Amz-Credential': data.fields['X-Amz-Credential'],
+        'X-Amz-Date': data.fields['X-Amz-Date'],
+        'X-Amz-Signature': data.fields['X-Amz-Signature'],
+        'key':`event-${this.props.event._id}/testfile.jpg`,
+        'file':file
+      }
+
+      const formBody = new FormData();
+
+      Object.keys(body).forEach(elem => {
+        formBody.append(elem, body[elem])
+      })
       const params = {
         method:'POST',
-        // headers:{
-        //   'Content-Type':'application/x-www-form-urlencoded',
-        //   'Access-Control-Allow-Methods':'*',
-        //   'Access-Control-Allow-Headers':'*',
-        //   'Access-Control-Allow-Origin':'*',
-        // },
-        body: {
-          'bucket': data.fields.bucket,
-          'Policy': data.fields.Policy,
-          'X-Amz-Algorithm': data.fields['X-Amz-Algorithm'],
-          'X-Amz-Credential': data.fields['X-Amz-Credential'],
-          'X-Amz-Date': data.fields['X-Amz-Date'],
-          'X-Amz-Signature': data.fields['X-Amz-Signature'],
-          'key':`event-${this.props.event._id}/testfile.jpg`,
-          'file':"hello"
-      }}
+        body:formBody
+      }
       return params
-
       })
       .then(params => {
-            fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (data) => {
-                console.log("datatest", data);
-          })
-      //
+        fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (error) => {
+          if (error) throw error;
+      })
     })
-    console.log("Event id", this.props.event._id, typeof this.props.event._id);
 
-    // const params = {
-    //   method:'POST',
-    //   // headers:{
-    //   //   'Content-Type':'application/x-www-form-urlencoded',
-    //   //   'Access-Control-Allow-Methods':'*',
-    //   //   'Access-Control-Allow-Headers':'*',
-    //   //   'Access-Control-Allow-Origin':'*',
-    //   // },
-    //   body: {
-    //     'bucket': 'map-story-photos',
-    //     'Policy': 'eyJleHBpcmF0aW9uIjoiMjAxOC0wMS0yM1QyMToyOTowM1oiLCJjb25kaXRpb25zIjpbWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJldmVudC0xMDAvIl0seyJidWNrZXQiOiJtYXAtc3RvcnktcGhvdG9zIn0seyJYLUFtei1BbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJYLUFtei1DcmVkZW50aWFsIjoiQUtJQUpUR0c0NkpYVjNWS0VYTkEvMjAxODAxMjMvZXUtd2VzdC0yL3MzL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotRGF0ZSI6IjIwMTgwMTIzVDIwMjkwM1oifV19', //data.fields.Policy,
-    //     'X-Amz-Algorithm':"AWS4-HMAC-SHA256",
-    //     'X-Amz-Credential': 'AKIAJTGG46JXV3VKEXNA/20180123/eu-west-2/s3/aws4_request',//data.fields['X-Amz-Credential'],
-    //     'X-Amz-Date': '20180123T202903Z',//data.fields['X-Amz-Date'],
-    //     'X-Amz-Signature': '9e976f802cf87b908b6ed2c8b6ca1492969b7ecb1c8f0ae1cb7931a112366c58',
-    //     'key':`event-${this.props.event._id}/testfile.jpg`,
-    //     'file':file
-    // }}
-    //
-    //
-    //
-    // fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (data) => {
-    //     console.log("datatest", data);
-    // })
-
-
-
-    // s3.upload({
-    //   Key: fileKey,
-    //   Body: file,
-    //   ACL: 'public-read'
-    // }, (err, data) => {
-    //   if (err) {
-    //     this.props.showError('There was an error uploading your file');
-    //     return;
-    //   }
-    //   this.setState({
-    //     uploadState: {
-    //       uploading: false,
-    //       index
-    //     }
-    //   });
-    //   this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
-    // })
-    // .on('httpUploadProgress', (progress) => {
-    //   this.setState({
-    //     uploadState: {
-    //     uploading: true,
-    //     index
-    //     },
-    //     progressLoaded: progress.loaded,
-    //     progressTotal: progress.total
-    //   })
-    // });
   }
 
   toggleDisable = (index) => {
